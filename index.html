@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spine</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3d2314">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Spine">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1008;
+    --cream: #f5edd8;
+    --parchment: #ede0c4;
+    --tan: #c9a96e;
+    --brown: #7b4f2e;
+    --dark-brown: #3d2314;
+    --red: #8b2020;
+    --green: #2d5a27;
+    --spine-1: #8b2020;
+    --spine-2: #2d5a27;
+    --spine-3: #1a3a5c;
+    --spine-4: #5c3a1a;
+    --spine-5: #3a1a5c;
+    --spine-6: #1a5c3a;
+    --spine-7: #5c1a3a;
+    --spine-8: #3a5c1a;
+    --spine-9: #1a5c5c;
+    --spine-0: #5c4a1a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--dark-brown);
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.05) 40px, rgba(0,0,0,0.05) 41px),
+      repeating-linear-gradient(transparent, transparent 40px, rgba(0,0,0,0.05) 40px, rgba(0,0,0,0.05) 41px);
+    font-family: 'Libre Baskerville', serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(180deg, #2a1508 0%, #3d2314 100%);
+    border-bottom: 4px double var(--tan);
+    padding: 24px 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  header::before, header::after {
+    content: '❧';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tan);
+    font-size: 2rem;
+  }
+  header::before { left: 40px; }
+  header::after { right: 40px; }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  }
+
+  header p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--tan);
+    font-size: 1rem;
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .sync {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-family: 'Libre Baskerville', serif;
+  }
+  .sync.live { background: rgba(45,138,45,0.25); color: #7dca7d; border: 1px solid #2d8a2d; }
+  .sync.connecting { background: rgba(230,160,32,0.2); color: #e6c87d; border: 1px solid #e6a020; }
+  .sync.offline { background: rgba(139,32,32,0.25); color: #d98a8a; border: 1px solid #8b2020; }
+
+  /* User bar */
+  .user-bar {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--tan);
+    object-fit: cover;
+  }
+  .user-name {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--tan);
+    font-size: 0.85rem;
+  }
+  .sign-out-btn {
+    background: transparent;
+    border: 1px solid var(--tan);
+    color: var(--tan);
+    padding: 4px 10px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sign-out-btn:hover { background: var(--tan); color: var(--dark-brown); }
+
+  /* Login screen */
+  #login-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--dark-brown);
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.05) 40px, rgba(0,0,0,0.05) 41px),
+      repeating-linear-gradient(transparent, transparent 40px, rgba(0,0,0,0.05) 40px, rgba(0,0,0,0.05) 41px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #login-screen.show { display: flex; }
+
+  .login-card {
+    background: var(--parchment);
+    border: 3px double var(--brown);
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.4);
+    animation: slideIn 0.4s ease;
+  }
+  .login-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--dark-brown);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .login-card p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--brown);
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+  }
+  .login-ornament { color: var(--tan); font-size: 1.5rem; margin-bottom: 16px; display: block; }
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--dark-brown);
+    color: var(--cream);
+    border: none;
+    padding: 14px 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .google-btn:hover { background: var(--brown); transform: translateY(-2px); }
+  .google-btn:active { transform: translateY(0); }
+  .login-error { margin-top: 14px; color: var(--red); font-size: 0.82rem; font-family: 'Libre Baskerville', serif; display: none; }
+  .login-error.show { display: block; }
+
+  .main-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+
+  /* Controls */
+  .controls {
+    background: var(--parchment);
+    border: 2px solid var(--brown);
+    border-radius: 2px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 4px 4px 0 var(--dark-brown);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+
+  .controls label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .controls input, .controls select {
+    background: var(--cream);
+    border: 1px solid var(--tan);
+    border-radius: 1px;
+    padding: 8px 12px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+  }
+
+  .controls input:focus, .controls select:focus {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 2px rgba(123,79,46,0.2);
+  }
+
+  .field { flex: 1; min-width: 140px; }
+  .field.wide { flex: 2; min-width: 200px; }
+
+  button.add-btn {
+    background: var(--dark-brown);
+    color: var(--cream);
+    border: none;
+    padding: 9px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+    align-self: flex-end;
+  }
+
+  button.add-btn:hover { background: var(--brown); transform: translateY(-1px); }
+  button.add-btn:active { transform: translateY(0); }
+
+  /* Search bar */
+  .search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    align-items: center;
+  }
+
+  .search-row input {
+    background: var(--parchment);
+    border: 2px solid var(--brown);
+    padding: 10px 16px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    flex: 1;
+    outline: none;
+    box-shadow: 2px 2px 0 var(--dark-brown);
+  }
+
+  .search-row select {
+    background: var(--parchment);
+    border: 2px solid var(--brown);
+    padding: 10px 16px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    box-shadow: 2px 2px 0 var(--dark-brown);
+    cursor: pointer;
+  }
+
+  /* Dewey sections */
+  .dewey-section {
+    margin-bottom: 32px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .section-number {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    flex-shrink: 0;
+    border: 3px double rgba(255,255,255,0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  }
+
+  .section-title-wrap { flex: 1; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+  }
+
+  .section-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--tan);
+    font-size: 0.85rem;
+    margin-top: 2px;
+  }
+
+  .section-count {
+    background: rgba(0,0,0,0.3);
+    color: var(--tan);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border: 1px solid var(--tan);
+    letter-spacing: 0.08em;
+  }
+
+  /* Bookshelf */
+  .bookshelf {
+    background: linear-gradient(180deg, #2a1508 0%, #1a0d04 100%);
+    border: 2px solid #5a3a1a;
+    border-radius: 2px;
+    padding: 20px 20px 28px;
+    position: relative;
+    min-height: 100px;
+  }
+
+  .bookshelf::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(180deg, #3d2314 0%, #5a3a1a 100%);
+    border-top: 2px solid #7a5a2a;
+    border-radius: 0 0 2px 2px;
+  }
+
+  .books-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    min-height: 120px;
+  }
+
+  /* Book spines */
+  .book {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .book:hover { transform: translateY(-8px); }
+
+  .book-spine {
+    width: 36px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px;
+    border-radius: 2px 0 0 2px;
+    border-right: 3px solid rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: -2px 0 4px rgba(0,0,0,0.4), inset 2px 0 4px rgba(255,255,255,0.05);
+  }
+
+  .book-spine::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
+  }
+
+  .book-label {
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 9px;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    padding: 2px 4px;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+
+  .book-title-spine {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    color: var(--cream);
+    font-family: 'IM Fell English', serif;
+    font-size: 10px;
+    text-align: center;
+    overflow: hidden;
+    max-height: 70px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .book-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+  }
+
+  /* Tooltip / book card */
+  .book-card {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cream);
+    border: 2px solid var(--brown);
+    padding: 14px;
+    width: 220px;
+    z-index: 100;
+    box-shadow: 4px 4px 0 var(--dark-brown);
+    text-align: left;
+  }
+
+  .book:hover .book-card { display: block; }
+
+  .book-card::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--cream);
+    border-right: 2px solid var(--brown);
+    border-bottom: 2px solid var(--brown);
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .book-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--tan);
+    padding-bottom: 6px;
+  }
+
+  .book-card .bc-author {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--brown);
+    margin-bottom: 6px;
+  }
+
+  .book-card .bc-meta {
+    font-size: 0.78rem;
+    color: var(--dark-brown);
+    margin-bottom: 4px;
+  }
+
+  .bc-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .bc-actions button {
+    flex: 1;
+    padding: 5px;
+    font-size: 0.7rem;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    border: 1px solid var(--brown);
+    background: var(--parchment);
+    color: var(--brown);
+    transition: background 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .bc-actions button:hover { background: var(--brown); color: var(--cream); }
+  .bc-actions button.delete { border-color: var(--red); color: var(--red); }
+  .bc-actions button.delete:hover { background: var(--red); color: var(--cream); }
+
+  /* Status colors */
+  .status-read { background: #2d8a2d; }
+  .status-reading { background: #e6a020; }
+  .status-unread { background: #888; }
+  .status-wishlist { background: #6a4fcc; }
+
+  .empty-shelf {
+    color: rgba(245,237,216,0.3);
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+
+  .stat {
+    background: var(--parchment);
+    border: 1px solid var(--tan);
+    padding: 12px 16px;
+    text-align: center;
+    flex: 1;
+    min-width: 90px;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--brown);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-brown);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--cream);
+    border: 3px double var(--brown);
+    padding: 28px;
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    box-shadow: 8px 8px 0 var(--dark-brown);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--dark-brown);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--tan);
+    padding-bottom: 10px;
+  }
+
+  .modal label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown);
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 14px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .modal input, .modal select, .modal textarea {
+    width: 100%;
+    background: var(--parchment);
+    border: 1px solid var(--tan);
+    padding: 9px 12px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    border-radius: 1px;
+  }
+
+  .modal input:focus, .modal select:focus, .modal textarea:focus {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 2px rgba(123,79,46,0.15);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-actions button {
+    flex: 1;
+    padding: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .btn-save {
+    background: var(--dark-brown);
+    color: var(--cream);
+    border: none;
+  }
+  .btn-save:hover { background: var(--brown); }
+
+  .btn-cancel {
+    background: transparent;
+    color: var(--brown);
+    border: 2px solid var(--brown);
+  }
+  .btn-cancel:hover { background: var(--parchment); }
+
+  .close-modal {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--brown);
+    line-height: 1;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--parchment);
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* View toggle */
+  .view-toggle {
+    display: flex;
+    gap: 4px;
+  }
+
+  .view-btn {
+    background: var(--parchment);
+    border: 1px solid var(--brown);
+    color: var(--brown);
+    padding: 6px 14px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .view-btn.active { background: var(--dark-brown); color: var(--cream); border-color: var(--dark-brown); }
+
+  /* List view */
+  .list-view { display: none; }
+  .list-view.show { display: block; }
+  .shelf-view.hide { display: none; }
+
+  .book-list-item {
+    background: var(--parchment);
+    border-left: 6px solid var(--brown);
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .book-list-item:hover { background: #e8d8b0; }
+
+  .bli-call {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--dark-brown);
+    min-width: 60px;
+  }
+
+  .bli-title {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .bli-author {
+    font-size: 0.82rem;
+    color: var(--brown);
+    min-width: 100px;
+    text-align: right;
+  }
+
+  .bli-status {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  /* Section collapsed */
+  .dewey-section.collapsed .bookshelf { display: none; }
+  .dewey-section.collapsed .list-view { display: none !important; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.8rem; }
+    header::before, header::after { display: none; }
+    .controls { flex-direction: column; }
+    .field, .field.wide { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="login-card">
+    <span class="login-ornament">❧</span>
+    <h2>Spine</h2>
+    <p>Your personal book collection</p>
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="login-error" id="login-error">Access denied. Your account is not on the allowed list.</div>
+  </div>
+</div>
+
+<header>
+  <h1>Spine</h1>
+  <p>Your Personal Book Collection</p>
+  <div id="sync-status" class="sync connecting">⟳ Connecting…</div>
+  <div class="user-bar" id="user-bar" style="display:none;">
+    <img class="user-avatar" id="user-avatar" src="" alt="">
+    <span class="user-name" id="user-name"></span>
+    <button class="sign-out-btn" onclick="signOut()">Sign out</button>
+  </div>
+</header>
+
+<div class="main-wrap">
+
+  <!-- Add Book Form -->
+  <div class="controls">
+    <div class="field wide">
+      <label>Title</label>
+      <input type="text" id="inp-title" placeholder="Book title...">
+    </div>
+    <div class="field">
+      <label>Author</label>
+      <input type="text" id="inp-author" placeholder="Author name...">
+    </div>
+    <div class="field">
+      <label>Dewey Class</label>
+      <select id="inp-dewey">
+        <option value="">— Select —</option>
+        <option value="000">000 — Generalities</option>
+        <option value="100">100 — Philosophy</option>
+        <option value="200">200 — Religion</option>
+        <option value="300">300 — Social Sciences</option>
+        <option value="400">400 — Language</option>
+        <option value="500">500 — Natural Sciences</option>
+        <option value="600">600 — Technology</option>
+        <option value="700">700 — Arts & Recreation</option>
+        <option value="800">800 — Literature</option>
+        <option value="900">900 — History & Geography</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <select id="inp-status">
+        <option value="unread">Unread</option>
+        <option value="reading">Reading</option>
+        <option value="read">Read</option>
+        <option value="wishlist">Wishlist</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Year</label>
+      <input type="number" id="inp-year" placeholder="e.g. 1984" min="1000" max="2099">
+    </div>
+    <button class="add-btn" onclick="addBook()">+ Add to Collection</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="stats-bar"></div>
+
+  <!-- Search + Controls -->
+  <div class="search-row">
+    <input type="text" id="search" placeholder="Search by title or author..." oninput="renderAll()">
+    <select id="filter-status" onchange="renderAll()">
+      <option value="">All statuses</option>
+      <option value="read">Read</option>
+      <option value="reading">Reading</option>
+      <option value="unread">Unread</option>
+      <option value="wishlist">Wishlist</option>
+    </select>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-shelf" onclick="setView('shelf')">Shelf</button>
+      <button class="view-btn" id="btn-list" onclick="setView('list')">List</button>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot status-read"></div> Read</div>
+    <div class="legend-item"><div class="legend-dot status-reading"></div> Reading</div>
+    <div class="legend-item"><div class="legend-dot status-unread"></div> Unread</div>
+    <div class="legend-item"><div class="legend-dot status-wishlist"></div> Wishlist</div>
+  </div>
+
+  <!-- Library -->
+  <div id="library"></div>
+
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="close-modal" onclick="closeModal()">×</button>
+    <h3>Edit Book</h3>
+    <input type="hidden" id="edit-id">
+    <label>Title</label>
+    <input type="text" id="edit-title">
+    <label>Author</label>
+    <input type="text" id="edit-author">
+    <label>Dewey Classification</label>
+    <select id="edit-dewey">
+      <option value="000">000 — Generalities</option>
+      <option value="100">100 — Philosophy</option>
+      <option value="200">200 — Religion</option>
+      <option value="300">300 — Social Sciences</option>
+      <option value="400">400 — Language</option>
+      <option value="500">500 — Natural Sciences</option>
+      <option value="600">600 — Technology</option>
+      <option value="700">700 — Arts & Recreation</option>
+      <option value="800">800 — Literature</option>
+      <option value="900">900 — History & Geography</option>
+    </select>
+    <label>Status</label>
+    <select id="edit-status">
+      <option value="unread">Unread</option>
+      <option value="reading">Reading</option>
+      <option value="read">Read</option>
+      <option value="wishlist">Wishlist</option>
+    </select>
+    <label>Publication Year</label>
+    <input type="number" id="edit-year" min="1000" max="2099">
+    <label>Notes</label>
+    <textarea id="edit-notes" rows="3" placeholder="Personal notes..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+// ── Firebase SDK ──────────────────────────────────────────────────────────────
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, remove, onValue, update }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc",
+  authDomain: "spine-001.firebaseapp.com",
+  databaseURL: "https://spine-001-default-rtdb.firebaseio.com",
+  projectId: "spine-001",
+  storageBucket: "spine-001.firebasestorage.app",
+  messagingSenderId: "1058346929766",
+  appId: "1:1058346929766:web:6704800343c22e34cae7a7"
+};
+
+// ── ALLOWED EMAILS — add both addresses here ──────────────────────────────────
+const ALLOWED_EMAILS = [
+  "bettykwale@gmail.com",
+  "chelseymcrory@gmail.com",
+];
+
+const fbApp    = initializeApp(firebaseConfig);
+const db       = getDatabase(fbApp);
+const auth     = getAuth(fbApp);
+const provider = new GoogleAuthProvider();
+const booksRef = ref(db, 'books');
+
+// ── App state ─────────────────────────────────────────────────────────────────
+let books = [];
+let viewMode = 'shelf';
+let collapsedSections = new Set();
+let dbUnsubscribe = null;
+
+// ── Auth state ────────────────────────────────────────────────────────────────
+onAuthStateChanged(auth, (user) => {
+  if (user && (ALLOWED_EMAILS.length === 0 || ALLOWED_EMAILS.includes(user.email))) {
+    // Signed in and allowed
+    document.getElementById('login-screen').classList.remove('show');
+    document.getElementById('login-error').classList.remove('show');
+    document.getElementById('user-bar').style.display = 'flex';
+    document.getElementById('user-name').textContent = user.displayName || user.email;
+    if (user.photoURL) document.getElementById('user-avatar').src = user.photoURL;
+    if (!dbUnsubscribe) startListening();
+  } else if (user) {
+    // Signed in but NOT on the allowed list
+    fbSignOut(auth);
+    document.getElementById('login-screen').classList.add('show');
+    document.getElementById('login-error').classList.add('show');
+    document.getElementById('user-bar').style.display = 'none';
+  } else {
+    // Not signed in
+    document.getElementById('login-screen').classList.add('show');
+    document.getElementById('user-bar').style.display = 'none';
+    if (dbUnsubscribe) { clearInterval(dbUnsubscribe); dbUnsubscribe = null; }
+    books = [];
+    renderAll();
+  }
+});
+
+function startListening() {
+  const syncEl = document.getElementById('sync-status');
+  syncEl.textContent = '⟳ Connecting…';
+  syncEl.className = 'sync connecting';
+
+  function loadBooks() {
+    fetch('https://spine-001-default-rtdb.firebaseio.com/books.json')
+      .then(r => r.json())
+      .then(data => {
+        books = [];
+        if (data) {
+          Object.entries(data).forEach(([key, val]) => books.push({ _key: key, ...val }));
+        }
+        console.log('Books loaded:', books.length);
+        syncEl.textContent = '● Live';
+        syncEl.className = 'sync live';
+        renderAll();
+      })
+      .catch(err => {
+        console.error('Load error:', err);
+        syncEl.textContent = '✕ Offline';
+        syncEl.className = 'sync offline';
+      });
+  }
+
+  loadBooks();
+  dbUnsubscribe = setInterval(loadBooks, 3000);
+}
+
+// ── Auth actions ──────────────────────────────────────────────────────────────
+function signInWithGoogle() {
+  signInWithPopup(auth, provider).catch(() => {
+    document.getElementById('login-error').textContent = 'Sign-in failed. Please try again.';
+    document.getElementById('login-error').classList.add('show');
+  });
+}
+
+function signOut() {
+  fbSignOut(auth);
+}
+
+// ── Firebase write helpers ────────────────────────────────────────────────────
+function fbAdd(data) { 
+  push(booksRef, { ...data, added: new Date().toISOString() })
+    .then(() => { console.log('Book saved!'); })
+    .catch(e => { console.error('Save failed:', e); alert('Could not save: ' + e.message); });
+}
+function fbUpdate(key, data){ update(ref(db, `books/${key}`), data); }
+function fbDelete(key)      { remove(ref(db, `books/${key}`)); }
+
+// ── Dewey classes ─────────────────────────────────────────────────────────────
+const DEWEY_CLASSES = [
+  { num: '000', name: 'Generalities',     sub: 'Computer science, information & general works', color: '#5c4a1a' },
+  { num: '100', name: 'Philosophy',       sub: 'Philosophy & psychology',                        color: '#8b2020' },
+  { num: '200', name: 'Religion',         sub: 'Religion & theology',                            color: '#2d5a27' },
+  { num: '300', name: 'Social Sciences',  sub: 'Sociology, economics & law',                    color: '#1a3a5c' },
+  { num: '400', name: 'Language',         sub: 'Linguistics & languages',                        color: '#5c3a1a' },
+  { num: '500', name: 'Natural Sciences', sub: 'Mathematics, physics & life sciences',           color: '#3a1a5c' },
+  { num: '600', name: 'Technology',       sub: 'Medicine, engineering & technology',             color: '#1a5c3a' },
+  { num: '700', name: 'Arts & Recreation',sub: 'Fine arts, music & sports',                      color: '#5c1a3a' },
+  { num: '800', name: 'Literature',       sub: 'Fiction, poetry & drama',                        color: '#3a5c1a' },
+  { num: '900', name: 'History',          sub: 'History, geography & biography',                 color: '#1a5c5c' },
+];
+
+// ── Book actions ──────────────────────────────────────────────────────────────
+function addBook() {
+  const title  = document.getElementById('inp-title').value.trim();
+  const author = document.getElementById('inp-author').value.trim();
+  const dewey  = document.getElementById('inp-dewey').value;
+  const status = document.getElementById('inp-status').value;
+  const year   = document.getElementById('inp-year').value;
+  if (!title || !dewey) { alert('Please enter a title and select a Dewey class.'); return; }
+  fbAdd({ title, author, dewey, status, year: year ? parseInt(year) : null, notes: '' });
+  document.getElementById('inp-title').value  = '';
+  document.getElementById('inp-author').value = '';
+  document.getElementById('inp-dewey').value  = '';
+  document.getElementById('inp-year').value   = '';
+}
+
+function deleteBook(key) {
+  if (!confirm('Remove this book from your collection?')) return;
+  fbDelete(key);
+}
+
+function openEdit(key) {
+  const b = books.find(x => x._key === key);
+  if (!b) return;
+  document.getElementById('edit-id').value     = key;
+  document.getElementById('edit-title').value  = b.title;
+  document.getElementById('edit-author').value = b.author || '';
+  document.getElementById('edit-dewey').value  = b.dewey;
+  document.getElementById('edit-status').value = b.status;
+  document.getElementById('edit-year').value   = b.year || '';
+  document.getElementById('edit-notes').value  = b.notes || '';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function saveEdit() {
+  const key = document.getElementById('edit-id').value;
+  fbUpdate(key, {
+    title:  document.getElementById('edit-title').value.trim(),
+    author: document.getElementById('edit-author').value.trim(),
+    dewey:  document.getElementById('edit-dewey').value,
+    status: document.getElementById('edit-status').value,
+    year:   document.getElementById('edit-year').value ? parseInt(document.getElementById('edit-year').value) : null,
+    notes:  document.getElementById('edit-notes').value,
+  });
+  closeModal();
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function statusColor(s) {
+  return { read:'#2d8a2d', reading:'#e6a020', unread:'#888', wishlist:'#6a4fcc' }[s] || '#888';
+}
+function statusLabel(s) {
+  return { read:'Read', reading:'Reading', unread:'Unread', wishlist:'Wishlist' }[s] || s;
+}
+function filteredBooks() {
+  const q  = document.getElementById('search').value.toLowerCase();
+  const fs = document.getElementById('filter-status').value;
+  return books.filter(b => {
+    const mQ = !q  || b.title.toLowerCase().includes(q) || (b.author||'').toLowerCase().includes(q);
+    const mS = !fs || b.status === fs;
+    return mQ && mS;
+  });
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderStats() {
+  const total    = books.length;
+  const read     = books.filter(b => b.status==='read').length;
+  const reading  = books.filter(b => b.status==='reading').length;
+  const unread   = books.filter(b => b.status==='unread').length;
+  const wishlist = books.filter(b => b.status==='wishlist').length;
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat"><span class="stat-num">${total}</span><span class="stat-label">Total Books</span></div>
+    <div class="stat"><span class="stat-num">${read}</span><span class="stat-label">Read</span></div>
+    <div class="stat"><span class="stat-num">${reading}</span><span class="stat-label">Reading</span></div>
+    <div class="stat"><span class="stat-num">${unread}</span><span class="stat-label">Unread</span></div>
+    <div class="stat"><span class="stat-num">${wishlist}</span><span class="stat-label">Wishlist</span></div>
+  `;
+}
+
+function renderAll() {
+  renderStats();
+  const fb  = filteredBooks();
+  const lib = document.getElementById('library');
+  const sectionsWithBooks = DEWEY_CLASSES.filter(cls => fb.some(b => b.dewey === cls.num));
+
+  if (sectionsWithBooks.length === 0) {
+    lib.innerHTML = `<div style="text-align:center;padding:60px;font-family:'IM Fell English',serif;font-style:italic;color:var(--parchment);font-size:1.1rem;">
+      ${books.length === 0 ? 'Your library awaits its first volume…' : 'No books match your search.'}
+    </div>`;
+    return;
+  }
+
+  lib.innerHTML = sectionsWithBooks.map(cls => {
+    const sectionBooks = fb.filter(b => b.dewey === cls.num);
+    const collapsed    = collapsedSections.has(cls.num);
+
+    const spines = sectionBooks.map(b => `
+      <div class="book" title="${b.title}">
+        <div class="book-spine" style="background:linear-gradient(90deg,${cls.color}cc,${cls.color});">
+          <div class="book-label">${b.dewey}<br>${(b.author||'').split(' ').pop().substring(0,3).toUpperCase()||'—'}</div>
+          <div class="book-title-spine">${b.title}</div>
+          <div class="book-status-dot" style="background:${statusColor(b.status)};"></div>
+        </div>
+        <div class="book-card">
+          <h4>${b.title}</h4>
+          <div class="bc-author">${b.author || 'Unknown Author'}</div>
+          <div class="bc-meta">Dewey: ${b.dewey} · ${b.year || 'n.d.'}</div>
+          <div class="bc-meta"><span style="background:${statusColor(b.status)};color:#fff;font-size:0.68rem;padding:2px 8px;letter-spacing:0.06em;text-transform:uppercase;">${statusLabel(b.status)}</span></div>
+          ${b.notes ? `<div class="bc-meta" style="font-style:italic;margin-top:6px;">"${b.notes.substring(0,80)}${b.notes.length>80?'...':''}"</div>` : ''}
+          <div class="bc-actions">
+            <button onclick="event.stopPropagation();window._openEdit('${b._key}')">Edit</button>
+            <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    const listRows = sectionBooks.map(b => `
+      <div class="book-list-item" onclick="window._openEdit('${b._key}')" style="border-left-color:${cls.color};">
+        <div class="bli-call">${b.dewey}</div>
+        <div class="bli-title">${b.title}</div>
+        <div class="bli-author">${b.author || '—'}</div>
+        <div class="bli-status" style="background:${statusColor(b.status)};color:#fff;">${statusLabel(b.status)}</div>
+      </div>`).join('');
+
+    return `
+      <div class="dewey-section ${collapsed?'collapsed':''}" id="section-${cls.num}">
+        <div class="section-header" onclick="window._toggleSection('${cls.num}')">
+          <div class="section-number" style="background:${cls.color};">${cls.num}</div>
+          <div class="section-title-wrap">
+            <div class="section-title">${cls.name}</div>
+            <div class="section-sub">${cls.sub}</div>
+          </div>
+          <div class="section-count">${sectionBooks.length} vol${sectionBooks.length!==1?'s':''}.</div>
+        </div>
+        <div class="bookshelf shelf-view ${viewMode==='list'?'hide':''}">
+          <div class="books-row">${spines||'<div class="empty-shelf">No volumes in this section.</div>'}</div>
+        </div>
+        <div class="list-view ${viewMode==='list'?'show':''}">
+          ${listRows}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleSection(num) {
+  collapsedSections.has(num) ? collapsedSections.delete(num) : collapsedSections.add(num);
+  renderAll();
+}
+
+function setView(mode) {
+  viewMode = mode;
+  document.getElementById('btn-shelf').classList.toggle('active', mode==='shelf');
+  document.getElementById('btn-list').classList.toggle('active',  mode==='list');
+  renderAll();
+}
+
+// ── Expose to inline handlers ─────────────────────────────────────────────────
+window.signInWithGoogle = signInWithGoogle;
+window.signOut          = signOut;
+window.addBook          = addBook;
+window.closeModal       = closeModal;
+window.saveEdit         = saveEdit;
+window.setView          = setView;
+window._openEdit        = openEdit;
+window._deleteBook      = deleteBook;
+window._toggleSection   = toggleSection;
+
+// ── Wire up events ────────────────────────────────────────────────────────────
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+document.getElementById('inp-title').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addBook();
+});
+document.getElementById('search').addEventListener('input', renderAll);
+document.getElementById('filter-status').addEventListener('change', renderAll);
+
+// ── Service Worker — disabled to prevent caching issues ──────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(r => r.forEach(x => x.unregister()));
+}
+</script>
+</body>
+</html>
