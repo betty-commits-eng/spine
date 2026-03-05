@@ -1001,7 +1001,7 @@ function startListening() {
   syncEl.className = 'sync connecting';
 
   function loadBooks() {
-    fetch('https://spine-001-default-rtdb.firebaseio.com/books.json')
+    auth.currentUser.getIdToken().then(token => fetch('https://spine-001-default-rtdb.firebaseio.com/books.json?auth='+token))
       .then(r => r.json())
       .then(data => {
         books = [];
