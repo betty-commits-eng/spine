@@ -501,7 +501,7 @@
   .book-card {
     display: none;
     position: absolute;
-    bottom: calc(100% + 12px);
+    bottom: calc(100% + 4px);
     left: 50%;
     transform: translateX(-50%);
     background: var(--cream);
@@ -511,6 +511,17 @@
     z-index: 100;
     box-shadow: 4px 4px 0 var(--dark-brown);
     text-align: left;
+    padding-bottom: 18px;
+  }
+
+  /* Invisible bridge so mouse can reach the card without it disappearing */
+  .book-card::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
   }
 
   .book:hover .book-card { display: block; }
