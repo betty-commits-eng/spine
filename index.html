@@ -501,7 +501,7 @@
   .book-card {
     display: none;
     position: absolute;
-    bottom: calc(100% + 4px);
+    bottom: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
     background: var(--cream);
@@ -511,17 +511,6 @@
     z-index: 100;
     box-shadow: 4px 4px 0 var(--dark-brown);
     text-align: left;
-    padding-bottom: 18px;
-  }
-
-  /* Invisible bridge so mouse can reach the card without it disappearing */
-  .book-card::after {
-    content: '';
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    right: 0;
-    height: 12px;
   }
 
   .book:hover .book-card { display: block; }
@@ -1216,16 +1205,11 @@ window.setOwnerFilter = setOwnerFilter;
 
 // ── Render ────────────────────────────────────────────────────────────────────
 function renderStats() {
-  const ownerBooks = books.filter(b =>
-    ownerFilter === 'all' ||
-    (ownerFilter === 'betty' && b.addedBy === 'bettykwale@gmail.com') ||
-    (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com')
-  );
-  const total    = ownerBooks.length;
-  const read     = ownerBooks.filter(b => b.status==='read').length;
-  const reading  = ownerBooks.filter(b => b.status==='reading').length;
-  const unread   = ownerBooks.filter(b => b.status==='unread').length;
-  const wishlist = ownerBooks.filter(b => b.status==='wishlist').length;
+  const total    = books.length;
+  const read     = books.filter(b => b.status==='read').length;
+  const reading  = books.filter(b => b.status==='reading').length;
+  const unread   = books.filter(b => b.status==='unread').length;
+  const wishlist = books.filter(b => b.status==='wishlist').length;
   document.getElementById('stats-bar').innerHTML = `
     <div class="stat"><span class="stat-num">${total}</span><span class="stat-label">Total Books</span></div>
     <div class="stat"><span class="stat-num">${read}</span><span class="stat-label">Read</span></div>
