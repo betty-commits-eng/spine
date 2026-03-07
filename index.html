@@ -586,66 +586,124 @@
     align-items: flex-end;
     min-height: 120px;
   }
-  /* Book spines */
+  /* Vintage Book spines */
   .book {
     position: relative;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.25s ease, filter 0.25s ease;
+    flex-shrink: 0;
   }
-  .book:hover { transform: translateY(-8px); }
+  .book:hover { transform: translateY(-14px); filter: brightness(1.15); }
   .book-spine {
-    width: 36px;
-    min-height: 100px;
+    width: 38px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 4px;
-    border-radius: 2px 0 0 2px;
-    border-right: 3px solid rgba(0,0,0,0.3);
+    padding: 10px 3px 8px;
+    border-radius: 2px 1px 1px 2px;
     position: relative;
     overflow: hidden;
-    box-shadow: -2px 0 4px rgba(0,0,0,0.4), inset 2px 0 4px rgba(255,255,255,0.05);
+    /* Leather/cloth texture via layered shadows */
+    box-shadow:
+      -3px 0 6px rgba(0,0,0,0.5),
+      inset 3px 0 6px rgba(255,255,255,0.12),
+      inset -2px 0 4px rgba(0,0,0,0.25),
+      2px 0 0 rgba(0,0,0,0.4);
   }
+  /* Cloth grain overlay */
   .book-spine::before {
     content: '';
     position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.04) 2px,
+        rgba(0,0,0,0.04) 3px
+      );
+    pointer-events: none;
+  }
+  /* Highlight edge — spine binding crease */
+  .book-spine::after {
+    content: '';
+    position: absolute;
     top: 0; left: 0; bottom: 0;
-    width: 4px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
+    width: 5px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05), transparent);
+    pointer-events: none;
   }
-  .book-label {
-    background: var(--cream);
-    color: var(--ink);
-    font-size: 9px;
-    font-family: 'Libre Baskerville', serif;
-    font-weight: 700;
-    padding: 2px 4px;
-    text-align: center;
+  /* Top decorative band */
+  .book-band-top {
     width: 100%;
-    letter-spacing: 0.05em;
-    line-height: 1.3;
-    border: 1px solid rgba(0,0,0,0.2);
+    height: 6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.08));
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
   }
+  /* Bottom decorative band */
+  .book-band-bottom {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(0deg, rgba(255,255,255,0.2), rgba(255,255,255,0.06));
+    border-top: 1px solid rgba(0,0,0,0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  /* Gold label — call number tag */
+  .book-label {
+    background: linear-gradient(135deg, #f5edd8, #e0cfa0, #f5edd8);
+    color: #1a1008;
+    font-size: 8px;
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    padding: 3px 3px;
+    text-align: center;
+    width: calc(100% - 4px);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    border: 1px solid rgba(180,140,60,0.6);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+  /* Gold title lettering on spine */
   .book-title-spine {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
-    color: var(--cream);
+    color: rgba(255,240,180,0.92);
     font-family: 'IM Fell English', serif;
     font-size: 10px;
+    font-style: italic;
     text-align: center;
     overflow: hidden;
-    max-height: 70px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    letter-spacing: 0.05em;
+    flex: 1;
+    max-height: 90px;
+    text-shadow:
+      0 0 8px rgba(212,168,67,0.6),
+      1px 1px 2px rgba(0,0,0,0.8);
+    letter-spacing: 0.06em;
+    position: relative;
+    z-index: 2;
+    padding: 4px 0;
   }
+  /* Status dot — small wax seal look */
   .book-status-dot {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.4);
     flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
   }
   /* Tooltip / book card — FIX: use a pseudo-element bridge to prevent gap */
   .book-card {
@@ -1391,12 +1449,33 @@ function renderAll() {
   lib.innerHTML = sectionsWithBooks.map(cls => {
     const sectionBooks = fb.filter(b => b.dewey === cls.num);
     const collapsed    = collapsedSections.has(cls.num);
-    const spines = sectionBooks.map(b => `
+    // Vintage book spine colors — rich leather & cloth tones
+    const vintageColors = [
+      { base: '#6b1a1a', mid: '#8b2525', hi: '#a03030' }, // deep crimson
+      { base: '#1a3d1a', mid: '#2a5a2a', hi: '#3a7a3a' }, // forest green
+      { base: '#1a2d4a', mid: '#253d6a', hi: '#2e4f8a' }, // navy
+      { base: '#4a2a0a', mid: '#6a3a10', hi: '#8a5020' }, // saddle brown
+      { base: '#3a1a4a', mid: '#52286a', hi: '#6a358a' }, // plum
+      { base: '#1a3a3a', mid: '#255252', hi: '#2e6a6a' }, // teal
+      { base: '#4a1a2a', mid: '#6a2538', hi: '#8a3048' }, // burgundy
+      { base: '#2a3a1a', mid: '#3a5225', hi: '#4a6a2e' }, // olive
+      { base: '#3a2a0a', mid: '#523a10', hi: '#6a4a18' }, // dark tan
+      { base: '#1a1a3a', mid: '#252552', hi: '#2e2e6a' }, // indigo
+    ];
+    // Vary book heights for a natural shelf look
+    const heights = [110, 125, 115, 135, 108, 130, 120, 118, 128, 112];
+    const spines = sectionBooks.map((b, i) => {
+      const vc = vintageColors[i % vintageColors.length];
+      const h = heights[i % heights.length];
+      const spineGrad = `linear-gradient(90deg, ${vc.base} 0%, ${vc.mid} 40%, ${vc.hi} 55%, ${vc.mid} 70%, ${vc.base} 100%)`;
+      return `
       <div class="book" title="${b.title}">
-        <div class="book-spine" style="background:linear-gradient(90deg,${cls.color}cc,${cls.color});">
+        <div class="book-spine" style="background:${spineGrad}; height:${h}px;">
+          <div class="book-band-top"></div>
           <div class="book-label">${b.dewey}<br>${(b.author||'').split(' ').pop().substring(0,3).toUpperCase()||'—'}</div>
           <div class="book-title-spine">${b.title}</div>
           <div class="book-status-dot" style="background:${statusColor(b.status)};"></div>
+          <div class="book-band-bottom"></div>
         </div>
         <div class="book-card">
           <h4>${b.title}</h4>
@@ -1410,7 +1489,7 @@ function renderAll() {
             <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
           </div>
         </div>
-      </div>`).join('');
+      </div>`}).join('');
     const listRows = sectionBooks.map(b => `
       <div class="book-list-item" onclick="window._openEdit('${b._key}')" style="border-left-color:${cls.color};">
         <div class="bli-call">${b.dewey}</div>
