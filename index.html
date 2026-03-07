@@ -32,9 +32,7 @@
     --spine-9: #1a5c5c;
     --spine-0: #5c4a1a;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background-color: var(--dark-brown);
     background-image:
@@ -44,7 +42,6 @@
     color: var(--ink);
     min-height: 100vh;
   }
-
   header {
     background: linear-gradient(180deg, #2a1508 0%, #3d2314 100%);
     border-bottom: 4px double var(--tan);
@@ -52,7 +49,6 @@
     text-align: center;
     position: relative;
   }
-
   header::before, header::after {
     content: '❧';
     position: absolute;
@@ -63,7 +59,6 @@
   }
   header::before { left: 40px; }
   header::after { right: 40px; }
-
   header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2.8rem;
@@ -71,7 +66,6 @@
     letter-spacing: 0.08em;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
   }
-
   header p {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -80,7 +74,6 @@
     margin-top: 4px;
     letter-spacing: 0.1em;
   }
-
   .sync {
     display: inline-block;
     margin-top: 8px;
@@ -94,7 +87,6 @@
   .sync.live { background: rgba(45,138,45,0.25); color: #7dca7d; border: 1px solid #2d8a2d; }
   .sync.connecting { background: rgba(230,160,32,0.2); color: #e6c87d; border: 1px solid #e6a020; }
   .sync.offline { background: rgba(139,32,32,0.25); color: #d98a8a; border: 1px solid #8b2020; }
-
   /* User bar */
   .user-bar {
     position: absolute;
@@ -129,7 +121,6 @@
     transition: all 0.2s;
   }
   .sign-out-btn:hover { background: var(--tan); color: var(--dark-brown); }
-
   /* Login screen */
   #login-screen {
     display: none;
@@ -145,7 +136,6 @@
     flex-direction: column;
   }
   #login-screen.show { display: flex; }
-
   .login-card {
     background: var(--parchment);
     border: 3px double var(--brown);
@@ -191,13 +181,11 @@
   .google-btn:active { transform: translateY(0); }
   .login-error { margin-top: 14px; color: var(--red); font-size: 0.82rem; font-family: 'Libre Baskerville', serif; display: none; }
   .login-error.show { display: block; }
-
   .main-wrap {
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px 20px;
   }
-
   /* Controls */
   .controls {
     background: var(--parchment);
@@ -211,7 +199,6 @@
     flex-wrap: wrap;
     align-items: flex-end;
   }
-
   .controls label {
     font-family: 'Playfair Display', serif;
     font-size: 0.75rem;
@@ -221,7 +208,6 @@
     display: block;
     margin-bottom: 6px;
   }
-
   .controls input, .controls select {
     background: var(--cream);
     border: 1px solid var(--tan);
@@ -233,15 +219,12 @@
     outline: none;
     width: 100%;
   }
-
   .controls input:focus, .controls select:focus {
     border-color: var(--brown);
     box-shadow: 0 0 0 2px rgba(123,79,46,0.2);
   }
-
   .field { flex: 1; min-width: 140px; }
   .field.wide { flex: 2; min-width: 200px; }
-
   button.add-btn {
     background: var(--dark-brown);
     color: var(--cream);
@@ -255,11 +238,8 @@
     white-space: nowrap;
     align-self: flex-end;
   }
-
   button.add-btn:hover { background: var(--brown); transform: translateY(-1px); }
   button.add-btn:active { transform: translateY(0); }
-
-
   /* Owner filter tabs */
   .owner-tabs {
     display: flex;
@@ -269,7 +249,6 @@
     box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
     overflow: hidden;
   }
-
   .owner-tab {
     flex: 1;
     background: rgba(0,0,0,0.3);
@@ -284,22 +263,17 @@
     transition: all 0.2s;
     text-align: center;
   }
-
   .owner-tab:last-child { border-right: none; }
-
   .owner-tab:hover {
     background: rgba(201,169,110,0.15);
     color: var(--cream);
   }
-
   .owner-tab.active {
     background: var(--tan);
     color: var(--dark-brown);
     font-weight: 700;
   }
-
   .tab-icon { margin-right: 6px; }
-
   .bc-owner {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -307,7 +281,18 @@
     font-size: 0.78rem;
     margin-top: 2px;
   }
-
+  /* "Adding for" row — only shown when Chelsey is logged in */
+  .adding-for-row {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .adding-for-row.show { display: flex; }
+  .adding-for-row label {
+    white-space: nowrap;
+  }
   /* Search bar */
   .search-row {
     display: flex;
@@ -315,7 +300,6 @@
     margin-bottom: 24px;
     align-items: center;
   }
-
   .search-row input {
     background: var(--parchment);
     border: 2px solid var(--brown);
@@ -327,7 +311,6 @@
     outline: none;
     box-shadow: 2px 2px 0 var(--dark-brown);
   }
-
   .search-row select {
     background: var(--parchment);
     border: 2px solid var(--brown);
@@ -339,15 +322,12 @@
     box-shadow: 2px 2px 0 var(--dark-brown);
     cursor: pointer;
   }
-
   /* Dewey sections */
   .dewey-section {
     margin-bottom: 32px;
     animation: fadeIn 0.4s ease;
   }
-
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
   .section-header {
     display: flex;
     align-items: center;
@@ -356,7 +336,6 @@
     cursor: pointer;
     user-select: none;
   }
-
   .section-number {
     width: 64px;
     height: 64px;
@@ -371,16 +350,13 @@
     border: 3px double rgba(255,255,255,0.3);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
   }
-
   .section-title-wrap { flex: 1; }
-
   .section-title {
     font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
     color: var(--cream);
     letter-spacing: 0.04em;
   }
-
   .section-sub {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -388,7 +364,6 @@
     font-size: 0.85rem;
     margin-top: 2px;
   }
-
   .section-count {
     background: rgba(0,0,0,0.3);
     color: var(--tan);
@@ -398,7 +373,6 @@
     border: 1px solid var(--tan);
     letter-spacing: 0.08em;
   }
-
   /* Bookshelf */
   .bookshelf {
     background: linear-gradient(180deg, #2a1508 0%, #1a0d04 100%);
@@ -408,7 +382,6 @@
     position: relative;
     min-height: 100px;
   }
-
   .bookshelf::after {
     content: '';
     position: absolute;
@@ -420,7 +393,6 @@
     border-top: 2px solid #7a5a2a;
     border-radius: 0 0 2px 2px;
   }
-
   .books-row {
     display: flex;
     gap: 4px;
@@ -428,16 +400,13 @@
     align-items: flex-end;
     min-height: 120px;
   }
-
   /* Book spines */
   .book {
     position: relative;
     cursor: pointer;
     transition: transform 0.2s;
   }
-
   .book:hover { transform: translateY(-8px); }
-
   .book-spine {
     width: 36px;
     min-height: 100px;
@@ -452,7 +421,6 @@
     overflow: hidden;
     box-shadow: -2px 0 4px rgba(0,0,0,0.4), inset 2px 0 4px rgba(255,255,255,0.05);
   }
-
   .book-spine::before {
     content: '';
     position: absolute;
@@ -460,7 +428,6 @@
     width: 4px;
     background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
   }
-
   .book-label {
     background: var(--cream);
     color: var(--ink);
@@ -474,7 +441,6 @@
     line-height: 1.3;
     border: 1px solid rgba(0,0,0,0.2);
   }
-
   .book-title-spine {
     writing-mode: vertical-rl;
     text-orientation: mixed;
@@ -488,7 +454,6 @@
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     letter-spacing: 0.05em;
   }
-
   .book-status-dot {
     width: 8px;
     height: 8px;
@@ -496,12 +461,11 @@
     border: 1px solid rgba(255,255,255,0.3);
     flex-shrink: 0;
   }
-
-  /* Tooltip / book card */
+  /* Tooltip / book card — FIX: use a pseudo-element bridge to prevent gap */
   .book-card {
     display: none;
     position: absolute;
-    bottom: calc(100% + 12px);
+    bottom: calc(100% + 4px); /* reduced gap */
     left: 50%;
     transform: translateX(-50%);
     background: var(--cream);
@@ -512,15 +476,22 @@
     box-shadow: 4px 4px 0 var(--dark-brown);
     text-align: left;
   }
-
+  /* Transparent bridge fills the gap so mouse doesn't leave .book */
+  .book-card::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 12px; /* covers the gap */
+    background: transparent;
+  }
   .book:hover .book-card { display: block; }
-
   .book-card::before {
     content: '';
     position: absolute;
     bottom: -8px;
     left: 50%;
-    transform: translateX(-50%);
     width: 12px;
     height: 12px;
     background: var(--cream);
@@ -528,7 +499,6 @@
     border-bottom: 2px solid var(--brown);
     transform: translateX(-50%) rotate(45deg);
   }
-
   .book-card h4 {
     font-family: 'Playfair Display', serif;
     font-size: 0.95rem;
@@ -537,7 +507,6 @@
     border-bottom: 1px solid var(--tan);
     padding-bottom: 6px;
   }
-
   .book-card .bc-author {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -545,19 +514,16 @@
     color: var(--brown);
     margin-bottom: 6px;
   }
-
   .book-card .bc-meta {
     font-size: 0.78rem;
     color: var(--dark-brown);
     margin-bottom: 4px;
   }
-
   .bc-actions {
     display: flex;
     gap: 6px;
     margin-top: 10px;
   }
-
   .bc-actions button {
     flex: 1;
     padding: 5px;
@@ -570,17 +536,14 @@
     transition: background 0.15s;
     letter-spacing: 0.05em;
   }
-
   .bc-actions button:hover { background: var(--brown); color: var(--cream); }
   .bc-actions button.delete { border-color: var(--red); color: var(--red); }
   .bc-actions button.delete:hover { background: var(--red); color: var(--cream); }
-
   /* Status colors */
   .status-read { background: #2d8a2d; }
   .status-reading { background: #e6a020; }
   .status-unread { background: #888; }
   .status-wishlist { background: #6a4fcc; }
-
   .empty-shelf {
     color: rgba(245,237,216,0.3);
     font-family: 'IM Fell English', serif;
@@ -590,7 +553,6 @@
     padding: 20px;
     width: 100%;
   }
-
   /* Stats bar */
   .stats-bar {
     display: flex;
@@ -598,7 +560,6 @@
     margin-bottom: 28px;
     overflow-x: auto;
   }
-
   .stat {
     background: var(--parchment);
     border: 1px solid var(--tan);
@@ -607,7 +568,6 @@
     flex: 1;
     min-width: 90px;
   }
-
   .stat-num {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
@@ -616,7 +576,6 @@
     display: block;
     line-height: 1;
   }
-
   .stat-label {
     font-size: 0.65rem;
     letter-spacing: 0.1em;
@@ -625,7 +584,6 @@
     margin-top: 4px;
     display: block;
   }
-
   /* Modal */
   .modal-overlay {
     display: none;
@@ -636,9 +594,7 @@
     align-items: center;
     justify-content: center;
   }
-
   .modal-overlay.open { display: flex; }
-
   .modal {
     background: var(--cream);
     border: 3px double var(--brown);
@@ -649,9 +605,7 @@
     box-shadow: 8px 8px 0 var(--dark-brown);
     animation: slideIn 0.3s ease;
   }
-
   @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
   .modal h3 {
     font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
@@ -660,7 +614,6 @@
     border-bottom: 2px solid var(--tan);
     padding-bottom: 10px;
   }
-
   .modal label {
     font-size: 0.75rem;
     letter-spacing: 0.1em;
@@ -671,7 +624,6 @@
     margin-top: 14px;
     font-family: 'Playfair Display', serif;
   }
-
   .modal input, .modal select, .modal textarea {
     width: 100%;
     background: var(--parchment);
@@ -683,18 +635,15 @@
     outline: none;
     border-radius: 1px;
   }
-
   .modal input:focus, .modal select:focus, .modal textarea:focus {
     border-color: var(--brown);
     box-shadow: 0 0 0 2px rgba(123,79,46,0.15);
   }
-
   .modal-actions {
     display: flex;
     gap: 10px;
     margin-top: 20px;
   }
-
   .modal-actions button {
     flex: 1;
     padding: 10px;
@@ -704,21 +653,18 @@
     letter-spacing: 0.05em;
     transition: all 0.2s;
   }
-
   .btn-save {
     background: var(--dark-brown);
     color: var(--cream);
     border: none;
   }
   .btn-save:hover { background: var(--brown); }
-
   .btn-cancel {
     background: transparent;
     color: var(--brown);
     border: 2px solid var(--brown);
   }
   .btn-cancel:hover { background: var(--parchment); }
-
   .close-modal {
     position: absolute;
     top: 12px;
@@ -730,7 +676,6 @@
     color: var(--brown);
     line-height: 1;
   }
-
   /* Legend */
   .legend {
     display: flex;
@@ -738,7 +683,6 @@
     margin-bottom: 20px;
     flex-wrap: wrap;
   }
-
   .legend-item {
     display: flex;
     align-items: center;
@@ -748,19 +692,16 @@
     font-family: 'IM Fell English', serif;
     font-style: italic;
   }
-
   .legend-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
   }
-
   /* View toggle */
   .view-toggle {
     display: flex;
     gap: 4px;
   }
-
   .view-btn {
     background: var(--parchment);
     border: 1px solid var(--brown);
@@ -772,12 +713,10 @@
     transition: all 0.2s;
   }
   .view-btn.active { background: var(--dark-brown); color: var(--cream); border-color: var(--dark-brown); }
-
   /* List view */
   .list-view { display: none; }
   .list-view.show { display: block; }
   .shelf-view.hide { display: none; }
-
   .book-list-item {
     background: var(--parchment);
     border-left: 6px solid var(--brown);
@@ -789,9 +728,7 @@
     cursor: pointer;
     transition: background 0.15s;
   }
-
   .book-list-item:hover { background: #e8d8b0; }
-
   .bli-call {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
@@ -799,7 +736,6 @@
     color: var(--dark-brown);
     min-width: 60px;
   }
-
   .bli-title {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -807,14 +743,12 @@
     color: var(--ink);
     flex: 1;
   }
-
   .bli-author {
     font-size: 0.82rem;
     color: var(--brown);
     min-width: 100px;
     text-align: right;
   }
-
   .bli-status {
     font-size: 0.7rem;
     letter-spacing: 0.08em;
@@ -823,11 +757,9 @@
     min-width: 70px;
     text-align: center;
   }
-
   /* Section collapsed */
   .dewey-section.collapsed .bookshelf { display: none; }
   .dewey-section.collapsed .list-view { display: none !important; }
-
   /* Responsive */
   @media (max-width: 600px) {
     header h1 { font-size: 1.8rem; }
@@ -838,7 +770,6 @@
 </style>
 </head>
 <body>
-
 <!-- Login Screen -->
 <div id="login-screen">
   <div class="login-card">
@@ -852,7 +783,6 @@
     <div class="login-error" id="login-error">Access denied. Your account is not on the allowed list.</div>
   </div>
 </div>
-
 <header>
   <h1>Spine</h1>
   <p>Main Library</p>
@@ -863,9 +793,7 @@
     <button class="sign-out-btn" onclick="signOut()">Sign out</button>
   </div>
 </header>
-
 <div class="main-wrap">
-
   <!-- Add Book Form -->
   <div class="controls">
     <div class="field wide">
@@ -906,11 +834,16 @@
       <input type="number" id="inp-year" placeholder="e.g. 1984" min="1000" max="2099">
     </div>
     <button class="add-btn" onclick="addBook()">+ Add to Collection</button>
+    <div class="adding-for-row" id="adding-for-row">
+      <label>Adding for</label>
+      <select id="inp-adding-for" style="background:var(--cream);border:1px solid var(--tan);padding:8px 12px;font-family:'Libre Baskerville',serif;font-size:0.9rem;color:var(--ink);outline:none;">
+        <option value="chelsey">Chelsey</option>
+        <option value="ava">Ava</option>
+      </select>
+    </div>
   </div>
-
   <!-- Stats -->
   <div class="stats-bar" id="stats-bar"></div>
-
   <!-- Owner Filter Tabs -->
   <div class="owner-tabs">
     <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')">
@@ -922,8 +855,10 @@
     <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')">
       <span class="tab-icon">❧</span> Chelsey's Library
     </button>
+    <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')">
+      <span class="tab-icon">❧</span> Ava's Library
+    </button>
   </div>
-
   <!-- Search + Controls -->
   <div class="search-row">
     <input type="text" id="search" placeholder="Search by title or author..." oninput="renderAll()">
@@ -939,7 +874,6 @@
       <button class="view-btn" id="btn-list" onclick="setView('list')">List</button>
     </div>
   </div>
-
   <!-- Legend -->
   <div class="legend">
     <div class="legend-item"><div class="legend-dot status-read"></div> Read</div>
@@ -947,12 +881,9 @@
     <div class="legend-item"><div class="legend-dot status-unread"></div> Unread</div>
     <div class="legend-item"><div class="legend-dot status-wishlist"></div> Wishlist</div>
   </div>
-
   <!-- Library -->
   <div id="library"></div>
-
 </div>
-
 <!-- Edit Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
@@ -993,7 +924,6 @@
     </div>
   </div>
 </div>
-
 <script type="module">
 // ── Firebase SDK ──────────────────────────────────────────────────────────────
 import { initializeApp }
@@ -1002,7 +932,6 @@ import { getDatabase, ref, push, remove, onValue, update }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc",
   authDomain: "spine-001.firebaseapp.com",
@@ -1012,44 +941,41 @@ const firebaseConfig = {
   messagingSenderId: "1058346929766",
   appId: "1:1058346929766:web:6704800343c22e34cae7a7"
 };
-
-// ── ALLOWED EMAILS — add both addresses here ──────────────────────────────────
+// ── ALLOWED EMAILS ────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS = [
   "bettykwale@gmail.com",
   "chelseymcrory@gmail.com",
 ];
-
 const fbApp    = initializeApp(firebaseConfig);
 const db       = getDatabase(fbApp);
 const auth     = getAuth(fbApp);
 const provider = new GoogleAuthProvider();
 const booksRef = ref(db, 'books');
-
 // ── App state ─────────────────────────────────────────────────────────────────
 let books = [];
 let viewMode = 'shelf';
 let collapsedSections = new Set();
 let dbUnsubscribe = null;
-let ownerFilter = 'all'; // 'all', 'betty', 'chelsey'
-
+let ownerFilter = 'all';
 // ── Auth state ────────────────────────────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
   if (user && (ALLOWED_EMAILS.length === 0 || ALLOWED_EMAILS.includes(user.email))) {
-    // Signed in and allowed
     document.getElementById('login-screen').classList.remove('show');
     document.getElementById('login-error').classList.remove('show');
     document.getElementById('user-bar').style.display = 'flex';
     document.getElementById('user-name').textContent = user.displayName || user.email;
     if (user.photoURL) document.getElementById('user-avatar').src = user.photoURL;
+    // Show "Adding for" dropdown only for Chelsey
+    if (user.email === 'chelseymcrory@gmail.com') {
+      document.getElementById('adding-for-row').classList.add('show');
+    }
     if (!dbUnsubscribe) startListening();
   } else if (user) {
-    // Signed in but NOT on the allowed list
     fbSignOut(auth);
     document.getElementById('login-screen').classList.add('show');
     document.getElementById('login-error').classList.add('show');
     document.getElementById('user-bar').style.display = 'none';
   } else {
-    // Not signed in
     document.getElementById('login-screen').classList.add('show');
     document.getElementById('user-bar').style.display = 'none';
     if (dbUnsubscribe) { clearInterval(dbUnsubscribe); dbUnsubscribe = null; }
@@ -1057,12 +983,15 @@ onAuthStateChanged(auth, (user) => {
     renderAll();
   }
 });
-
+let lastDataHash = '';
+function hashData(data) {
+  // Simple hash to detect changes and avoid unnecessary re-renders
+  return JSON.stringify(data ? Object.keys(data).sort() : []) + JSON.stringify(data);
+}
 function startListening() {
   const syncEl = document.getElementById('sync-status');
   syncEl.textContent = '⟳ Connecting…';
   syncEl.className = 'sync connecting';
-
   function loadBooks() {
     const user = auth.currentUser;
     if (!user) return;
@@ -1070,13 +999,15 @@ function startListening() {
       fetch('https://spine-001-default-rtdb.firebaseio.com/books.json?auth=' + token)
         .then(r => r.json())
         .then(data => {
+          const newHash = hashData(data);
+          syncEl.textContent = '● Live';
+          syncEl.className = 'sync live';
+          if (newHash === lastDataHash) return; // No change — skip re-render to prevent flicker
+          lastDataHash = newHash;
           books = [];
           if (data) {
             Object.entries(data).forEach(([key, val]) => books.push({ _key: key, ...val }));
           }
-          console.log('Books loaded:', books.length);
-          syncEl.textContent = '● Live';
-          syncEl.className = 'sync live';
           renderAll();
         })
         .catch(err => {
@@ -1086,11 +1017,9 @@ function startListening() {
         });
     });
   }
-
   loadBooks();
   dbUnsubscribe = setInterval(loadBooks, 3000);
 }
-
 // ── Auth actions ──────────────────────────────────────────────────────────────
 function signInWithGoogle() {
   signInWithPopup(auth, provider).catch(() => {
@@ -1098,20 +1027,14 @@ function signInWithGoogle() {
     document.getElementById('login-error').classList.add('show');
   });
 }
-
-function signOut() {
-  fbSignOut(auth);
-}
-
+function signOut() { fbSignOut(auth); }
 // ── Firebase write helpers ────────────────────────────────────────────────────
-function fbAdd(data) { 
+function fbAdd(data) {
   push(booksRef, { ...data, added: new Date().toISOString() })
-    .then(() => { console.log('Book saved!'); })
-    .catch(e => { console.error('Save failed:', e); alert('Could not save: ' + e.message); });
+    .catch(e => { alert('Could not save: ' + e.message); });
 }
 function fbUpdate(key, data){ update(ref(db, `books/${key}`), data); }
 function fbDelete(key)      { remove(ref(db, `books/${key}`)); }
-
 // ── Dewey classes ─────────────────────────────────────────────────────────────
 const DEWEY_CLASSES = [
   { num: '000', name: 'Generalities',     sub: 'Computer science, information & general works', color: '#5c4a1a' },
@@ -1125,7 +1048,6 @@ const DEWEY_CLASSES = [
   { num: '800', name: 'Literature',       sub: 'Fiction, poetry & drama',                        color: '#3a5c1a' },
   { num: '900', name: 'History',          sub: 'History, geography & biography',                 color: '#1a5c5c' },
 ];
-
 // ── Book actions ──────────────────────────────────────────────────────────────
 function addBook() {
   const title  = document.getElementById('inp-title').value.trim();
@@ -1135,18 +1057,22 @@ function addBook() {
   const year   = document.getElementById('inp-year').value;
   if (!title || !dewey) { alert('Please enter a title and select a Dewey class.'); return; }
   const currentUser = auth.currentUser;
-  fbAdd({ title, author, dewey, status, year: year ? parseInt(year) : null, notes: '', addedBy: currentUser ? currentUser.email : '' });
+  // Determine who this book is being added for
+  const addingForEl = document.getElementById('inp-adding-for');
+  let addedBy = currentUser ? currentUser.email : '';
+  if (addingForEl && addingForEl.closest('.adding-for-row').classList.contains('show')) {
+    if (addingForEl.value === 'ava') addedBy = 'ava';
+  }
+  fbAdd({ title, author, dewey, status, year: year ? parseInt(year) : null, notes: '', addedBy });
   document.getElementById('inp-title').value  = '';
   document.getElementById('inp-author').value = '';
   document.getElementById('inp-dewey').value  = '';
   document.getElementById('inp-year').value   = '';
 }
-
 function deleteBook(key) {
   if (!confirm('Remove this book from your collection?')) return;
   fbDelete(key);
 }
-
 function openEdit(key) {
   const b = books.find(x => x._key === key);
   if (!b) return;
@@ -1159,9 +1085,7 @@ function openEdit(key) {
   document.getElementById('edit-notes').value  = b.notes || '';
   document.getElementById('modal').classList.add('open');
 }
-
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
-
 function saveEdit() {
   const key = document.getElementById('edit-id').value;
   fbUpdate(key, {
@@ -1174,13 +1098,20 @@ function saveEdit() {
   });
   closeModal();
 }
-
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function statusColor(s) {
   return { read:'#2d8a2d', reading:'#e6a020', unread:'#888', wishlist:'#6a4fcc' }[s] || '#888';
 }
 function statusLabel(s) {
   return { read:'Read', reading:'Reading', unread:'Unread', wishlist:'Wishlist' }[s] || s;
+}
+function ownerFilteredBooks() {
+  return books.filter(b => {
+    return ownerFilter === 'all' ||
+           (ownerFilter === 'betty'   && b.addedBy === 'bettykwale@gmail.com') ||
+           (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com') ||
+           (ownerFilter === 'ava'     && b.addedBy === 'ava');
+  });
 }
 function filteredBooks() {
   const q  = document.getElementById('search').value.toLowerCase();
@@ -1189,12 +1120,12 @@ function filteredBooks() {
     const mQ = !q  || b.title.toLowerCase().includes(q) || (b.author||'').toLowerCase().includes(q);
     const mS = !fs || b.status === fs;
     const mO = ownerFilter === 'all' ||
-               (ownerFilter === 'betty' && b.addedBy === 'bettykwale@gmail.com') ||
-               (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com');
+               (ownerFilter === 'betty'   && b.addedBy === 'bettykwale@gmail.com') ||
+               (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com') ||
+               (ownerFilter === 'ava'     && b.addedBy === 'ava');
     return mQ && mS && mO;
   });
 }
-
 function setOwnerFilter(f) {
   ownerFilter = f;
   document.querySelectorAll('.owner-tab').forEach(t => t.classList.remove('active'));
@@ -1202,19 +1133,15 @@ function setOwnerFilter(f) {
   renderAll();
 }
 window.setOwnerFilter = setOwnerFilter;
-
 // ── Render ────────────────────────────────────────────────────────────────────
 function renderStats() {
-  const ownerBooks = books.filter(b =>
-    ownerFilter === 'all' ||
-    (ownerFilter === 'betty' && b.addedBy === 'bettykwale@gmail.com') ||
-    (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com')
-  );
-  const total    = ownerBooks.length;
-  const read     = ownerBooks.filter(b => b.status==='read').length;
-  const reading  = ownerBooks.filter(b => b.status==='reading').length;
-  const unread   = ownerBooks.filter(b => b.status==='unread').length;
-  const wishlist = ownerBooks.filter(b => b.status==='wishlist').length;
+  // Stats respect the owner filter so counts match what's shown
+  const pool     = ownerFilteredBooks();
+  const total    = pool.length;
+  const read     = pool.filter(b => b.status==='read').length;
+  const reading  = pool.filter(b => b.status==='reading').length;
+  const unread   = pool.filter(b => b.status==='unread').length;
+  const wishlist = pool.filter(b => b.status==='wishlist').length;
   document.getElementById('stats-bar').innerHTML = `
     <div class="stat"><span class="stat-num">${total}</span><span class="stat-label">Total Books</span></div>
     <div class="stat"><span class="stat-num">${read}</span><span class="stat-label">Read</span></div>
@@ -1223,24 +1150,20 @@ function renderStats() {
     <div class="stat"><span class="stat-num">${wishlist}</span><span class="stat-label">Wishlist</span></div>
   `;
 }
-
 function renderAll() {
   renderStats();
   const fb  = filteredBooks();
   const lib = document.getElementById('library');
   const sectionsWithBooks = DEWEY_CLASSES.filter(cls => fb.some(b => b.dewey === cls.num));
-
   if (sectionsWithBooks.length === 0) {
     lib.innerHTML = `<div style="text-align:center;padding:60px;font-family:'IM Fell English',serif;font-style:italic;color:var(--parchment);font-size:1.1rem;">
       ${books.length === 0 ? 'Your library awaits its first volume…' : 'No books match your search.'}
     </div>`;
     return;
   }
-
   lib.innerHTML = sectionsWithBooks.map(cls => {
     const sectionBooks = fb.filter(b => b.dewey === cls.num);
     const collapsed    = collapsedSections.has(cls.num);
-
     const spines = sectionBooks.map(b => `
       <div class="book" title="${b.title}">
         <div class="book-spine" style="background:linear-gradient(90deg,${cls.color}cc,${cls.color});">
@@ -1252,7 +1175,7 @@ function renderAll() {
           <h4>${b.title}</h4>
           <div class="bc-author">${b.author || 'Unknown Author'}</div>
           <div class="bc-meta">Dewey: ${b.dewey} · ${b.year || 'n.d.'}</div>
-          <div class="bc-meta bc-owner">${b.addedBy === 'bettykwale@gmail.com' ? '❧ Betty' : b.addedBy === 'chelseymcrory@gmail.com' ? '❧ Chelsey' : ''}</div>
+          <div class="bc-meta bc-owner">${b.addedBy === 'bettykwale@gmail.com' ? '❧ Betty' : b.addedBy === 'chelseymcrory@gmail.com' ? '❧ Chelsey' : b.addedBy === 'ava' ? '❧ Ava' : ''}</div>
           <div class="bc-meta"><span style="background:${statusColor(b.status)};color:#fff;font-size:0.68rem;padding:2px 8px;letter-spacing:0.06em;text-transform:uppercase;">${statusLabel(b.status)}</span></div>
           ${b.notes ? `<div class="bc-meta" style="font-style:italic;margin-top:6px;">"${b.notes.substring(0,80)}${b.notes.length>80?'...':''}"</div>` : ''}
           <div class="bc-actions">
@@ -1261,7 +1184,6 @@ function renderAll() {
           </div>
         </div>
       </div>`).join('');
-
     const listRows = sectionBooks.map(b => `
       <div class="book-list-item" onclick="window._openEdit('${b._key}')" style="border-left-color:${cls.color};">
         <div class="bli-call">${b.dewey}</div>
@@ -1269,7 +1191,6 @@ function renderAll() {
         <div class="bli-author">${b.author || '—'}</div>
         <div class="bli-status" style="background:${statusColor(b.status)};color:#fff;">${statusLabel(b.status)}</div>
       </div>`).join('');
-
     return `
       <div class="dewey-section ${collapsed?'collapsed':''}" id="section-${cls.num}">
         <div class="section-header" onclick="window._toggleSection('${cls.num}')">
@@ -1289,19 +1210,16 @@ function renderAll() {
       </div>`;
   }).join('');
 }
-
 function toggleSection(num) {
   collapsedSections.has(num) ? collapsedSections.delete(num) : collapsedSections.add(num);
   renderAll();
 }
-
 function setView(mode) {
   viewMode = mode;
   document.getElementById('btn-shelf').classList.toggle('active', mode==='shelf');
   document.getElementById('btn-list').classList.toggle('active',  mode==='list');
   renderAll();
 }
-
 // ── Expose to inline handlers ─────────────────────────────────────────────────
 window.signInWithGoogle = signInWithGoogle;
 window.signOut          = signOut;
@@ -1312,7 +1230,6 @@ window.setView          = setView;
 window._openEdit        = openEdit;
 window._deleteBook      = deleteBook;
 window._toggleSection   = toggleSection;
-
 // ── Wire up events ────────────────────────────────────────────────────────────
 document.getElementById('modal').addEventListener('click', e => {
   if (e.target === document.getElementById('modal')) closeModal();
@@ -1322,7 +1239,6 @@ document.getElementById('inp-title').addEventListener('keydown', e => {
 });
 document.getElementById('search').addEventListener('input', renderAll);
 document.getElementById('filter-status').addEventListener('change', renderAll);
-
 // ── Service Worker — disabled to prevent caching issues ──────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(r => r.forEach(x => x.unregister()));
