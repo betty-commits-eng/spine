@@ -1023,13 +1023,86 @@
   /* Section collapsed */
   .dewey-section.collapsed .bookshelf { display: none; }
   .dewey-section.collapsed .list-view { display: none !important; }
-  /* Responsive */
-  @media (max-width: 600px) {
-    header h1 { font-size: 1.8rem; }
-    header::before, header::after { display: none; }
-    .controls { flex-direction: column; }
-    .field, .field.wide { min-width: 100%; }
+
+  /* ── Mobile-friendly view toggle row ── */
+  .view-toggle-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    /* Header */
+    header h1 { font-size: 1.8rem; }
+    .header-label-strip { font-size: 0.55rem; padding: 5px 12px; }
+    .library-stamp { display: none; }
+    .catalogue-tabs-strip { display: none; }
+    .header-inner { padding: 16px 16px 14px; }
+    .catalogue-plate { font-size: 0.55rem; margin-bottom: 6px; }
+    .user-bar { top: 10px; right: 10px; }
+    .user-name { display: none; }
+
+    /* Main padding */
+    .main-wrap { padding: 16px 12px; }
+
+    /* Add book form */
+    .controls { flex-direction: column; padding: 16px; }
+    .field, .field.wide { min-width: 100%; }
+    .controls::before { display: none; }
+    button.add-btn { width: 100%; text-align: center; }
+
+    /* Stats bar — scroll horizontally on mobile */
+    .stats-bar { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+    .stat { min-width: 75px; padding: 10px 8px; }
+    .stat-num { font-size: 1.4rem; }
+    .stat-label { font-size: 0.55rem; }
+
+    /* Owner tabs — scrollable horizontal row */
+    .owner-tabs {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+      gap: 3px;
+      /* Fade hint on right edge */
+      -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+      mask-image: linear-gradient(to right, black 85%, transparent 100%);
+      margin-bottom: 16px;
+    }
+    .owner-tab {
+      flex: 0 0 auto;
+      font-size: 0.7rem;
+      padding: 8px 12px 10px;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .tab-icon { display: none; }
+
+    /* Search row — stack on mobile */
+    .search-row {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .search-row input { min-width: 100%; }
+    .search-row select { flex: 1; }
+
+    /* View toggle — sits beside the status filter */
+    .view-toggle-row { margin-bottom: 8px; }
+
+    /* Section header smaller */
+    .section-number { width: 48px; height: 48px; font-size: 1.1rem; }
+    .section-title { font-size: 1rem; }
+    .section-sub { font-size: 0.72rem; }
+
+    /* List view — hide author column on small screens */
+    .bli-author { display: none; }
+    .bli-call { min-width: 44px; font-size: 0.85rem; }
+  }
+
+  /* Hide scrollbars on tab row but keep scrolling */
+  .owner-tabs::-webkit-scrollbar { display: none; }
+  .owner-tabs { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 </head>
 <body>
@@ -1147,6 +1220,13 @@
       <span class="tab-icon">❧</span> Ava's Library
     </button>
   </div>
+  <!-- View Toggle -->
+  <div class="view-toggle-row">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-shelf" onclick="setView('shelf')">Shelf</button>
+      <button class="view-btn" id="btn-list" onclick="setView('list')">List</button>
+    </div>
+  </div>
   <!-- Search + Controls -->
   <div class="search-row">
     <input type="text" id="search" placeholder="Search by title or author..." oninput="renderAll()">
@@ -1157,10 +1237,6 @@
       <option value="unread">Unread</option>
       <option value="wishlist">Wishlist</option>
     </select>
-    <div class="view-toggle">
-      <button class="view-btn active" id="btn-shelf" onclick="setView('shelf')">Shelf</button>
-      <button class="view-btn" id="btn-list" onclick="setView('list')">List</button>
-    </div>
   </div>
   <!-- Legend -->
   <div class="legend">
