@@ -1140,6 +1140,9 @@
     <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')">
       <span class="tab-icon">❧</span> Chelsey's Library
     </button>
+    <button class="owner-tab" id="tab-peter" onclick="setOwnerFilter('peter')">
+      <span class="tab-icon">❧</span> Peter's Library
+    </button>
     <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')">
       <span class="tab-icon">❧</span> Ava's Library
     </button>
@@ -1230,6 +1233,7 @@ const firebaseConfig = {
 const ALLOWED_EMAILS = [
   "bettykwale@gmail.com",
   "chelseymcrory@gmail.com",
+  "petersmcrory@gmail.com",
 ];
 const fbApp    = initializeApp(firebaseConfig);
 const db       = getDatabase(fbApp);
@@ -1395,6 +1399,7 @@ function ownerFilteredBooks() {
     return ownerFilter === 'all' ||
            (ownerFilter === 'betty'   && b.addedBy === 'bettykwale@gmail.com') ||
            (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com') ||
+           (ownerFilter === 'peter'   && b.addedBy === 'petersmcrory@gmail.com') ||
            (ownerFilter === 'ava'     && b.addedBy === 'ava');
   });
 }
@@ -1407,6 +1412,7 @@ function filteredBooks() {
     const mO = ownerFilter === 'all' ||
                (ownerFilter === 'betty'   && b.addedBy === 'bettykwale@gmail.com') ||
                (ownerFilter === 'chelsey' && b.addedBy === 'chelseymcrory@gmail.com') ||
+               (ownerFilter === 'peter'   && b.addedBy === 'petersmcrory@gmail.com') ||
                (ownerFilter === 'ava'     && b.addedBy === 'ava');
     return mQ && mS && mO;
   });
@@ -1481,7 +1487,7 @@ function renderAll() {
           <h4>${b.title}</h4>
           <div class="bc-author">${b.author || 'Unknown Author'}</div>
           <div class="bc-meta">Dewey: ${b.dewey} · ${b.year || 'n.d.'}</div>
-          <div class="bc-meta bc-owner">${b.addedBy === 'bettykwale@gmail.com' ? '❧ Betty' : b.addedBy === 'chelseymcrory@gmail.com' ? '❧ Chelsey' : b.addedBy === 'ava' ? '❧ Ava' : ''}</div>
+          <div class="bc-meta bc-owner">${b.addedBy === 'bettykwale@gmail.com' ? '❧ Betty' : b.addedBy === 'chelseymcrory@gmail.com' ? '❧ Chelsey' : b.addedBy === 'petersmcrory@gmail.com' ? '❧ Peter' : b.addedBy === 'ava' ? '❧ Ava' : ''}</div>
           <div class="bc-meta"><span style="background:${statusColor(b.status)};color:#fff;font-size:0.68rem;padding:2px 8px;letter-spacing:0.06em;text-transform:uppercase;">${statusLabel(b.status)}</span></div>
           ${b.notes ? `<div class="bc-meta" style="font-style:italic;margin-top:6px;">"${b.notes.substring(0,80)}${b.notes.length>80?'...':''}"</div>` : ''}
           <div class="bc-actions">
