@@ -2,7 +2,7 @@
   "name": "Spine",
   "short_name": "Spine",
   "description": "Spine — your personal book collection",
-  "start_url": "/",
+  "start_url": "/spine/",
   "display": "standalone",
   "background_color": "#3d2314",
   "theme_color": "#3d2314",
