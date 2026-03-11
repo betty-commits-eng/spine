@@ -1600,13 +1600,8 @@ function openEdit(key) {
   document.querySelectorAll('#edit-stars .star').forEach(s => {
     s.classList.toggle('lit', parseInt(s.dataset.val) <= rating);
   });
-  // Date read field
   toggleReadDate(b.status);
-  if (b.readDate) {
-    document.getElementById('edit-readdate').value = b.readDate.substring(0, 10);
-  } else {
-    document.getElementById('edit-readdate').value = '';
-  }
+  document.getElementById('edit-readdate').value = b.readDate ? b.readDate.substring(0, 10) : new Date().toISOString().substring(0, 10);
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
@@ -1865,8 +1860,6 @@ function guessDewey(categories, title) {
   if (text.match(/language|linguist|grammar|dictionary/)) return '400';
   return '000';
 }
-window.searchBooks = searchBooks;
-window.selectBook  = selectBook;
 window.toggleReadDate = function(status) {
   const show = status === 'read';
   document.getElementById('edit-readdate-label').style.display = show ? '' : 'none';
@@ -1875,6 +1868,8 @@ window.toggleReadDate = function(status) {
     document.getElementById('edit-readdate').value = new Date().toISOString().substring(0, 10);
   }
 };
+window.searchBooks = searchBooks;
+window.selectBook  = selectBook;
 // ── Star rating picker interaction ────────────────────────────────────────────
 document.querySelectorAll('#edit-stars .star').forEach(star => {
   star.addEventListener('click', () => {
