@@ -1405,7 +1405,7 @@
       <option value="900">900 — History & Geography</option>
     </select>
     <label>Status</label>
-    <select id="edit-status">
+    <select id="edit-status" onchange="toggleReadDate(this.value)">
       <option value="unread">Unread</option>
       <option value="reading">Reading</option>
       <option value="read">Read</option>
@@ -1424,6 +1424,8 @@
       <span class="star" data-val="5">★</span>
     </div>
     <input type="hidden" id="edit-rating" value="0">
+    <label id="edit-readdate-label" style="display:none;">Date Read</label>
+    <input type="date" id="edit-readdate" style="display:none;">
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" onclick="saveEdit()">Save Changes</button>
@@ -1542,13 +1544,6 @@ function fbAdd(data) {
     .catch(e => { alert('Could not save: ' + e.message); });
 }
 function fbUpdate(key, data) {
-  // If status is being set to 'read' and no readDate exists, record it now
-  const book = books.find(b => b._key === key);
-  if (data.status === 'read' && (!book || !book.readDate)) {
-    data.readDate = new Date().toISOString();
-  } else if (data.status !== 'read') {
-    data.readDate = null;
-  }
   update(ref(db, `books/${key}`), data);
 }
 function fbDelete(key)      { remove(ref(db, `books/${key}`)); }
@@ -1605,6 +1600,13 @@ function openEdit(key) {
   document.querySelectorAll('#edit-stars .star').forEach(s => {
     s.classList.toggle('lit', parseInt(s.dataset.val) <= rating);
   });
+  // Date read field
+  toggleReadDate(b.status);
+  if (b.readDate) {
+    document.getElementById('edit-readdate').value = b.readDate.substring(0, 10);
+  } else {
+    document.getElementById('edit-readdate').value = '';
+  }
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
@@ -1618,6 +1620,9 @@ function saveEdit() {
     year:   document.getElementById('edit-year').value ? parseInt(document.getElementById('edit-year').value) : null,
     notes:  document.getElementById('edit-notes').value,
     rating: parseInt(document.getElementById('edit-rating').value) || 0,
+    readDate: document.getElementById('edit-status').value === 'read'
+      ? (document.getElementById('edit-readdate').value ? new Date(document.getElementById('edit-readdate').value).toISOString() : new Date().toISOString())
+      : null,
   });
   closeModal();
 }
@@ -1862,6 +1867,14 @@ function guessDewey(categories, title) {
 }
 window.searchBooks = searchBooks;
 window.selectBook  = selectBook;
+window.toggleReadDate = function(status) {
+  const show = status === 'read';
+  document.getElementById('edit-readdate-label').style.display = show ? '' : 'none';
+  document.getElementById('edit-readdate').style.display = show ? '' : 'none';
+  if (show && !document.getElementById('edit-readdate').value) {
+    document.getElementById('edit-readdate').value = new Date().toISOString().substring(0, 10);
+  }
+};
 // ── Star rating picker interaction ────────────────────────────────────────────
 document.querySelectorAll('#edit-stars .star').forEach(star => {
   star.addEventListener('click', () => {
