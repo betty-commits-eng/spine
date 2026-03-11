@@ -1763,6 +1763,7 @@ function renderAll() {
             <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
           </div>
           <a class="bc-amazon" href="https://www.amazon.com/s?k=${encodeURIComponent(b.title + ' ' + (b.author||''))}" target="_blank" onclick="event.stopPropagation()">🛒 Buy on Amazon</a>
+          <a class="bc-amazon" href="https://ottawa.bibliocommons.com/v2/search?query=${encodeURIComponent(b.title + ' ' + (b.author||''))}&searchType=keyword" target="_blank" onclick="event.stopPropagation()" style="margin-top:4px;border-color:#1a3a5c;color:#1a3a5c;">🏛️ Find at Ottawa Library</a>
         </div>
       </div>`}).join('');
     const listRows = sectionBooks.map(b => `
