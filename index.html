@@ -1512,10 +1512,20 @@ function signInWithGoogle() {
 function signOut() { fbSignOut(auth); }
 // ── Firebase write helpers ────────────────────────────────────────────────────
 function fbAdd(data) {
-  push(booksRef, { ...data, added: new Date().toISOString() })
+  const readDate = data.status === 'read' ? new Date().toISOString() : null;
+  push(booksRef, { ...data, added: new Date().toISOString(), ...(readDate ? { readDate } : {}) })
     .catch(e => { alert('Could not save: ' + e.message); });
 }
-function fbUpdate(key, data){ update(ref(db, `books/${key}`), data); }
+function fbUpdate(key, data) {
+  // If status is being set to 'read' and no readDate exists, record it now
+  const book = books.find(b => b._key === key);
+  if (data.status === 'read' && (!book || !book.readDate)) {
+    data.readDate = new Date().toISOString();
+  } else if (data.status !== 'read') {
+    data.readDate = null;
+  }
+  update(ref(db, `books/${key}`), data);
+}
 function fbDelete(key)      { remove(ref(db, `books/${key}`)); }
 // ── Dewey classes ─────────────────────────────────────────────────────────────
 const DEWEY_CLASSES = [
@@ -1627,7 +1637,8 @@ window.setOwnerFilter = setOwnerFilter;
 let readingGoal = parseInt(localStorage.getItem('spine-reading-goal') || '12');
 function renderGoal() {
   const pool = ownerFilteredBooks();
-  const read = pool.filter(b => b.status === 'read').length;
+  const year = new Date().getFullYear();
+  const read = pool.filter(b => b.status === 'read' && b.readDate && new Date(b.readDate).getFullYear() === year).length;
   const pct  = Math.min(100, Math.round((read / readingGoal) * 100));
   const done = read >= readingGoal;
   document.getElementById('goal-bar').innerHTML = `
