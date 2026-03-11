@@ -1813,7 +1813,9 @@ function searchBooks(query) {
       .then(r => r.json())
       .then(data => {
         if (!data.items) { box.innerHTML = '<div class="book-suggestion" style="color:#888;font-style:italic;">No results found.</div>'; return; }
-        box.innerHTML = data.items.map((item, i) => {
+        box.innerHTML = `<div style="text-align:right;padding:4px 8px;border-bottom:1px solid #e8d8b0;">
+          <span onclick="document.getElementById('book-suggestions').innerHTML=''" style="cursor:pointer;font-size:0.8rem;color:var(--brown);font-family:'Courier Prime',monospace;letter-spacing:0.05em;">✕ close</span>
+        </div>` + data.items.map((item, i) => {
           const info   = item.volumeInfo;
           const title  = info.title || '';
           const author = (info.authors || []).join(', ');
