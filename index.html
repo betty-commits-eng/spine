@@ -1807,24 +1807,23 @@ function searchBooks(query) {
   clearTimeout(searchTimer);
   const box = document.getElementById('book-suggestions');
   if (!query || query.length < 3) { box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="book-suggestion" style="color:#888;font-style:italic;">Searching…</div>';
   searchTimer = setTimeout(() => {
     fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6&printType=books`)
       .then(r => r.json())
       .then(data => {
-        if (!data.items) { box.innerHTML = ''; return; }
+        if (!data.items) { box.innerHTML = '<div class="book-suggestion" style="color:#888;font-style:italic;">No results found.</div>'; return; }
         box.innerHTML = data.items.map((item, i) => {
           const info   = item.volumeInfo;
           const title  = info.title || '';
           const author = (info.authors || []).join(', ');
           const year   = info.publishedDate ? info.publishedDate.substring(0,4) : '';
-          const cats   = info.categories || [];
-          return `<div class="book-suggestion" onclick="selectBook(${i})">
+          return `<div class="book-suggestion" onclick="window.selectBook(${i})">
             <div class="sug-title">${title}</div>
             <div class="sug-author">${author}</div>
             <div class="sug-year">${year}</div>
           </div>`;
         }).join('');
-        // Store results for selection
         window._bookResults = data.items.map(item => {
           const info = item.volumeInfo;
           return {
@@ -1835,7 +1834,7 @@ function searchBooks(query) {
           };
         });
       })
-      .catch(() => { box.innerHTML = ''; });
+      .catch(() => { box.innerHTML = '<div class="book-suggestion" style="color:#888;font-style:italic;">Search unavailable.</div>'; });
   }, 400);
 }
 function selectBook(i) {
