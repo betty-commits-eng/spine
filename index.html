@@ -783,6 +783,82 @@
   .bc-actions button:hover { background: var(--brown); color: var(--cream); }
   .bc-actions button.delete { border-color: var(--red); color: var(--red); }
   .bc-actions button.delete:hover { background: var(--red); color: var(--cream); }
+  /* Reading goal bar */
+  .goal-bar {
+    background: linear-gradient(180deg, #d4c090, #c4b080);
+    border: 2px solid #8a6530;
+    border-top: 4px solid #a07840;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  }
+  .goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .goal-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+  .goal-fraction {
+    font-family: 'Special Elite', cursive;
+    font-size: 0.9rem;
+    color: var(--dark-brown);
+  }
+  .goal-track {
+    background: #e8d8b0;
+    border: 1px solid #c4a060;
+    height: 12px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .goal-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2d5a27, #3a7a3a);
+    transition: width 0.5s ease;
+    min-width: 2px;
+  }
+  .goal-fill.complete { background: linear-gradient(90deg, #c8960c, #e6b820); }
+  .goal-edit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .goal-edit input {
+    width: 70px;
+    padding: 3px 6px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    border: 1px solid #c4a060;
+    background: #f5edd8;
+    color: var(--dark-brown);
+    text-align: center;
+  }
+  .goal-edit button {
+    padding: 3px 10px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--brown);
+    background: var(--parchment);
+    color: var(--brown);
+    cursor: pointer;
+  }
+  .goal-edit button:hover { background: var(--brown); color: var(--cream); }
+  .goal-congrats {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: #c8960c;
+    margin-top: 6px;
+  }
   /* Review text on card */
   .bc-review {
     font-style: italic;
@@ -1233,6 +1309,7 @@
   </div>
   <!-- Stats -->
   <div class="stats-bar" id="stats-bar"></div>
+  <div class="goal-bar" id="goal-bar"></div>
   <!-- Owner Filter Tabs -->
   <div class="owner-tabs">
     <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')">
@@ -1546,6 +1623,37 @@ function setOwnerFilter(f) {
   renderAll();
 }
 window.setOwnerFilter = setOwnerFilter;
+// ── Reading Goal ──────────────────────────────────────────────────────────────
+let readingGoal = parseInt(localStorage.getItem('spine-reading-goal') || '12');
+function renderGoal() {
+  const pool = ownerFilteredBooks();
+  const read = pool.filter(b => b.status === 'read').length;
+  const pct  = Math.min(100, Math.round((read / readingGoal) * 100));
+  const done = read >= readingGoal;
+  document.getElementById('goal-bar').innerHTML = `
+    <div class="goal-header">
+      <span class="goal-label">📖 ${new Date().getFullYear()} Reading Goal</span>
+      <span class="goal-fraction">${read} / ${readingGoal} books</span>
+    </div>
+    <div class="goal-track">
+      <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
+    </div>
+    ${done ? '<div class="goal-congrats">🎉 Goal achieved! Magnificent reading!</div>' : ''}
+    <div class="goal-edit">
+      <span class="goal-label">Set goal:</span>
+      <input type="number" id="goal-input" value="${readingGoal}" min="1" max="365">
+      <button onclick="window._setGoal()">Update</button>
+    </div>
+  `;
+}
+window._setGoal = function() {
+  const val = parseInt(document.getElementById('goal-input').value);
+  if (val > 0) {
+    readingGoal = val;
+    localStorage.setItem('spine-reading-goal', val);
+    renderGoal();
+  }
+};
 // ── Render ────────────────────────────────────────────────────────────────────
 function renderStats() {
   // Stats respect the owner filter so counts match what's shown
@@ -1565,6 +1673,7 @@ function renderStats() {
 }
 function renderAll() {
   renderStats();
+  renderGoal();
   const fb  = filteredBooks();
   const lib = document.getElementById('library');
   const sectionsWithBooks = DEWEY_CLASSES.filter(cls => fb.some(b => b.dewey === cls.num));
