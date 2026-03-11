@@ -859,6 +859,30 @@
     color: #c8960c;
     margin-top: 6px;
   }
+  /* Book search autocomplete */
+  .book-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: #f5edd8;
+    border: 1px solid #c4a060;
+    border-top: none;
+    z-index: 100;
+    max-height: 280px;
+    overflow-y: auto;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+  }
+  .book-suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #e8d8b0;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.82rem;
+  }
+  .book-suggestion:hover { background: #ede0c4; }
+  .book-suggestion .sug-title { font-weight: bold; color: var(--dark-brown); }
+  .book-suggestion .sug-author { color: var(--brown); font-size: 0.75rem; font-style: italic; }
+  .book-suggestion .sug-year { color: #888; font-size: 0.72rem; }
   /* Review text on card */
   .bc-review {
     font-style: italic;
@@ -1261,9 +1285,10 @@
 <div class="main-wrap">
   <!-- Add Book Form -->
   <div class="controls">
-    <div class="field wide">
-      <label>Title</label>
-      <input type="text" id="inp-title" placeholder="Book title...">
+    <div class="field wide" style="position:relative;">
+      <label>Title <span style="font-size:0.65rem;color:var(--brown);font-style:italic;">— type to search books automatically</span></label>
+      <input type="text" id="inp-title" placeholder="Search by title or author..." autocomplete="off" oninput="searchBooks(this.value)">
+      <div id="book-suggestions" class="book-suggestions"></div>
     </div>
     <div class="field">
       <label>Author</label>
@@ -1776,6 +1801,66 @@ function setView(mode) {
   document.getElementById('btn-list').classList.toggle('active',  mode==='list');
   renderAll();
 }
+// ── Book Search Autocomplete ──────────────────────────────────────────────────
+let searchTimer = null;
+function searchBooks(query) {
+  clearTimeout(searchTimer);
+  const box = document.getElementById('book-suggestions');
+  if (!query || query.length < 3) { box.innerHTML = ''; return; }
+  searchTimer = setTimeout(() => {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6&printType=books`)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.items) { box.innerHTML = ''; return; }
+        box.innerHTML = data.items.map((item, i) => {
+          const info   = item.volumeInfo;
+          const title  = info.title || '';
+          const author = (info.authors || []).join(', ');
+          const year   = info.publishedDate ? info.publishedDate.substring(0,4) : '';
+          const cats   = info.categories || [];
+          return `<div class="book-suggestion" onclick="selectBook(${i})">
+            <div class="sug-title">${title}</div>
+            <div class="sug-author">${author}</div>
+            <div class="sug-year">${year}</div>
+          </div>`;
+        }).join('');
+        // Store results for selection
+        window._bookResults = data.items.map(item => {
+          const info = item.volumeInfo;
+          return {
+            title:  info.title || '',
+            author: (info.authors || []).join(', '),
+            year:   info.publishedDate ? parseInt(info.publishedDate.substring(0,4)) : null,
+            dewey:  guessDewey(info.categories || [], info.title || '')
+          };
+        });
+      })
+      .catch(() => { box.innerHTML = ''; });
+  }, 400);
+}
+function selectBook(i) {
+  const b = window._bookResults[i];
+  document.getElementById('inp-title').value  = b.title;
+  document.getElementById('inp-author').value = b.author;
+  if (b.year) document.getElementById('inp-year').value = b.year;
+  if (b.dewey) document.getElementById('inp-dewey').value = b.dewey;
+  document.getElementById('book-suggestions').innerHTML = '';
+}
+function guessDewey(categories, title) {
+  const text = (categories.join(' ') + ' ' + title).toLowerCase();
+  if (text.match(/fiction|novel|literature|poetry|drama|short stor/)) return '800';
+  if (text.match(/histor|biograph|geography|travel/)) return '900';
+  if (text.match(/science|physics|chemistry|biology|math|nature/)) return '500';
+  if (text.match(/technolog|engineer|medicine|health|computer|programming/)) return '600';
+  if (text.match(/social|econom|law|politic|education|sociology/)) return '300';
+  if (text.match(/philosoph|psychology|self.help|mind/)) return '100';
+  if (text.match(/religion|spiritual|theolog|bible|quran/)) return '200';
+  if (text.match(/art|music|sport|game|film|cook/)) return '700';
+  if (text.match(/language|linguist|grammar|dictionary/)) return '400';
+  return '000';
+}
+window.searchBooks = searchBooks;
+window.selectBook  = selectBook;
 // ── Star rating picker interaction ────────────────────────────────────────────
 document.querySelectorAll('#edit-stars .star').forEach(star => {
   star.addEventListener('click', () => {
