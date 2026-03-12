@@ -807,17 +807,46 @@
     text-transform: uppercase;
     color: var(--brown);
   }
-  .goal-fraction {
-    font-family: 'Special Elite', cursive;
-    font-size: 0.9rem;
+  .goal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .goal-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.72rem;
     color: var(--dark-brown);
+    width: 60px;
+    flex-shrink: 0;
+  }
+  .goal-fraction {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    color: var(--brown);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .goal-editable {
+    cursor: pointer;
+    border-bottom: 1px dashed var(--brown);
+  }
+  .goal-editable:hover { color: var(--dark-brown); }
+  .goal-total {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #a07840;
   }
   .goal-track {
     background: #e8d8b0;
     border: 1px solid #c4a060;
-    height: 12px;
+    height: 8px;
     border-radius: 1px;
     overflow: hidden;
+    flex: 1;
   }
   .goal-fill {
     height: 100%;
@@ -826,34 +855,6 @@
     min-width: 2px;
   }
   .goal-fill.complete { background: linear-gradient(90deg, #c8960c, #e6b820); }
-  .goal-edit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .goal-edit input {
-    width: 70px;
-    padding: 3px 6px;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.8rem;
-    border: 1px solid #c4a060;
-    background: #f5edd8;
-    color: var(--dark-brown);
-    text-align: center;
-  }
-  .goal-edit button {
-    padding: 3px 10px;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid var(--brown);
-    background: var(--parchment);
-    color: var(--brown);
-    cursor: pointer;
-  }
-  .goal-edit button:hover { background: var(--brown); color: var(--cream); }
   .goal-congrats {
     font-family: 'IM Fell English', serif;
     font-style: italic;
@@ -1717,36 +1718,58 @@ function setOwnerFilter(f) {
 }
 window.setOwnerFilter = setOwnerFilter;
 // ── Reading Goal ──────────────────────────────────────────────────────────────
-let readingGoal = parseInt(localStorage.getItem('spine-reading-goal') || '12');
+const MEMBERS = [
+  { key: 'betty',   email: 'bettykwale@gmail.com',    label: 'Betty' },
+  { key: 'chelsey', email: 'chelseymcrory@gmail.com', label: 'Chelsey' },
+  { key: 'peter',   email: 'petersmcrory@gmail.com',  label: 'Peter' },
+  { key: 'ava',     email: 'ava',                     label: 'Ava' },
+];
+function getMemberGoal(key) {
+  return parseInt(localStorage.getItem(`spine-goal-${key}`) || '12');
+}
+function setMemberGoal(key, val) {
+  if (val > 0) localStorage.setItem(`spine-goal-${key}`, val);
+}
 function renderGoal() {
-  const pool = ownerFilteredBooks();
   const year = new Date().getFullYear();
-  const read = pool.filter(b => b.status === 'read' && b.readDate && new Date(b.readDate).getFullYear() === year).length;
-  const pct  = Math.min(100, Math.round((read / readingGoal) * 100));
-  const done = read >= readingGoal;
+  let totalRead = 0, totalGoal = 0;
+  const rows = MEMBERS.map(m => {
+    const read = books.filter(b =>
+      (b.addedBy === m.email) &&
+      b.status === 'read' && b.readDate &&
+      new Date(b.readDate).getFullYear() === year
+    ).length;
+    const goal = getMemberGoal(m.key);
+    const pct  = Math.min(100, Math.round((read / goal) * 100));
+    const done = read >= goal;
+    totalRead += read;
+    totalGoal += goal;
+    return `
+      <div class="goal-row">
+        <div class="goal-name">${m.label}</div>
+        <div class="goal-track" style="flex:1;">
+          <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
+        </div>
+        <div class="goal-fraction">${read} / <span class="goal-editable" onclick="window._editGoal('${m.key}', ${goal}, this)">${goal}</span> ✎</div>
+      </div>`;
+  }).join('');
+  const totalPct = Math.min(100, Math.round((totalRead / totalGoal) * 100));
   document.getElementById('goal-bar').innerHTML = `
     <div class="goal-header">
-      <span class="goal-label">📖 ${new Date().getFullYear()} Reading Goal</span>
-      <span class="goal-fraction">${read} / ${readingGoal} books</span>
+      <span class="goal-label">📖 ${year} Reading Goals</span>
     </div>
-    <div class="goal-track">
-      <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
-    </div>
-    ${done ? '<div class="goal-congrats">🎉 Goal achieved! Magnificent reading!</div>' : ''}
-    <div class="goal-edit">
-      <span class="goal-label">Set goal:</span>
-      <input type="number" id="goal-input" value="${readingGoal}" min="1" max="365">
-      <button onclick="window._setGoal()">Update</button>
+    ${rows}
+    <div class="goal-total">
+      <div class="goal-track" style="flex:1;">
+        <div class="goal-fill complete" style="width:${totalPct}%;opacity:0.6;"></div>
+      </div>
+      <div class="goal-fraction" style="font-weight:bold;">Family: ${totalRead} / ${totalGoal} books</div>
     </div>
   `;
 }
-window._setGoal = function() {
-  const val = parseInt(document.getElementById('goal-input').value);
-  if (val > 0) {
-    readingGoal = val;
-    localStorage.setItem('spine-reading-goal', val);
-    renderGoal();
-  }
+window._editGoal = function(key, current, el) {
+  const newVal = parseInt(prompt(`Set ${key.charAt(0).toUpperCase() + key.slice(1)}'s 2026 goal:`, current));
+  if (newVal > 0) { setMemberGoal(key, newVal); renderGoal(); }
 };
 // ── Render ────────────────────────────────────────────────────────────────────
 function renderStats() {
