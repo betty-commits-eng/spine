@@ -592,8 +592,9 @@
     cursor: pointer;
     transition: transform 0.25s ease, filter 0.25s ease;
     flex-shrink: 0;
+    z-index: 1;
   }
-  .book:hover { transform: translateY(-14px); filter: brightness(1.15); }
+  .book:hover { transform: translateY(-14px); filter: brightness(1.15); z-index: 200; }
   .book-spine {
     width: 38px;
     display: flex;
@@ -712,13 +713,14 @@
     bottom: calc(100% + 4px); /* reduced gap */
     left: 50%;
     transform: translateX(-50%);
-    background: var(--cream);
+    background: #f5edd8;
     border: 2px solid var(--brown);
     padding: 14px;
-    width: 220px;
-    z-index: 100;
+    width: 260px;
+    z-index: 1000;
     box-shadow: 4px 4px 0 var(--dark-brown);
     text-align: left;
+    isolation: isolate;
   }
   /* Transparent bridge fills the gap so mouse doesn't leave .book */
   .book-card::after {
