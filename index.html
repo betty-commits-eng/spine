@@ -1752,7 +1752,7 @@ function renderGoal() {
   const done = totalRead >= totalGoal;
   const activeMember = activeMembers[0];
   const canEdit = ownerFilter !== 'all' && activeMember && activeMember.email === currentUserEmail;
-  const editBtn = canEdit ? `<span onclick="window._editGoal('${activeMember.key}', ${totalGoal})" style="cursor:pointer;font-size:0.85rem;margin-left:6px;color:var(--brown);" title="Edit goal">✎</span>` : '';
+  const editBtn = canEdit ? `<span onclick="window._editGoal('${activeMember.key}', ${totalGoal})" style="cursor:pointer;font-size:1.1rem;margin-left:8px;color:var(--dark-brown);font-weight:bold;" title="Edit goal">✎</span>` : '';
   document.getElementById('goal-bar').innerHTML = `
     <div class="goal-header">
       <span class="goal-label">📖 ${year} ${label} Reading Goal</span>
