@@ -1466,6 +1466,10 @@
     <input type="hidden" id="edit-rating" value="0">
     <label id="edit-readdate-label" style="display:none;">Date Read</label>
     <input type="date" id="edit-readdate" style="display:none;">
+    <label>Book Cover</label>
+    <div id="edit-cover-preview" style="margin-bottom:6px;"></div>
+    <button type="button" onclick="window.findCover()" style="width:100%;padding:5px;background:#f5edd8;border:1px solid var(--brown);color:var(--brown);font-family:'Libre Baskerville',serif;font-size:0.75rem;cursor:pointer;letter-spacing:0.05em;">🔍 Find Cover Image</button>
+    <input type="hidden" id="edit-cover" value="">
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" onclick="saveEdit()">Save Changes</button>
@@ -1506,9 +1510,11 @@ let viewMode = 'shelf';
 let collapsedSections = new Set();
 let dbUnsubscribe = null;
 let ownerFilter = 'all';
+let currentUserEmail = '';
 // ── Auth state ────────────────────────────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
   if (user && (ALLOWED_EMAILS.length === 0 || ALLOWED_EMAILS.includes(user.email))) {
+    currentUserEmail = user.email;
     document.getElementById('login-screen').classList.remove('show');
     document.getElementById('login-error').classList.remove('show');
     document.getElementById('user-bar').style.display = 'flex';
@@ -1615,7 +1621,8 @@ function addBook() {
   if (addingForEl && addingForEl.closest('.adding-for-row').classList.contains('show')) {
     if (addingForEl.value === 'ava') addedBy = 'ava';
   }
-  fbAdd({ title, author, dewey, status, year: year ? parseInt(year) : null, notes: '', addedBy });
+  fbAdd({ title, author, dewey, status, year: year ? parseInt(year) : null, notes: '', addedBy, coverImage: window._pendingCover || null });
+  window._pendingCover = null;
   document.getElementById('inp-title').value  = '';
   document.getElementById('inp-author').value = '';
   document.getElementById('inp-dewey').value  = '';
@@ -1642,6 +1649,9 @@ function openEdit(key) {
   });
   toggleReadDate(b.status);
   document.getElementById('edit-readdate').value = b.readDate ? b.readDate.substring(0, 10) : new Date().toISOString().substring(0, 10);
+  document.getElementById('edit-cover').value = b.coverImage || '';
+  const preview = document.getElementById('edit-cover-preview');
+  preview.innerHTML = b.coverImage ? `<img src="${b.coverImage}" alt="Cover" style="height:80px;border:1px solid #c8a96e;">` : '<span style="font-size:0.75rem;color:#888;font-style:italic;">No cover image</span>';
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
@@ -1658,6 +1668,7 @@ function saveEdit() {
     readDate: document.getElementById('edit-status').value === 'read'
       ? (document.getElementById('edit-readdate').value ? new Date(document.getElementById('edit-readdate').value).toISOString() : new Date().toISOString())
       : null,
+    coverImage: document.getElementById('edit-cover').value || null,
   });
   closeModal();
 }
@@ -1791,6 +1802,7 @@ function renderAll() {
           <div class="book-band-bottom"></div>
         </div>
         <div class="book-card">
+          ${b.coverImage ? `<img src="${b.coverImage}" alt="Cover" style="width:80px;float:right;margin:0 0 8px 10px;border:1px solid #c8a96e;box-shadow:2px 2px 4px rgba(0,0,0,0.2);">` : ''}
           <h4>${b.title}</h4>
           <div class="bc-author">${b.author || 'Unknown Author'}</div>
           <div class="bc-meta">Dewey: ${b.dewey} · ${b.year || 'n.d.'}</div>
@@ -1799,8 +1811,10 @@ function renderAll() {
           ${b.rating ? `<div style="color:#c8960c;font-size:1rem;margin-top:4px;">${'★'.repeat(b.rating)}<span style="color:#ddd;">${'★'.repeat(5-b.rating)}</span></div>` : `<div style="color:#ddd;font-size:1rem;margin-top:4px;">☆☆☆☆☆</div>`}
           ${b.notes ? `<div class="bc-review">"${b.notes}"</div>` : ''}
           <div class="bc-actions">
+            ${(b.addedBy === currentUserEmail || (currentUserEmail === 'chelseymcrory@gmail.com' && b.addedBy === 'ava')) ? `
             <button onclick="event.stopPropagation();window._openEdit('${b._key}')">Edit</button>
             <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
+            ` : `<div style="font-size:0.7rem;color:#aaa;font-style:italic;text-align:center;padding:4px 0;">View only</div>`}
           </div>
           <a class="bc-amazon" href="https://www.amazon.com/s?k=${encodeURIComponent(b.title + ' ' + (b.author||''))}" target="_blank" onclick="event.stopPropagation()">🛒 Buy on Amazon</a>
           <div class="library-dropdown" onclick="event.stopPropagation()">
@@ -1877,11 +1891,13 @@ function searchBooks(query) {
         }).join('');
         window._bookResults = data.items.map(item => {
           const info = item.volumeInfo;
+          const thumb = info.imageLinks ? (info.imageLinks.thumbnail || info.imageLinks.smallThumbnail || null) : null;
           return {
-            title:  info.title || '',
-            author: (info.authors || []).join(', '),
-            year:   info.publishedDate ? parseInt(info.publishedDate.substring(0,4)) : null,
-            dewey:  guessDewey(info.categories || [], info.title || '')
+            title:      info.title || '',
+            author:     (info.authors || []).join(', '),
+            year:       info.publishedDate ? parseInt(info.publishedDate.substring(0,4)) : null,
+            dewey:      guessDewey(info.categories || [], info.title || ''),
+            coverImage: thumb ? thumb.replace('http://', 'https://') : null
           };
         });
       })
@@ -1892,8 +1908,9 @@ function selectBook(i) {
   const b = window._bookResults[i];
   document.getElementById('inp-title').value  = b.title;
   document.getElementById('inp-author').value = b.author;
-  if (b.year) document.getElementById('inp-year').value = b.year;
+  if (b.year)  document.getElementById('inp-year').value  = b.year;
   if (b.dewey) document.getElementById('inp-dewey').value = b.dewey;
+  window._pendingCover = b.coverImage || null;
   document.getElementById('book-suggestions').innerHTML = '';
 }
 function guessDewey(categories, title) {
@@ -1909,6 +1926,23 @@ function guessDewey(categories, title) {
   if (text.match(/language|linguist|grammar|dictionary/)) return '400';
   return '000';
 }
+window.findCover = function() {
+  const title  = document.getElementById('edit-title').value.trim();
+  const author = document.getElementById('edit-author').value.trim();
+  if (!title) { alert('Please enter a title first.'); return; }
+  fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title + ' ' + author)}&maxResults=1&printType=books`)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.items) { alert('No cover found.'); return; }
+      const info  = data.items[0].volumeInfo;
+      const thumb = info.imageLinks ? (info.imageLinks.thumbnail || info.imageLinks.smallThumbnail || null) : null;
+      if (!thumb) { alert('No cover found.'); return; }
+      const url = thumb.replace('http://', 'https://');
+      document.getElementById('edit-cover').value = url;
+      document.getElementById('edit-cover-preview').innerHTML = `<img src="${url}" alt="Cover" style="height:80px;border:1px solid #c8a96e;">`;
+    })
+    .catch(() => alert('Could not fetch cover.'));
+};
 window.toggleReadDate = function(status) {
   const show = status === 'read';
   document.getElementById('edit-readdate-label').style.display = show ? '' : 'none';
