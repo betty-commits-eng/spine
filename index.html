@@ -1736,7 +1736,10 @@ function setMemberGoal(key, val) {
 function renderGoal() {
   const year = new Date().getFullYear();
   let totalRead = 0, totalGoal = 0;
-  MEMBERS.forEach(m => {
+  // Filter members based on current owner tab
+  const activeMembers = ownerFilter === 'all' ? MEMBERS : MEMBERS.filter(m => m.key === ownerFilter);
+  const label = ownerFilter === 'all' ? 'Family' : (activeMembers[0] ? activeMembers[0].label + "'s" : 'Family');
+  activeMembers.forEach(m => {
     const read = books.filter(b =>
       (b.addedBy === m.email) &&
       b.status === 'read' && b.readDate &&
@@ -1749,13 +1752,13 @@ function renderGoal() {
   const done = totalRead >= totalGoal;
   document.getElementById('goal-bar').innerHTML = `
     <div class="goal-header">
-      <span class="goal-label">📖 ${year} Family Reading Goal</span>
+      <span class="goal-label">📖 ${year} ${label} Reading Goal</span>
       <span class="goal-fraction">${totalRead} / ${totalGoal} books</span>
     </div>
     <div class="goal-track">
       <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
     </div>
-    ${done ? '<div class="goal-congrats">🎉 Family goal achieved!</div>' : ''}
+    ${done ? `<div class="goal-congrats">🎉 ${label} goal achieved!</div>` : ''}
   `;
 }
 window._editGoal = function(key, current, el) {
