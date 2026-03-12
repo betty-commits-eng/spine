@@ -1425,7 +1425,7 @@
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="close-modal" onclick="closeModal()">×</button>
-    <h3>Edit Book</h3>
+    <h3 id="modal-title">Edit Book</h3>
     <input type="hidden" id="edit-id">
     <label>Title</label>
     <input type="text" id="edit-title">
@@ -1455,7 +1455,7 @@
     <input type="number" id="edit-year" min="1000" max="2099">
     <label>Notes</label>
     <textarea id="edit-notes" rows="3" placeholder="Personal notes..."></textarea>
-    <label>Your Rating</label>
+    <label>Rating</label>
     <div class="star-picker" id="edit-stars">
       <span class="star" data-val="1">★</span>
       <span class="star" data-val="2">★</span>
@@ -1468,9 +1468,9 @@
     <input type="date" id="edit-readdate" style="display:none;">
     <label>Book Cover</label>
     <div id="edit-cover-preview" style="margin-bottom:6px;"></div>
-    <button type="button" onclick="window.findCover()" style="width:100%;padding:5px;background:#f5edd8;border:1px solid var(--brown);color:var(--brown);font-family:'Libre Baskerville',serif;font-size:0.75rem;cursor:pointer;letter-spacing:0.05em;">🔍 Find Cover Image</button>
+    <button type="button" id="find-cover-btn" onclick="window.findCover()" style="width:100%;padding:5px;background:#f5edd8;border:1px solid var(--brown);color:var(--brown);font-family:'Libre Baskerville',serif;font-size:0.75rem;cursor:pointer;letter-spacing:0.05em;">🔍 Find Cover Image</button>
     <input type="hidden" id="edit-cover" value="">
-    <div class="modal-actions">
+    <div class="modal-actions" id="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" onclick="saveEdit()">Save Changes</button>
     </div>
@@ -1632,7 +1632,7 @@ function deleteBook(key) {
   if (!confirm('Remove this book from your collection?')) return;
   fbDelete(key);
 }
-function openEdit(key) {
+function openEdit(key, viewOnly = false) {
   const b = books.find(x => x._key === key);
   if (!b) return;
   document.getElementById('edit-id').value     = key;
@@ -1652,6 +1652,13 @@ function openEdit(key) {
   document.getElementById('edit-cover').value = b.coverImage || '';
   const preview = document.getElementById('edit-cover-preview');
   preview.innerHTML = b.coverImage ? `<img src="${b.coverImage}" alt="Cover" style="height:80px;border:1px solid #c8a96e;">` : '<span style="font-size:0.75rem;color:#888;font-style:italic;">No cover image</span>';
+  // View-only mode — disable all fields and hide save button
+  const fields = ['edit-title','edit-author','edit-dewey','edit-status','edit-year','edit-notes','edit-readdate'];
+  fields.forEach(id => { document.getElementById(id).disabled = viewOnly; });
+  document.querySelectorAll('#edit-stars .star').forEach(s => s.style.pointerEvents = viewOnly ? 'none' : '');
+  document.getElementById('find-cover-btn').style.display = viewOnly ? 'none' : '';
+  document.getElementById('modal-actions').style.display = viewOnly ? 'none' : '';
+  document.getElementById('modal-title').textContent = viewOnly ? 'Book Details' : 'Edit Book';
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
@@ -1812,9 +1819,11 @@ function renderAll() {
           ${b.notes ? `<div class="bc-review">"${b.notes}"</div>` : ''}
           <div class="bc-actions">
             ${(b.addedBy === currentUserEmail || (currentUserEmail === 'chelseymcrory@gmail.com' && b.addedBy === 'ava')) ? `
-            <button onclick="event.stopPropagation();window._openEdit('${b._key}')">Edit</button>
+            <button onclick="event.stopPropagation();window._openEdit('${b._key}', false)">Edit</button>
             <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
-            ` : `<div style="font-size:0.7rem;color:#aaa;font-style:italic;text-align:center;padding:4px 0;">View only</div>`}
+            ` : `
+            <button onclick="event.stopPropagation();window._openEdit('${b._key}', true)" style="width:100%;">View Details</button>
+            `}
           </div>
           <a class="bc-amazon" href="https://www.amazon.com/s?k=${encodeURIComponent(b.title + ' ' + (b.author||''))}" target="_blank" onclick="event.stopPropagation()">🛒 Buy on Amazon</a>
           <div class="library-dropdown" onclick="event.stopPropagation()">
