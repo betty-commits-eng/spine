@@ -1750,10 +1750,13 @@ function renderGoal() {
   });
   const pct  = Math.min(100, Math.round((totalRead / totalGoal) * 100));
   const done = totalRead >= totalGoal;
+  const activeMember = activeMembers[0];
+  const canEdit = ownerFilter !== 'all' && activeMember && activeMember.email === currentUserEmail;
+  const editBtn = canEdit ? `<span onclick="window._editGoal('${activeMember.key}', ${totalGoal})" style="cursor:pointer;font-size:0.85rem;margin-left:6px;color:var(--brown);" title="Edit goal">✎</span>` : '';
   document.getElementById('goal-bar').innerHTML = `
     <div class="goal-header">
       <span class="goal-label">📖 ${year} ${label} Reading Goal</span>
-      <span class="goal-fraction">${totalRead} / ${totalGoal} books</span>
+      <span class="goal-fraction">${totalRead} / ${totalGoal} books${editBtn}</span>
     </div>
     <div class="goal-track">
       <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
