@@ -812,6 +812,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 5px;
+    width: 100%;
   }
   .goal-name {
     font-family: 'Libre Baskerville', serif;
@@ -839,6 +840,7 @@
     margin-top: 8px;
     padding-top: 8px;
     border-top: 1px solid #a07840;
+    width: 100%;
   }
   .goal-track {
     background: #e8d8b0;
@@ -847,6 +849,7 @@
     border-radius: 1px;
     overflow: hidden;
     flex: 1;
+    min-width: 0;
   }
   .goal-fill {
     height: 100%;
@@ -1733,38 +1736,26 @@ function setMemberGoal(key, val) {
 function renderGoal() {
   const year = new Date().getFullYear();
   let totalRead = 0, totalGoal = 0;
-  const rows = MEMBERS.map(m => {
+  MEMBERS.forEach(m => {
     const read = books.filter(b =>
       (b.addedBy === m.email) &&
       b.status === 'read' && b.readDate &&
       new Date(b.readDate).getFullYear() === year
     ).length;
-    const goal = getMemberGoal(m.key);
-    const pct  = Math.min(100, Math.round((read / goal) * 100));
-    const done = read >= goal;
     totalRead += read;
-    totalGoal += goal;
-    return `
-      <div class="goal-row">
-        <div class="goal-name">${m.label}</div>
-        <div class="goal-track" style="flex:1;">
-          <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
-        </div>
-        <div class="goal-fraction">${read} / <span class="goal-editable" onclick="window._editGoal('${m.key}', ${goal}, this)">${goal}</span> ✎</div>
-      </div>`;
-  }).join('');
-  const totalPct = Math.min(100, Math.round((totalRead / totalGoal) * 100));
+    totalGoal += getMemberGoal(m.key);
+  });
+  const pct  = Math.min(100, Math.round((totalRead / totalGoal) * 100));
+  const done = totalRead >= totalGoal;
   document.getElementById('goal-bar').innerHTML = `
     <div class="goal-header">
-      <span class="goal-label">📖 ${year} Reading Goals</span>
+      <span class="goal-label">📖 ${year} Family Reading Goal</span>
+      <span class="goal-fraction">${totalRead} / ${totalGoal} books</span>
     </div>
-    ${rows}
-    <div class="goal-total">
-      <div class="goal-track" style="flex:1;">
-        <div class="goal-fill complete" style="width:${totalPct}%;opacity:0.6;"></div>
-      </div>
-      <div class="goal-fraction" style="font-weight:bold;">Family: ${totalRead} / ${totalGoal} books</div>
+    <div class="goal-track">
+      <div class="goal-fill ${done ? 'complete' : ''}" style="width:${pct}%"></div>
     </div>
+    ${done ? '<div class="goal-congrats">🎉 Family goal achieved!</div>' : ''}
   `;
 }
 window._editGoal = function(key, current, el) {
