@@ -87,7 +87,7 @@
   /* Subtle warm top glow */
   .bookshelf::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50px; background: linear-gradient(180deg, rgba(140,80,20,0.08) 0%, transparent 100%); pointer-events: none; z-index: 0; }
   /* Shelf plank — muted walnut, not gold */
-  .bookshelf::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 14px; background: linear-gradient(180deg, #3a2010 0%, #4a2a14 50%, #3a1e0c 100%); border-top: 1px solid #5a3418; border-radius: 0 0 2px 2px; box-shadow: 0 3px 8px rgba(0,0,0,0.7); }
+  .bookshelf::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 14px; background: linear-gradient(180deg, #2e1a0a 0%, #38200e 50%, #2a180a 100%); border-top: 1px solid #4a2e14; border-radius: 0 0 2px 2px; box-shadow: 0 3px 8px rgba(0,0,0,0.7); }
   .books-row { display:flex; gap:4px; flex-wrap:wrap; align-items:flex-end; min-height:120px; }
 
   /* ── Embossed leather spines ── */
@@ -500,16 +500,16 @@ function renderAll(){
     // 5 antique colour families — all heavily desaturated and earthy
     // Sequence clusters 2-3 of the same family before shifting, creating natural shelf rhythm
     const vintageColors=[
-      {base:'#280808',mid:'#4e1010',hi:'#641818'},  // oxblood
-      {base:'#2c0808',mid:'#541212',hi:'#6c1c1c'},  // oxblood variant
-      {base:'#0a180a',mid:'#182c16',hi:'#224020'},  // forest green
-      {base:'#0c1c0c',mid:'#1c3018',hi:'#284824'},  // forest variant
-      {base:'#080e1a',mid:'#101c2e',hi:'#182840'},  // navy
-      {base:'#0a1020',mid:'#141e30',hi:'#1c2c44'},  // navy variant
-      {base:'#1c0e04',mid:'#341c08',hi:'#4a280c'},  // saddle brown
-      {base:'#180c04',mid:'#2e1806',hi:'#42240a'},  // brown variant
-      {base:'#280808',mid:'#4e1010',hi:'#641818'},  // oxblood repeat
-      {base:'#0a180a',mid:'#182c16',hi:'#224020'},  // forest repeat
+      {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood
+      {base:'#2c0808',mid:'#541212',hi:'#802828'},  // oxblood variant
+      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest green
+      {base:'#0c1c0c',mid:'#1c3018',hi:'#306030'},  // forest variant
+      {base:'#080e1a',mid:'#101c2e',hi:'#1e3450'},  // navy
+      {base:'#0a1020',mid:'#141e30',hi:'#22345a'},  // navy variant
+      {base:'#1c0e04',mid:'#341c08',hi:'#583010'},  // saddle brown
+      {base:'#180c04',mid:'#2e1806',hi:'#4e2c0e'},  // brown variant
+      {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood repeat
+      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest repeat
     ];
     const heights=[110,125,115,135,108,130,120,118,128,112];
     const spines=sectionBooks.map((b,i)=>{
