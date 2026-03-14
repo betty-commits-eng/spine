@@ -107,7 +107,7 @@
   .book-mid-groove { width:100%; height:6px; flex-shrink:0; position:relative; z-index:2; background:linear-gradient(180deg,rgba(0,0,0,0.5) 0%,rgba(255,255,255,0.06) 40%,rgba(0,0,0,0.4) 100%); border-top:1px solid rgba(0,0,0,0.6); border-bottom:1px solid rgba(0,0,0,0.6); box-shadow:inset 0 1px 2px rgba(0,0,0,0.4); }
   .book-status-dot { width:9px; height:9px; border-radius:50%; border:1px solid rgba(0,0,0,0.5); flex-shrink:0; position:relative; z-index:4; margin-bottom:3px; box-shadow:0 1px 4px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.3); }
 
-  .book-card { display:none; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%); background:#f5edd8; border:2px solid var(--brown); padding:14px; width:260px; z-index:1000; box-shadow:4px 4px 0 var(--dark-brown); text-align:left; isolation:isolate; }
+  .book-card { display:none; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%) rotate(1deg); background:#f5edd8; border:2px solid var(--brown); padding:14px; width:260px; z-index:1000; box-shadow:4px 4px 0 var(--dark-brown); text-align:left; isolation:isolate; }
   .book-card::after { content:''; position:absolute; top:100%; left:0; right:0; height:12px; background:transparent; }
   .book:hover .book-card { display:block; }
   .book-card::before { content:''; position:absolute; bottom:-8px; left:50%; width:12px; height:12px; background:var(--cream); border-right:2px solid var(--brown); border-bottom:2px solid var(--brown); transform:translateX(-50%) rotate(45deg); }
