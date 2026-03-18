@@ -15,82 +15,30 @@
   :root { --ink:#1a1008; --cream:#f5edd8; --parchment:#ede0c4; --tan:#c9a96e; --brown:#7b4f2e; --dark-brown:#3d2314; --red:#8b2020; --green:#2d5a27; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background-color:#b5975a; background-image: repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%); font-family:'Libre Baskerville',serif; color:var(--ink); min-height:100vh; }
-  header {
-    background:
-      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 41px),
-      repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
-      linear-gradient(180deg, #1a0e06 0%, #221408 30%, #1e1006 60%, #160c04 100%);
-    border-bottom: 4px solid #3a2008;
-    padding: 0;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 6px 30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.04);
-  }
-  /* Top brass rail */
-  header::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; background:linear-gradient(180deg,#c49030,#8a6020,#b08028); box-shadow:0 2px 6px rgba(0,0,0,0.6); z-index:2; }
-  /* Bottom brass rail */
-  header::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:4px; background:linear-gradient(180deg,#b08028,#8a6020,#c49030); z-index:2; }
-  .header-inner { padding:16px 40px 14px; position:relative; display:flex; align-items:center; justify-content:center; }
-  /* Central ornate brass nameplate */
-  .header-nameplate {
-    position:relative;
-    background: linear-gradient(180deg, #5a3a10 0%, #3a2208 25%, #2a1806 50%, #3a2208 75%, #4a3010 100%);
-    border: 2px solid #a07828;
-    padding: 14px 80px;
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,220,100,0.2), inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 0 1px rgba(80,50,5,0.9), 0 0 30px rgba(180,120,20,0.1);
-  }
-  /* Outer border with curved ends */
-  .header-nameplate::before {
-    content:'';
-    position:absolute;
-    inset:-4px;
-    border: 1px solid rgba(180,130,30,0.5);
-    clip-path: polygon(24px 0%, calc(100% - 24px) 0%, 100% 50%, calc(100% - 24px) 100%, 24px 100%, 0% 50%);
-  }
-  /* Corner rivets using box-shadow */
-  .header-nameplate::after {
-    content:'';
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(circle 3px at 12px 50%, rgba(220,170,50,0.8) 0%, rgba(150,100,20,0.6) 60%, transparent 100%),
-      radial-gradient(circle 3px at calc(100% - 12px) 50%, rgba(220,170,50,0.8) 0%, rgba(150,100,20,0.6) 60%, transparent 100%);
-    pointer-events: none;
-  }
-  .header-nameplate-scroll {
-    color: rgba(220,175,50,0.85);
-    font-size: 1.4rem;
-    flex-shrink: 0;
-    text-shadow: 0 0 10px rgba(200,150,30,0.5);
-  }
-  .header-nameplate h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: rgba(240,200,90,0.98);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-shadow: 0 0 25px rgba(200,150,30,0.6), 0 2px 4px rgba(0,0,0,0.95), 0 0 2px rgba(255,220,80,0.3);
-    margin: 0;
-    white-space: nowrap;
-  }
-  .header-label-strip { background:linear-gradient(180deg,#1a1006 0%,#120c04 100%); border-top:1px solid #3a2208; border-bottom:1px solid #3a2208; padding:5px 40px; display:flex; justify-content:space-between; align-items:center; font-family:'Special Elite',cursive; font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(180,130,40,0.6); }
-  .header-label-strip span { opacity:0.7; }
-  .catalogue-plate { display:none; }
-  .catalogue-tabs-strip { display:none; }
-  .library-stamp { display:none; }
-  .sync { display:inline-block; margin-top:0; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; padding:3px 10px; border-radius:20px; font-family:'Libre Baskerville',serif; }
-  .sync.live { background:rgba(45,138,45,0.2); color:#6dba6d; border:1px solid rgba(45,138,45,0.4); }
-  .sync.connecting { background:rgba(230,160,32,0.15); color:#c6a86d; border:1px solid rgba(230,160,32,0.4); }
-  .sync.offline { background:rgba(139,32,32,0.2); color:#c97a7a; border:1px solid rgba(139,32,32,0.4); }
-  .user-bar { position:absolute; top:50%; right:20px; transform:translateY(-50%); display:flex; align-items:center; gap:10px; }
-  .user-avatar { width:30px; height:30px; border-radius:50%; border:1px solid rgba(180,130,40,0.5); object-fit:cover; }
-  .user-name { font-family:'IM Fell English',serif; font-style:italic; color:rgba(180,130,40,0.8); font-size:0.82rem; }
-  .sign-out-btn { background:transparent; border:1px solid rgba(180,130,40,0.4); color:rgba(180,130,40,0.8); padding:4px 10px; font-family:'Libre Baskerville',serif; font-size:0.68rem; letter-spacing:0.08em; cursor:pointer; transition:all 0.2s; }
-  .sign-out-btn:hover { background:rgba(180,130,40,0.2); }
+  header { background: linear-gradient(180deg, #2a1a08 0%, #3d2a10 40%, #2e1e0a 100%); border-bottom: 6px solid #8a6530; padding: 0; text-align: center; position: relative; box-shadow: 0 6px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); }
+  header::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(180deg,#d4a843,#a07830,#c49838); box-shadow:0 2px 4px rgba(0,0,0,0.4); z-index:2; }
+  header::after { content:''; position:absolute; bottom:-6px; left:0; right:0; height:6px; background:linear-gradient(180deg,#c49838,#a07830,#d4a843); z-index:2; }
+  .header-inner { padding:28px 40px 24px; position:relative; }
+  .header-nameplate { display:none; }
+  .header-label-strip { background:linear-gradient(180deg,#d4a843 0%,#c49030 50%,#b88020 100%); border-top:2px solid #e8c060; border-bottom:2px solid #8a5a10; padding:6px 40px; display:flex; justify-content:space-between; align-items:center; font-family:'Special Elite',cursive; font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:#3a2008; box-shadow:inset 0 1px 2px rgba(255,255,255,0.3),inset 0 -1px 2px rgba(0,0,0,0.2); }
+  .header-label-strip span { opacity:0.8; }
+  .catalogue-plate { display:inline-block; background:linear-gradient(135deg,#f5edd8,#e8d8b0); border:2px solid #8a6530; padding:4px 20px; font-family:'Special Elite',cursive; font-size:0.65rem; letter-spacing:0.2em; color:#3a2008; text-transform:uppercase; box-shadow:2px 2px 0 rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.6); margin-bottom:12px; }
+  header h1 { font-family:'Special Elite',cursive; font-size:3rem; color:var(--cream); letter-spacing:0.12em; text-shadow:2px 2px 0 rgba(0,0,0,0.6),0 0 20px rgba(212,168,67,0.2); text-transform:uppercase; }
+  header .subtitle { font-family:'Courier Prime',monospace; font-style:italic; color:#c9a96e; font-size:0.85rem; margin-top:4px; letter-spacing:0.18em; text-transform:uppercase; opacity:0.85; }
+  .catalogue-tabs-strip { display:flex; justify-content:center; gap:3px; margin-top:14px; padding:0 20px; }
+  .catalogue-tab-chip { background:linear-gradient(180deg,#e8d8b0,#d4c090); border:1px solid #8a6530; border-bottom:none; padding:3px 10px; font-family:'Special Elite',cursive; font-size:0.6rem; letter-spacing:0.1em; color:#3a2008; clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 100%,0% 100%); opacity:0.7; }
+  .library-stamp { position:absolute; top:28px; right:160px; width:80px; height:80px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:rotate(-8deg); color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.5rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.6; text-align:center; padding:6px; }
+  .library-stamp::before { content:''; position:absolute; inset:3px; border:1px solid rgba(180,60,40,0.3); border-radius:2px; }
+  .stamp-text-large { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; display:block; }
+  .sync { display:inline-block; margin-top:8px; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; padding:3px 12px; border-radius:20px; font-family:'Libre Baskerville',serif; }
+  .sync.live { background:rgba(45,138,45,0.25); color:#7dca7d; border:1px solid #2d8a2d; }
+  .sync.connecting { background:rgba(230,160,32,0.2); color:#e6c87d; border:1px solid #e6a020; }
+  .sync.offline { background:rgba(139,32,32,0.25); color:#d98a8a; border:1px solid #8b2020; }
+  .user-bar { position:absolute; top:16px; right:20px; display:flex; align-items:center; gap:10px; }
+  .user-avatar { width:32px; height:32px; border-radius:50%; border:2px solid var(--tan); object-fit:cover; }
+  .user-name { font-family:'IM Fell English',serif; font-style:italic; color:var(--tan); font-size:0.85rem; }
+  .sign-out-btn { background:transparent; border:1px solid var(--tan); color:var(--tan); padding:4px 10px; font-family:'Libre Baskerville',serif; font-size:0.7rem; letter-spacing:0.08em; cursor:pointer; transition:all 0.2s; }
+  .sign-out-btn:hover { background:var(--tan); color:var(--dark-brown); }
   #login-screen { display:none; position:fixed; inset:0; background:var(--dark-brown); background-image:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px),repeating-linear-gradient(transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px); z-index:500; align-items:center; justify-content:center; flex-direction:column; }
   #login-screen.show { display:flex; }
   .login-card { background:repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(180,140,60,0.15) 26px,rgba(180,140,60,0.15) 27px),linear-gradient(180deg,#f8f0dc,#f0e4c4); border:2px solid #8a6530; border-top:6px solid #a07840; padding:48px 40px; text-align:center; max-width:360px; width:90%; box-shadow:8px 8px 0 rgba(0,0,0,0.4); animation:slideIn 0.4s ease; position:relative; }
@@ -184,17 +132,10 @@
   .book-band-top::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
   .book-band-bottom { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-top:1px solid rgba(0,0,0,0.95); box-shadow:0 -3px 8px rgba(0,0,0,0.8),inset 0 -1px 0 rgba(255,255,255,0.12); }
   .book-band-bottom::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
-  /* Brass label */
-  .book-label { background:linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%); font-size:5.5px; font-family:'Courier Prime',monospace; font-weight:700; padding:2px 3px; text-align:center; width:calc(100% - 18px); letter-spacing:0.05em; line-height:1.3; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15),0 0 0 1px rgba(100,65,10,0.5); position:relative; z-index:4; flex-shrink:0;
-    /* Gold foil text */
-    background-clip: text; -webkit-background-clip: text;
-    color: transparent; -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(180deg, #fff6c0 0%, #d4af37 50%, #8c6b1f 100%);
-    /* Reset background for the box itself */
-  }
-  /* Separate element approach for gold text in label */
-  .book-label { background: linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%) !important; color: transparent !important; -webkit-text-fill-color: transparent !important; background-clip: unset !important; -webkit-background-clip: unset !important; position:relative; z-index:4; flex-shrink:0; }
-  .book-label span { background: linear-gradient(180deg, #fff6c0 0%, #e8c84a 40%, #c8960c 70%, #8c6b1f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 3px rgba(255,200,60,0.4)); }
+  /* Brass label — Dewey + author, slightly larger */
+  .book-label { background:linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%) !important; padding:3px 4px; text-align:center; width:calc(100% - 10px); letter-spacing:0.05em; line-height:1.5; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15),0 0 0 1px rgba(100,65,10,0.5); position:relative; z-index:4; flex-shrink:0; color:transparent; -webkit-text-fill-color:transparent; }
+  .book-label::before { content:''; position:absolute; inset:2px; border-radius:2px; border:1px solid rgba(200,155,40,0.3); pointer-events:none; }
+  .book-label span { background:linear-gradient(180deg,#fff6c0 0%,#e8c84a 40%,#c8960c 70%,#8c6b1f 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter:drop-shadow(0 0 3px rgba(255,200,60,0.4)); display:block; font-size:5.5px; font-family:'Courier Prime',monospace; font-weight:700; }
   /* Gold foil title text */
   .book-title-spine {
     writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);
@@ -210,7 +151,10 @@
   }
   .book-mid-groove { width:100%; height:5px; flex-shrink:0; position:relative; z-index:2; background:linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(255,255,255,0.04) 40%,rgba(0,0,0,0.6) 100%); border-top:1px solid rgba(0,0,0,0.9); border-bottom:1px solid rgba(0,0,0,0.9); }
   .book-status-dot { width:9px; height:9px; border-radius:50%; border:1px solid rgba(0,0,0,0.8); flex-shrink:0; position:relative; z-index:4; margin-bottom:3px; box-shadow:0 2px 6px rgba(0,0,0,0.98),inset 0 1px 0 rgba(255,255,255,0.35),0 0 0 2px rgba(0,0,0,0.6),0 0 0 3px rgba(180,130,30,0.25); }
-  .book-author-tag { font-family:'Courier Prime',monospace; font-size:6px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(200,160,50,0.75); text-align:center; padding:3px 2px 0; width:100%; text-shadow:0 1px 3px rgba(0,0,0,0.95); }
+  .book-author-tag { display:none; }
+  /* Ground shadow so books sit ON the shelf */
+  .book { position:relative; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s ease; flex-shrink:0; z-index:1; }
+  .book::after { content:''; position:absolute; bottom:-4px; left:10%; right:10%; height:6px; background:rgba(0,0,0,0.7); border-radius:50%; filter:blur(4px); z-index:0; pointer-events:none; }
 
   .book-card { display:none; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%) rotate(1deg); background:#f5edd8; border:2px solid var(--brown); padding:14px; width:260px; z-index:1000; box-shadow:4px 4px 0 var(--dark-brown); text-align:left; isolation:isolate; }
   .book-card::after { content:''; position:absolute; top:100%; left:0; right:0; height:12px; background:transparent; }
@@ -317,14 +261,27 @@
 <header>
   <div class="header-label-strip">
     <span>Public Library Collection</span>
-    <span id="sync-status" class="sync connecting">⟳ Connecting…</span>
+    <span>Catalogue No. 001</span>
     <span>Est. 2026</span>
   </div>
   <div class="header-inner">
-    <div class="header-nameplate">
-      <span class="header-nameplate-scroll">❧</span>
-      <h1>Spine — Family Library</h1>
-      <span class="header-nameplate-scroll">❧</span>
+    <div class="catalogue-plate">Family Library System</div>
+    <h1>Spine</h1>
+    <div class="subtitle">A Shared Book Catalogue</div>
+    <div class="catalogue-tabs-strip">
+      <div class="catalogue-tab-chip">A–D</div>
+      <div class="catalogue-tab-chip">E–H</div>
+      <div class="catalogue-tab-chip">I–L</div>
+      <div class="catalogue-tab-chip">M–P</div>
+      <div class="catalogue-tab-chip">Q–T</div>
+      <div class="catalogue-tab-chip">U–Z</div>
+    </div>
+    <div id="sync-status" class="sync connecting" style="margin-top:12px;">⟳ Connecting…</div>
+    <div class="library-stamp">
+      <span class="stamp-text-large">Property</span>
+      <span>of the</span>
+      <span class="stamp-text-large">Family</span>
+      <span>Library</span>
     </div>
     <div class="user-bar" id="user-bar" style="display:none;">
       <img class="user-avatar" id="user-avatar" src="" alt="">
@@ -332,6 +289,7 @@
       <button class="sign-out-btn" onclick="signOut()">Sign out</button>
     </div>
   </div>
+</header>
 </header>
 <div class="main-wrap">
   <div class="controls">
@@ -625,7 +583,7 @@ function renderAll(){
       return `<div class="book" title="${b.title}">
         <div class="book-spine" style="background:${spineGrad};height:${h}px;">
           <div class="book-band-top"></div>
-          <div class="book-label"><span>${b.dewey}</span></div>
+          <div class="book-label"><span>${b.dewey}<br>${(b.author||'').split(' ').pop().substring(0,4).toUpperCase()||'—'}</span></div>
           <div class="book-title-spine">${b.title}</div>
           <div class="book-mid-groove"></div>
           <div class="book-status-dot" style="background:${statusColor(b.status)};"></div>
@@ -715,3 +673,4 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
 </script>
 </body>
 </html>
+
