@@ -145,25 +145,72 @@
 
   /* ── Embossed leather spines ── */
   .book { position:relative; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s ease; flex-shrink:0; z-index:1; }
-  .book:hover { transform:translateY(-20px) rotate(-1deg); filter:brightness(1.25) contrast(1.08); z-index:200; }
-  .book-spine { width:46px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:0; border-radius:3px 1px 1px 3px; position:relative; overflow:hidden; box-shadow:-4px 0 8px rgba(0,0,0,0.95),inset 3px 0 6px rgba(255,255,255,0.05),inset -2px 0 8px rgba(0,0,0,0.7),3px 0 0 rgba(0,0,0,0.8),inset 0 0 30px rgba(0,0,0,0.5); }
-  /* Rich leather texture */
-  .book-spine::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 3px), repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px); pointer-events:none; z-index:1; }
-  /* Subtle binding crease */
-  .book-spine::after { content:''; position:absolute; top:0; left:0; bottom:0; width:6px; background:linear-gradient(90deg,rgba(255,255,255,0.09) 0%,rgba(255,255,255,0.03) 50%,transparent 100%); pointer-events:none; z-index:3; }
-  .book-band-top { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(180deg,rgba(0,0,0,0.8) 0%,rgba(255,255,255,0.12) 30%,rgba(0,0,0,0.15) 55%,rgba(255,255,255,0.08) 75%,rgba(0,0,0,0.7) 100%); border-bottom:1px solid rgba(0,0,0,0.9); box-shadow:0 3px 6px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.1); }
-  .book-band-top::after { content:''; position:absolute; top:50%; left:8%; right:8%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.5) 25%,rgba(255,215,80,0.95) 50%,rgba(212,168,67,0.5) 75%,transparent); transform:translateY(-50%); }
-  .book-band-bottom { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(0deg,rgba(0,0,0,0.8) 0%,rgba(255,255,255,0.12) 30%,rgba(0,0,0,0.15) 55%,rgba(255,255,255,0.08) 75%,rgba(0,0,0,0.7) 100%); border-top:1px solid rgba(0,0,0,0.9); box-shadow:0 -3px 6px rgba(0,0,0,0.7),inset 0 -1px 0 rgba(255,255,255,0.1); }
-  .book-band-bottom::after { content:''; position:absolute; top:50%; left:8%; right:8%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.5) 25%,rgba(255,215,80,0.95) 50%,rgba(212,168,67,0.5) 75%,transparent); transform:translateY(-50%); }
-  /* Compact brass label — just Dewey number */
-  .book-label { background: linear-gradient(180deg, #4a3010 0%, #2e1c08 50%, #1e1006 100%); color: rgba(230,190,90,0.95); font-size: 5.5px; font-family: 'Courier Prime', monospace; font-weight: 700; padding: 2px 3px; text-align: center; width: calc(100% - 18px); letter-spacing: 0.05em; line-height: 1.3; border-radius: 3px; border: 1px solid rgba(180,130,30,0.65); box-shadow: 0 2px 6px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,215,80,0.12), 0 0 0 1px rgba(100,65,10,0.5); position: relative; z-index: 4; flex-shrink: 0; text-shadow: 0 0 10px rgba(230,190,90,0.7), 0 1px 2px rgba(0,0,0,0.95); }
-  .book-label::before { content: ''; position: absolute; inset: 2px; border-radius: 2px; border: 1px solid rgba(200,155,40,0.3); pointer-events: none; }
-  .book-title-spine { writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg); color:rgba(255,228,140,0.92); font-family:'IM Fell English',serif; font-size:11px; font-style:italic; text-align:center; overflow:hidden; flex:1; max-height:130px; text-shadow:0 0 12px rgba(210,160,40,0.7),1px 1px 3px rgba(0,0,0,0.98); letter-spacing:0.09em; position:relative; z-index:2; padding:4px 0; }
-  .book-mid-groove { width:100%; height:5px; flex-shrink:0; position:relative; z-index:2; background:linear-gradient(180deg,rgba(0,0,0,0.65) 0%,rgba(255,255,255,0.04) 40%,rgba(0,0,0,0.55) 100%); border-top:1px solid rgba(0,0,0,0.8); border-bottom:1px solid rgba(0,0,0,0.8); }
-  /* Status dot */
-  .book-status-dot { width:9px; height:9px; border-radius:50%; border:1px solid rgba(0,0,0,0.7); flex-shrink:0; position:relative; z-index:4; margin-bottom:3px; box-shadow:0 2px 5px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,255,255,0.3),0 0 0 2px rgba(0,0,0,0.5),0 0 0 3px rgba(180,130,30,0.2); }
-  /* Author name tag below spine */
-  .book-author-tag { font-family:'Courier Prime',monospace; font-size:6px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(200,160,50,0.7); text-align:center; padding:3px 2px 0; width:100%; text-shadow:0 1px 2px rgba(0,0,0,0.9); }
+  .book:hover { transform:translateY(-20px) rotate(-1deg); filter:brightness(1.3) contrast(1.1) saturate(1.1); z-index:200; }
+  /* Layer 1: Base spine structure */
+  .book-spine { width:46px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:0; border-radius:3px 1px 1px 3px; position:relative; overflow:hidden;
+    box-shadow:
+      -5px 0 10px rgba(0,0,0,0.95),
+      inset 4px 0 8px rgba(255,255,255,0.06),
+      inset -3px 0 10px rgba(0,0,0,0.8),
+      4px 0 0 rgba(0,0,0,0.9),
+      inset 0 0 40px rgba(0,0,0,0.6);
+  }
+  /* Layer 2: Leather grain texture */
+  .book-spine::before {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px),
+      repeating-linear-gradient(160deg, transparent, transparent 8px, rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 9px);
+    pointer-events:none; z-index:1;
+  }
+  /* Layer 3: Specular highlight + edge darkening */
+  .book-spine::after {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,0.5) 0%,
+        rgba(255,255,255,0.08) 15%,
+        transparent 35%,
+        rgba(255,255,255,0.12) 50%,
+        transparent 65%,
+        rgba(0,0,0,0.3) 100%
+      );
+    pointer-events:none; z-index:3;
+  }
+  .book-band-top { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(180deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-bottom:1px solid rgba(0,0,0,0.95); box-shadow:0 3px 8px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.12); }
+  .book-band-top::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
+  .book-band-bottom { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-top:1px solid rgba(0,0,0,0.95); box-shadow:0 -3px 8px rgba(0,0,0,0.8),inset 0 -1px 0 rgba(255,255,255,0.12); }
+  .book-band-bottom::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
+  /* Brass label */
+  .book-label { background:linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%); font-size:5.5px; font-family:'Courier Prime',monospace; font-weight:700; padding:2px 3px; text-align:center; width:calc(100% - 18px); letter-spacing:0.05em; line-height:1.3; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15),0 0 0 1px rgba(100,65,10,0.5); position:relative; z-index:4; flex-shrink:0;
+    /* Gold foil text */
+    background-clip: text; -webkit-background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(180deg, #fff6c0 0%, #d4af37 50%, #8c6b1f 100%);
+    /* Reset background for the box itself */
+  }
+  /* Separate element approach for gold text in label */
+  .book-label { background: linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%) !important; color: transparent !important; -webkit-text-fill-color: transparent !important; background-clip: unset !important; -webkit-background-clip: unset !important; position:relative; z-index:4; flex-shrink:0; }
+  .book-label span { background: linear-gradient(180deg, #fff6c0 0%, #e8c84a 40%, #c8960c 70%, #8c6b1f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 3px rgba(255,200,60,0.4)); }
+  /* Gold foil title text */
+  .book-title-spine {
+    writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);
+    font-family:'IM Fell English',serif; font-size:11px; font-style:italic;
+    text-align:center; overflow:hidden; flex:1; max-height:130px;
+    letter-spacing:0.09em; position:relative; z-index:2; padding:4px 0;
+    /* Gold foil effect */
+    background: linear-gradient(180deg, #fff6c0 0%, #e8c84a 35%, #d4af37 55%, #c8960c 75%, #a07820 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 4px rgba(255,180,40,0.5)) drop-shadow(1px 1px 2px rgba(0,0,0,0.9));
+  }
+  .book-mid-groove { width:100%; height:5px; flex-shrink:0; position:relative; z-index:2; background:linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(255,255,255,0.04) 40%,rgba(0,0,0,0.6) 100%); border-top:1px solid rgba(0,0,0,0.9); border-bottom:1px solid rgba(0,0,0,0.9); }
+  .book-status-dot { width:9px; height:9px; border-radius:50%; border:1px solid rgba(0,0,0,0.8); flex-shrink:0; position:relative; z-index:4; margin-bottom:3px; box-shadow:0 2px 6px rgba(0,0,0,0.98),inset 0 1px 0 rgba(255,255,255,0.35),0 0 0 2px rgba(0,0,0,0.6),0 0 0 3px rgba(180,130,30,0.25); }
+  .book-author-tag { font-family:'Courier Prime',monospace; font-size:6px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(200,160,50,0.75); text-align:center; padding:3px 2px 0; width:100%; text-shadow:0 1px 3px rgba(0,0,0,0.95); }
 
   .book-card { display:none; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%) rotate(1deg); background:#f5edd8; border:2px solid var(--brown); padding:14px; width:260px; z-index:1000; box-shadow:4px 4px 0 var(--dark-brown); text-align:left; isolation:isolate; }
   .book-card::after { content:''; position:absolute; top:100%; left:0; right:0; height:12px; background:transparent; }
@@ -574,11 +621,11 @@ function renderAll(){
     const spines=sectionBooks.map((b,i)=>{
       const vc=vintageColors[i%vintageColors.length];
       const h=heights[i%heights.length];
-      const spineGrad=`linear-gradient(90deg,${vc.base} 0%,${vc.mid} 30%,${vc.hi} 50%,${vc.mid} 65%,${vc.base} 85%,rgba(0,0,0,0.5) 100%)`;
+      const spineGrad=`linear-gradient(90deg, rgba(0,0,0,0.6) 0%, ${vc.base} 8%, ${vc.mid} 30%, ${vc.hi} 48%, ${vc.hi} 52%, ${vc.mid} 68%, ${vc.base} 88%, rgba(0,0,0,0.7) 100%)`;
       return `<div class="book" title="${b.title}">
         <div class="book-spine" style="background:${spineGrad};height:${h}px;">
           <div class="book-band-top"></div>
-          <div class="book-label">${b.dewey}</div>
+          <div class="book-label"><span>${b.dewey}</span></div>
           <div class="book-title-spine">${b.title}</div>
           <div class="book-mid-groove"></div>
           <div class="book-status-dot" style="background:${statusColor(b.status)};"></div>
