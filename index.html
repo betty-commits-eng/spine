@@ -89,7 +89,7 @@
   .bookshelf::before { content: ''; position: absolute; bottom: 16px; left: 0; right: 0; height: 70px; background: linear-gradient(0deg, rgba(200,130,20,0.22) 0%, rgba(170,100,10,0.1) 50%, transparent 100%); pointer-events: none; z-index: 0; }
   /* Warm walnut shelf plank */
   .bookshelf::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 18px; background: linear-gradient(180deg, #3a2010 0%, #4a2c14 30%, #5a3818 55%, #4a2c14 80%, #362010 100%); border-top: 2px solid #8a5828; border-radius: 0 0 2px 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(220,160,60,0.2), inset 0 -1px 0 rgba(0,0,0,0.4); }
-  .books-row { display:flex; gap:3px; flex-wrap:wrap; align-items:flex-end; min-height:180px; position:relative; z-index:1; padding-bottom:0; margin-bottom:0; }
+  .books-row { display:flex; gap:3px; flex-wrap:wrap; align-items:flex-end; min-height:180px; position:relative; z-index:1; padding-bottom:0; margin-bottom:0; box-sizing:border-box; }
 
   /* ── Embossed leather spines ── */
   .book { position:relative; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s ease; flex-shrink:0; z-index:1; }
@@ -575,7 +575,7 @@ function renderAll(){
       {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood repeat
       {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest repeat
     ];
-    const heights=[155,175,160,185,150,180,165,168,178,158];
+    const heights=[175,175,175,175,175,175,175,175,175,175];
     const spines=sectionBooks.map((b,i)=>{
       const vc=vintageColors[i%vintageColors.length];
       const h=heights[i%heights.length];
