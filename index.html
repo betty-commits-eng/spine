@@ -529,10 +529,9 @@ function setOwnerFilter(f){
   ownerFilter=f;
   document.querySelectorAll('.owner-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+f).classList.add('active');
-  // Apply the member's saved theme
+  // Apply the member's saved theme, or antique for Main Library
   if (f === 'all') {
-    // Default to logged-in user's theme, or antique
-    loadAndApplyTheme(currentUserEmail);
+    applyTheme('antique', false);
   } else {
     const member = MEMBERS.find(m => m.key === f);
     if (member) loadAndApplyTheme(member.email);
