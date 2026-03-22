@@ -565,59 +565,119 @@ function renderStats(){
 let currentTheme = 'antique';
 const THEMES = {
   antique: {
-    bodyBg: '#b5975a',
-    bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
-    bodySize: 'auto', bodyPos: '0 0',
+    bodyBg: '#b5975a', bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`, bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: `repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,100,40,0.12) 28px,rgba(139,100,40,0.12) 29px),linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
-    shelfBg: 'linear-gradient(180deg, #1a0e06 0%, #140a04 60%, #100804 100%)',
-    shelfBorder: '2px solid #5a3010',
-    shelfBorderTop: '3px solid #7a4818',
-    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(160,90,15,0.2)',
-    plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)',
-    plankBorder: '2px solid #8a5828',
-    plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
+    headerBg: 'linear-gradient(180deg, #2a1a08 0%, #3d2a10 40%, #2e1e0a 100%)', headerBorder: '#8a6530',
+    headerH1: '#f5edd8', headerH1Shadow: '2px 2px 0 rgba(0,0,0,0.6),0 0 20px rgba(212,168,67,0.2)',
+    headerStrip: 'linear-gradient(180deg,#d4a843 0%,#c49030 50%,#b88020 100%)', headerStripBorderTop: '#e8c060', headerStripBorderBot: '#8a5a10', headerStripText: '#3a2008',
+    plateBg: 'linear-gradient(135deg,#f5edd8,#e8d8b0)', plateBorder: '#8a6530', plateText: '#3a2008',
+    statsBg: 'linear-gradient(180deg,#d4c090,#c4b080)', statsBorder: '#8a6530', statsBorderTop: '#a07840',
+    statCellBg: 'linear-gradient(180deg,#f5edd8,#ede0c4)', statCellBorder: '#c4a060',
+    statNum: '#3d2314', statLabel: '#7b4f2e',
+    goalBg: 'linear-gradient(180deg,#d4c090,#c4b080)', goalTrack: '#e8d8b0',
+    tabBg: 'linear-gradient(180deg,#e8d8a0,#d4c080)', tabText: '#3a2008', tabBorder: '#8a6530',
+    tabHover: 'linear-gradient(180deg,#f0e0b0,#e0cc90)',
+    tabActive: 'linear-gradient(180deg,#f8f0dc,#f0e4c4)', tabActiveText: '#3d2314', tabActiveBotBorder: '#f0e4c4',
+    inputBg: 'linear-gradient(180deg,#f8f0dc,#f0e4c4)', inputBorder: '#8a6530', inputBorderTop: '#a07840', inputText: '#1a1008', inputPlaceholder: '#a08060',
+    controlsBg: 'repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(180,140,60,0.15) 26px,rgba(180,140,60,0.15) 27px),linear-gradient(180deg,#f8f0dc,#f0e4c4)',
+    addBtnBg: 'linear-gradient(180deg,#5a3a1a,#3d2314)',
+    sectionNumBorder: 'rgba(255,255,255,0.3)', sectionNumText: '#f5edd8', sectionTitle: '#f5edd8', sectionSub: '#c9a96e',
+    legendText: '#ede0c4', viewBtnBg: '#ede0c4', viewBtnActive: '#3d2314', viewBtnActiveText: '#f5edd8',
+    shelfBg: 'linear-gradient(180deg, #1a0e06 0%, #140a04 60%, #100804 100%)', shelfBorder: '2px solid #5a3010', shelfBorderTop: '3px solid #7a4818', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(160,90,15,0.2)',
+    plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)', plankBorder: '2px solid #8a5828', plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
+    bandBg: 'linear-gradient(180deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%)', bandShadow: '0 3px 8px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.12)', bandLine: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent)',
+    grooveBg: 'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(255,255,255,0.04) 40%,rgba(0,0,0,0.6) 100%)',
+    labelBg: 'linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%)', labelBorder: 'rgba(200,150,40,0.65)', labelText: 'linear-gradient(180deg,#fff6c0 0%,#e8c84a 40%,#c8960c 70%,#8c6b1f 100%)',
+    titleText: 'linear-gradient(180deg, #fff6c0 0%, #e8c84a 35%, #d4af37 55%, #c8960c 75%, #a07820 100%)',
+    spineShadow: '-5px 0 10px rgba(0,0,0,0.95),inset 4px 0 8px rgba(255,255,255,0.06),inset -3px 0 10px rgba(0,0,0,0.8),4px 0 0 rgba(0,0,0,0.9),inset 0 0 40px rgba(0,0,0,0.6)',
+    spineAfter: 'linear-gradient(90deg,rgba(0,0,0,0.5) 0%,rgba(255,255,255,0.08) 15%,transparent 35%,rgba(255,255,255,0.12) 50%,transparent 65%,rgba(0,0,0,0.3) 100%)',
     bookColors: [{base:'#280808',mid:'#4e1010',hi:'#782020'},{base:'#2c0808',mid:'#541212',hi:'#802828'},{base:'#0a180a',mid:'#182c16',hi:'#2a5228'},{base:'#0c1c0c',mid:'#1c3018',hi:'#306030'},{base:'#080e1a',mid:'#101c2e',hi:'#1e3450'},{base:'#0a1020',mid:'#141e30',hi:'#22345a'},{base:'#1c0e04',mid:'#341c08',hi:'#583010'},{base:'#180c04',mid:'#2e1806',hi:'#4e2c0e'},{base:'#280808',mid:'#4e1010',hi:'#782020'},{base:'#0a180a',mid:'#182c16',hi:'#2a5228'}],
   },
   gothic: {
-    bodyBg: '#0a0608',
-    bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
-    bodySize: 'auto', bodyPos: '0 0',
+    bodyBg: '#0a0608', bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)', bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
-    shelfBg: 'linear-gradient(180deg, #0e0414 0%, #0a0210 60%, #080110 100%)',
-    shelfBorder: '2px solid #4a1870',
-    shelfBorderTop: '3px solid #6a2890',
-    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.9), inset 0 -6px 24px rgba(100,40,160,0.2)',
-    plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)',
-    plankBorder: '2px solid #6a3090',
-    plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
+    headerBg: 'linear-gradient(180deg, #0e0610 0%, #180d20 40%, #120818 100%)', headerBorder: '#6a3090',
+    headerH1: '#e0c8f8', headerH1Shadow: '2px 2px 0 rgba(0,0,0,0.8),0 0 20px rgba(160,80,220,0.4)',
+    headerStrip: 'linear-gradient(180deg,#3a1858 0%,#2a1040 50%,#1e0c30 100%)', headerStripBorderTop: '#7a40b0', headerStripBorderBot: '#1a0828', headerStripText: '#c8a0f0',
+    plateBg: 'linear-gradient(135deg,#1e0c30,#2a1040)', plateBorder: '#6a3090', plateText: '#c8a0f0',
+    statsBg: 'linear-gradient(180deg,#1e0c30,#180a28)', statsBorder: '#4a1870', statsBorderTop: '#6a2890',
+    statCellBg: 'linear-gradient(180deg,#2a1040,#1e0c30)', statCellBorder: '#4a1870',
+    statNum: '#e0c8f8', statLabel: '#a070d0',
+    goalBg: 'linear-gradient(180deg,#1e0c30,#180a28)', goalTrack: '#2a1040',
+    tabBg: 'linear-gradient(180deg,#2a1040,#1e0c30)', tabText: '#c8a0f0', tabBorder: '#4a1870',
+    tabHover: 'linear-gradient(180deg,#3a1858,#2a1040)',
+    tabActive: 'linear-gradient(180deg,#3a1858,#2e1248)', tabActiveText: '#e8d0ff', tabActiveBotBorder: '#2e1248',
+    inputBg: 'linear-gradient(180deg,#1e0c30,#180a28)', inputBorder: '#4a1870', inputBorderTop: '#6a2890', inputText: '#e0c8f8', inputPlaceholder: '#8050a0',
+    controlsBg: 'linear-gradient(180deg,#1e0c30,#180a28)',
+    addBtnBg: 'linear-gradient(180deg,#3a1858,#2a1040)',
+    sectionNumBorder: 'rgba(160,80,220,0.4)', sectionNumText: '#e0c8f8', sectionTitle: '#e0c8f8', sectionSub: '#a070d0',
+    legendText: '#c8a0f0', viewBtnBg: '#2a1040', viewBtnActive: '#6a2890', viewBtnActiveText: '#e8d0ff',
+    shelfBg: 'linear-gradient(180deg, #0e0414 0%, #0a0210 60%, #080110 100%)', shelfBorder: '2px solid #4a1870', shelfBorderTop: '3px solid #6a2890', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.9), inset 0 -6px 24px rgba(100,40,160,0.2)',
+    plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)', plankBorder: '2px solid #6a3090', plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
+    bandBg: 'linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(120,40,180,0.1) 30%,rgba(0,0,0,0.15) 55%,rgba(120,40,180,0.08) 75%,rgba(0,0,0,0.85) 100%)', bandShadow: '0 3px 8px rgba(0,0,0,0.9),inset 0 1px 0 rgba(160,80,220,0.15)', bandLine: 'linear-gradient(90deg,transparent,rgba(160,80,220,0.3) 20%,rgba(180,100,255,0.7) 50%,rgba(160,80,220,0.3) 80%,transparent)',
+    grooveBg: 'linear-gradient(180deg,rgba(0,0,0,0.8) 0%,rgba(100,40,160,0.08) 40%,rgba(0,0,0,0.7) 100%)',
+    labelBg: 'linear-gradient(180deg,#2a1040 0%,#1a0828 40%,#100618 100%)', labelBorder: 'rgba(160,80,220,0.65)', labelText: 'linear-gradient(180deg,#e0c0ff 0%,#b080e8 40%,#8040c0 70%,#5020a0 100%)',
+    titleText: 'linear-gradient(180deg,#e8d0ff 0%,#c090f0 35%,#a060d8 55%,#8040b8 75%,#6020a0 100%)',
+    spineShadow: '-5px 0 10px rgba(0,0,0,0.98),inset 4px 0 8px rgba(160,80,220,0.06),inset -3px 0 10px rgba(0,0,0,0.9),4px 0 0 rgba(0,0,0,0.95),inset 0 0 40px rgba(0,0,0,0.7)',
+    spineAfter: 'linear-gradient(90deg,rgba(0,0,0,0.6) 0%,rgba(160,80,220,0.06) 15%,transparent 35%,rgba(160,80,220,0.08) 50%,transparent 65%,rgba(0,0,0,0.4) 100%)',
     bookColors: [{base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},{base:'#1a0406',mid:'#300810',hi:'#481020'},{base:'#040e1a',mid:'#081828',hi:'#0a2030'},{base:'#0c2010',mid:'#183020',hi:'#204030'},{base:'#0a0820',mid:'#141040',hi:'#1c1860'},{base:'#180608',mid:'#280c10',hi:'#381018'},{base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},{base:'#0c0a04',mid:'#181408',hi:'#241e0c'},{base:'#1a0406',mid:'#300810',hi:'#481020'},{base:'#182030',mid:'#243040',hi:'#304050'}],
   },
   beatrix: {
-    bodyBg: '#ede8dc',
-    bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
-    bodySize: '18px 18px, 18px 18px', bodyPos: '0 0, 9px 9px',
+    bodyBg: '#ede8dc', bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`, bodySize: '18px 18px, 18px 18px', bodyPos: '0 0, 9px 9px',
     mainOverlay: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
-    shelfBg: 'linear-gradient(180deg, #d4c8a8 0%, #c8bc98 60%, #c0b488 100%)',
-    shelfBorder: '2px solid #b09060',
-    shelfBorderTop: '3px solid #c8a870',
-    shelfShadow: 'inset 0 8px 20px rgba(100,70,20,0.2), inset 0 -6px 24px rgba(180,140,60,0.15)',
-    plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)',
-    plankBorder: '2px solid #d4b878',
-    plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
+    headerBg: 'linear-gradient(180deg, #8aaa80 0%, #7a9a70 40%, #6a8a60 100%)', headerBorder: '#c8a870',
+    headerH1: '#f5f0e8', headerH1Shadow: '1px 1px 0 rgba(0,0,0,0.3),0 0 12px rgba(200,168,112,0.3)',
+    headerStrip: 'linear-gradient(180deg,#c8b888 0%,#b8a878 50%,#a89868 100%)', headerStripBorderTop: '#d8c898', headerStripBorderBot: '#988858', headerStripText: '#3a2408',
+    plateBg: 'linear-gradient(135deg,#f5f0e4,#e8e0d0)', plateBorder: '#b0a070', plateText: '#3a2408',
+    statsBg: 'linear-gradient(180deg,#d4c8a8,#c8bc98)', statsBorder: '#b09060', statsBorderTop: '#c8a870',
+    statCellBg: 'linear-gradient(180deg,#f0ebe0,#e8e0d0)', statCellBorder: '#c0a878',
+    statNum: '#3a2408', statLabel: '#6a5030',
+    goalBg: 'linear-gradient(180deg,#d4c8a8,#c8bc98)', goalTrack: '#e8e0d0',
+    tabBg: 'linear-gradient(180deg,#d8cca8,#c8bc98)', tabText: '#3a2408', tabBorder: '#b09060',
+    tabHover: 'linear-gradient(180deg,#e4d8b8,#d4c8a8)',
+    tabActive: 'linear-gradient(180deg,#f0ebe0,#e8e0d0)', tabActiveText: '#2a1808', tabActiveBotBorder: '#e8e0d0',
+    inputBg: 'linear-gradient(180deg,#f5f0e4,#eee8d8)', inputBorder: '#b09060', inputBorderTop: '#c8a870', inputText: '#2a1808', inputPlaceholder: '#8a7050',
+    controlsBg: 'linear-gradient(180deg,#f0ebe0,#e8e0d0)',
+    addBtnBg: 'linear-gradient(180deg,#8aaa80,#6a8a60)',
+    sectionNumBorder: 'rgba(200,168,112,0.4)', sectionNumText: '#3a2408', sectionTitle: '#3a2408', sectionSub: '#7a6040',
+    legendText: '#3a2408', viewBtnBg: '#e8e0d0', viewBtnActive: '#7a9a70', viewBtnActiveText: '#f5f0e8',
+    shelfBg: 'linear-gradient(180deg, #d4c8a8 0%, #c8bc98 60%, #c0b488 100%)', shelfBorder: '2px solid #b09060', shelfBorderTop: '3px solid #c8a870', shelfShadow: 'inset 0 8px 20px rgba(100,70,20,0.2), inset 0 -6px 24px rgba(180,140,60,0.15)',
+    plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)', plankBorder: '2px solid #d4b878', plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
+    bandBg: 'linear-gradient(180deg,rgba(80,50,20,0.15) 0%,rgba(255,255,255,0.4) 30%,rgba(80,50,20,0.04) 55%,rgba(255,255,255,0.35) 75%,rgba(80,50,20,0.12) 100%)', bandShadow: '0 1px 3px rgba(80,50,10,0.1),inset 0 1px 0 rgba(255,255,255,0.6)', bandLine: 'linear-gradient(90deg,transparent,rgba(160,120,60,0.25) 20%,rgba(190,150,80,0.5) 50%,rgba(160,120,60,0.25) 80%,transparent)',
+    grooveBg: 'linear-gradient(180deg,rgba(80,50,20,0.15) 0%,rgba(255,255,255,0.2) 40%,rgba(80,50,20,0.12) 100%)',
+    labelBg: 'linear-gradient(180deg,#c8b888 0%,#b0a070 40%,#a09060 100%)', labelBorder: 'rgba(160,130,70,0.65)', labelText: 'linear-gradient(180deg,#3a2408 0%,#2a1804 40%,#1e1002 70%,#140c02 100%)',
+    titleText: 'linear-gradient(180deg,#3a2008 0%,#2a1604 35%,#1e1002 55%,#140c02 75%,#0e0802 100%)',
+    spineShadow: '-3px 0 6px rgba(80,50,10,0.3),inset 3px 0 6px rgba(255,255,255,0.2),inset -2px 0 6px rgba(80,50,10,0.2),3px 0 0 rgba(80,50,10,0.2),inset 0 0 20px rgba(80,50,10,0.1)',
+    spineAfter: 'linear-gradient(90deg,rgba(80,50,10,0.2) 0%,rgba(255,255,255,0.15) 15%,transparent 35%,rgba(255,255,255,0.2) 50%,transparent 65%,rgba(80,50,10,0.1) 100%)',
     bookColors: [{base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},{base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'},{base:'#7888b0',mid:'#8ea0c8',hi:'#a0b4d8'},{base:'#c0a870',mid:'#d4bc84',hi:'#e0cc98'},{base:'#9888b8',mid:'#b0a0cc',hi:'#c4b8dc'},{base:'#7a8858',mid:'#909c68',hi:'#a0ac78'},{base:'#c8a888',mid:'#dcc0a0',hi:'#e8d0b0'},{base:'#7aabb0',mid:'#8ec0c4',hi:'#a0d0d4'},{base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},{base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'}],
   },
   japanese: {
-    bodyBg: '#f2ede4',
-    bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
-    bodySize: 'auto', bodyPos: '0 0',
+    bodyBg: '#f2ede4', bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)', bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
-    shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)',
-    shelfBorder: '2px solid #c04030',
-    shelfBorderTop: '3px solid #d05040',
-    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
-    plankBg: '#1a2a4a',
-    plankBorder: '2px solid #c04030',
-    plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
+    headerBg: 'linear-gradient(180deg, #1a2a4a 0%, #0e1830 40%, #081020 100%)', headerBorder: '#c04030',
+    headerH1: '#f0e8d8', headerH1Shadow: '2px 2px 0 rgba(0,0,0,0.6),0 0 16px rgba(192,64,48,0.3)',
+    headerStrip: 'linear-gradient(180deg,#c04030 0%,#a03020 50%,#801810 100%)', headerStripBorderTop: '#d05040', headerStripBorderBot: '#601010', headerStripText: '#f0e8d8',
+    plateBg: 'linear-gradient(135deg,#f2ede4,#e8e0d0)', plateBorder: '#1a2a4a', plateText: '#1a2a4a',
+    statsBg: 'linear-gradient(180deg,#1a2a4a,#0e1830)', statsBorder: '#c04030', statsBorderTop: '#d05040',
+    statCellBg: 'linear-gradient(180deg,#223260,#1a2a4a)', statCellBorder: '#c04030',
+    statNum: '#f0e8d8', statLabel: '#c0a888',
+    goalBg: 'linear-gradient(180deg,#1a2a4a,#0e1830)', goalTrack: '#223260',
+    tabBg: 'linear-gradient(180deg,#223260,#1a2a4a)', tabText: '#f0e8d8', tabBorder: '#c04030',
+    tabHover: 'linear-gradient(180deg,#2a3a70,#1e3058)',
+    tabActive: 'linear-gradient(180deg,#f2ede4,#e8e0d0)', tabActiveText: '#1a2a4a', tabActiveBotBorder: '#e8e0d0',
+    inputBg: 'linear-gradient(180deg,#f2ede4,#e8e0d0)', inputBorder: '#1a2a4a', inputBorderTop: '#c04030', inputText: '#1a2a4a', inputPlaceholder: '#8090b0',
+    controlsBg: 'linear-gradient(180deg,#f2ede4,#e8e0d0)',
+    addBtnBg: 'linear-gradient(180deg,#c04030,#801810)',
+    sectionNumBorder: 'rgba(192,64,48,0.4)', sectionNumText: '#f0e8d8', sectionTitle: '#f0e8d8', sectionSub: '#8090b0',
+    legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8',
+    shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)', shelfBorder: '2px solid #c04030', shelfBorderTop: '3px solid #d05040', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
+    plankBg: '#1a2a4a', plankBorder: '2px solid #c04030', plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
+    bandBg: 'linear-gradient(180deg,rgba(0,0,0,0.8) 0%,rgba(192,64,48,0.08) 30%,rgba(0,0,0,0.1) 55%,rgba(192,64,48,0.06) 75%,rgba(0,0,0,0.75) 100%)', bandShadow: '0 3px 8px rgba(0,0,0,0.8),inset 0 1px 0 rgba(192,64,48,0.15)', bandLine: 'linear-gradient(90deg,transparent,rgba(192,64,48,0.3) 20%,rgba(220,80,60,0.7) 50%,rgba(192,64,48,0.3) 80%,transparent)',
+    grooveBg: 'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(192,64,48,0.06) 40%,rgba(0,0,0,0.65) 100%)',
+    labelBg: 'linear-gradient(180deg,#1a2a4a 0%,#0e1830 40%,#081020 100%)', labelBorder: 'rgba(192,64,48,0.65)', labelText: 'linear-gradient(180deg,#ffe8c0 0%,#f0c890 40%,#d4a060 70%,#b07840 100%)',
+    titleText: 'linear-gradient(180deg,#ffe8c0 0%,#f0c890 35%,#d4a060 55%,#b07840 75%,#8c5820 100%)',
+    spineShadow: '-4px 0 8px rgba(0,0,0,0.9),inset 4px 0 8px rgba(255,255,255,0.05),inset -3px 0 8px rgba(0,0,0,0.7),4px 0 0 rgba(0,0,0,0.8),inset 0 0 30px rgba(0,0,0,0.5)',
+    spineAfter: 'linear-gradient(90deg,rgba(0,0,0,0.45) 0%,rgba(255,255,255,0.07) 15%,transparent 35%,rgba(255,255,255,0.1) 50%,transparent 65%,rgba(0,0,0,0.25) 100%)',
     bookColors: [{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#902020',hi:'#c04030'},{base:'#080c10',mid:'#101820',hi:'#181e28'},{base:'#b8a870',mid:'#d0c088',hi:'#e0d0a0'},{base:'#0c2010',mid:'#183020',hi:'#204030'},{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#802020',hi:'#a03030'},{base:'#182030',mid:'#243040',hi:'#304050'},{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#902020',hi:'#c04030'}],
   },
 };
@@ -631,8 +691,61 @@ function applyTheme(name) {
   styleEl.textContent = `
     body { background-color: ${t.bodyBg} !important; background-image: ${t.bodyImg} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
     .main-wrap::before { background: ${t.mainOverlay} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
+
+    header { background: ${t.headerBg} !important; border-bottom: 6px solid ${t.headerBorder} !important; }
+    header h1 { color: ${t.headerH1} !important; text-shadow: ${t.headerH1Shadow} !important; }
+    .header-label-strip { background: ${t.headerStrip} !important; border-top: 2px solid ${t.headerStripBorderTop} !important; border-bottom: 2px solid ${t.headerStripBorderBot} !important; color: ${t.headerStripText} !important; }
+    .catalogue-plate { background: ${t.plateBg} !important; border: 2px solid ${t.plateBorder} !important; color: ${t.plateText} !important; }
+
+    /* Stats bar */
+    .stats-bar { background: ${t.statsBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; }
+    .stat { background: ${t.statCellBg} !important; border: 1px solid ${t.statCellBorder} !important; border-top: 3px solid ${t.statsBorderTop} !important; }
+    .stat-num { color: ${t.statNum} !important; }
+    .stat-label { color: ${t.statLabel} !important; }
+
+    /* Goal bar */
+    .goal-bar { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; }
+    .goal-label { color: ${t.statLabel} !important; }
+    .goal-track { background: ${t.goalTrack} !important; }
+
+    /* Tabs */
+    .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; }
+    .owner-tab:hover { background: ${t.tabHover} !important; }
+    .owner-tab.active { background: ${t.tabActive} !important; color: ${t.tabActiveText} !important; border-bottom: 3px solid ${t.tabActiveBotBorder} !important; }
+
+    /* Search & controls */
+    .search-row input { background: ${t.inputBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 3px solid ${t.inputBorderTop} !important; color: ${t.inputText} !important; }
+    .search-row input::placeholder { color: ${t.inputPlaceholder} !important; }
+    .search-row select { background: ${t.tabBg} !important; border: 2px solid ${t.inputBorder} !important; color: ${t.tabText} !important; }
+    .controls { background: ${t.controlsBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 6px solid ${t.statsBorderTop} !important; }
+    .controls label { color: ${t.statLabel} !important; }
+    .controls input, .controls select { border-bottom: 2px solid ${t.inputBorder} !important; color: ${t.inputText} !important; }
+    button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; }
+
+    /* Section headers */
+    .section-number { color: ${t.sectionNumText} !important; border-color: ${t.sectionNumBorder} !important; }
+    .section-title { color: ${t.sectionTitle} !important; }
+    .section-sub { color: ${t.sectionSub} !important; }
+
+    /* Legend & view toggle */
+    .legend-item { color: ${t.legendText} !important; }
+    .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; }
+    .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; }
+
+    /* Bookshelf */
     .bookshelf { background: ${t.shelfBg} !important; border: ${t.shelfBorder} !important; border-top: ${t.shelfBorderTop} !important; box-shadow: ${t.shelfShadow} !important; }
     .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
+
+    /* Books */
+    .book-band-top { background: ${t.bandBg} !important; box-shadow: ${t.bandShadow} !important; }
+    .book-band-bottom { background: ${t.bandBg} !important; box-shadow: ${t.bandShadow} !important; }
+    .book-band-top::after, .book-band-bottom::after { background: ${t.bandLine} !important; }
+    .book-mid-groove { background: ${t.grooveBg} !important; }
+    .book-label { background: ${t.labelBg} !important; border-color: ${t.labelBorder} !important; }
+    .book-label span { background: ${t.labelText} !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .book-title-spine { background: ${t.titleText} !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .book-spine { box-shadow: ${t.spineShadow} !important; }
+    .book-spine::after { background: ${t.spineAfter} !important; }
   `;
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-' + name).classList.add('active');
