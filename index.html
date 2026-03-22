@@ -698,15 +698,21 @@ function applyTheme(name) {
     .catalogue-plate { background: ${t.plateBg} !important; border: 2px solid ${t.plateBorder} !important; color: ${t.plateText} !important; }
 
     /* Stats bar */
-    .stats-bar { background: ${t.statsBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; }
+    .stats-bar { background: ${t.statsBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
     .stat { background: ${t.statCellBg} !important; border: 1px solid ${t.statCellBorder} !important; border-top: 3px solid ${t.statsBorderTop} !important; }
-    .stat-num { color: ${t.statNum} !important; }
-    .stat-label { color: ${t.statLabel} !important; }
+    .stat::after { background: ${t.statsBorderTop} !important; }
+    .stat-num { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
+    .stat-label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
 
     /* Goal bar */
-    .goal-bar { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; }
+    .goal-bar { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
     .goal-label { color: ${t.statLabel} !important; }
     .goal-track { background: ${t.goalTrack} !important; }
+
+    /* Section headers - extra specificity */
+    .dewey-section .section-header .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
+    .dewey-section .section-header .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
+    .dewey-section .section-header .section-sub { color: ${t.sectionSub} !important; }
 
     /* Tabs */
     .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; }
@@ -723,9 +729,9 @@ function applyTheme(name) {
     button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; }
 
     /* Section headers */
-    .section-number { color: ${t.sectionNumText} !important; border-color: ${t.sectionNumBorder} !important; }
-    .section-title { color: ${t.sectionTitle} !important; }
-    .section-sub { color: ${t.sectionSub} !important; }
+    .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
+    .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
+    .section-sub { color: ${t.sectionSub} !important; -webkit-text-fill-color: ${t.sectionSub} !important; }
 
     /* Legend & view toggle */
     .legend-item { color: ${t.legendText} !important; }
@@ -750,6 +756,8 @@ function applyTheme(name) {
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-' + name).classList.add('active');
   document.getElementById('theme-menu').classList.remove('open');
+  // Force style recalculation before renderAll
+  document.body.getBoundingClientRect();
   renderAll();
 }
 window.applyTheme = applyTheme;
