@@ -16,8 +16,8 @@
 
   /* ── Theme switcher button ───────────────────────────────────────────────── */
   #theme-switcher { position:fixed; bottom:20px; right:20px; z-index:400; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-  #theme-toggle-btn { background:rgba(0,0,0,0.55); color:#f0e8d0; border:1px solid rgba(255,255,255,0.2); padding:8px 14px; font-family:'Courier Prime',monospace; font-size:0.7rem; letter-spacing:0.12em; cursor:pointer; border-radius:3px; backdrop-filter:blur(4px); transition:all 0.2s; }
-  #theme-toggle-btn:hover { background:rgba(0,0,0,0.75); }
+  #theme-toggle-btn { background:rgba(0,0,0,0.7); color:#f0e8d0; border:1px solid rgba(255,255,255,0.25); padding:12px 20px; font-family:'Courier Prime',monospace; font-size:0.85rem; letter-spacing:0.12em; cursor:pointer; border-radius:4px; backdrop-filter:blur(4px); transition:all 0.2s; }
+  #theme-toggle-btn:hover { background:rgba(0,0,0,0.9); border-color:rgba(255,255,255,0.4); }
   #theme-menu { display:none; flex-direction:column; gap:4px; }
   #theme-menu.open { display:flex; }
   .theme-btn { background:rgba(0,0,0,0.7); color:#f0e8d0; border:1px solid rgba(255,255,255,0.15); padding:7px 14px; font-family:'Courier Prime',monospace; font-size:0.68rem; letter-spacing:0.1em; cursor:pointer; border-radius:3px; text-align:right; backdrop-filter:blur(4px); transition:all 0.2s; white-space:nowrap; }
@@ -67,6 +67,7 @@
   .controls::before { content:'NEW ENTRY'; position:absolute; top:10px; right:14px; font-family:'Special Elite',cursive; font-size:0.6rem; letter-spacing:0.2em; color:rgba(139,32,32,0.4); border:2px solid rgba(139,32,32,0.3); padding:2px 8px; transform:rotate(2deg); }
   .controls label { font-family:'Courier Prime',monospace; font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--brown); display:block; margin-bottom:4px; }
   .controls input,.controls select { background:rgba(255,255,255,0.6); border:none; border-bottom:2px solid var(--tan); border-radius:0; padding:8px 4px; font-family:'Courier Prime',monospace; font-size:0.9rem; color:var(--ink); outline:none; width:100%; }
+  .controls input::placeholder { color:rgba(0,0,0,0.4); font-style:italic; }
   .controls input:focus,.controls select:focus { border-bottom-color:var(--brown); background:rgba(255,255,255,0.8); }
   .field { flex:1; min-width:140px; }
   .field.wide { flex:2; min-width:200px; }
@@ -751,8 +752,9 @@ function applyTheme(name, save = true) {
     .search-row input::placeholder { color: ${t.inputPlaceholder} !important; }
     .search-row select { background: ${t.tabBg} !important; border: 2px solid ${t.inputBorder} !important; color: ${t.tabText} !important; }
     .controls { background: ${t.controlsBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 6px solid ${t.statsBorderTop} !important; }
-    .controls label { color: ${t.statLabel} !important; }
-    .controls input, .controls select { border-bottom: 2px solid ${t.inputBorder} !important; color: ${t.inputText} !important; }
+    .controls label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
+    .controls input, .controls select { background: ${t.inputBg} !important; border-bottom: 2px solid ${t.inputBorder} !important; color: ${t.inputText} !important; -webkit-text-fill-color: ${t.inputText} !important; }
+    .controls input::placeholder { color: ${t.inputPlaceholder} !important; }
     button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; }
 
     /* Section headers */
