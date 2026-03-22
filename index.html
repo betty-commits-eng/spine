@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Spine">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Kalam:wght@300;400&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root { --ink:#1a1008; --cream:#f5edd8; --parchment:#ede0c4; --tan:#c9a96e; --brown:#7b4f2e; --dark-brown:#3d2314; --red:#8b2020; --green:#2d5a27; }
 
@@ -37,9 +37,18 @@
   header .subtitle { font-family:'Courier Prime',monospace; font-style:italic; color:#c9a96e; font-size:0.85rem; margin-top:4px; letter-spacing:0.18em; text-transform:uppercase; opacity:0.85; }
   .catalogue-tabs-strip { display:flex; justify-content:center; gap:3px; margin-top:14px; padding:0 20px; }
   .catalogue-tab-chip { background:linear-gradient(180deg,#e8d8b0,#d4c090); border:1px solid #8a6530; border-bottom:none; padding:3px 10px; font-family:'Special Elite',cursive; font-size:0.6rem; letter-spacing:0.1em; color:#3a2008; clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 100%,0% 100%); opacity:0.7; }
-  .library-stamp { position:absolute; top:28px; right:160px; width:80px; height:80px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:rotate(-8deg); color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.5rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.6; text-align:center; padding:6px; }
+  .library-stamp { position:absolute; top:28px; right:160px; width:80px; height:80px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:rotate(-8deg); color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.5rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.6; text-align:center; padding:6px; transition: all 0.4s ease; }
   .library-stamp::before { content:''; position:absolute; inset:3px; border:1px solid rgba(180,60,40,0.3); border-radius:2px; }
   .stamp-text-large { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; display:block; }
+  /* Gothic stamp */
+  .stamp-gothic { border-color:rgba(80,70,100,0.6) !important; color:rgba(80,70,100,0.6) !important; border-radius:50% !important; width:88px !important; height:88px !important; transform:rotate(-5deg) !important; font-family:'Libre Baskerville',serif !important; }
+  .stamp-gothic::before { border-color:rgba(80,70,100,0.3) !important; border-radius:50% !important; }
+  /* Japanese stamp */
+  .stamp-japanese { border-color:rgba(192,64,48,0.7) !important; color:rgba(192,64,48,0.7) !important; border-radius:4px !important; transform:rotate(3deg) !important; font-family:'Noto Serif JP',serif !important; border-width:4px !important; }
+  .stamp-japanese::before { border-color:rgba(192,64,48,0.4) !important; }
+  /* Beatrix stamp */
+  .stamp-beatrix { border-color:rgba(120,160,100,0.6) !important; color:rgba(120,160,100,0.6) !important; border-radius:40% !important; transform:rotate(-10deg) !important; font-family:'Kalam',cursive !important; border-style:dashed !important; }
+  .stamp-beatrix::before { border-color:rgba(120,160,100,0.3) !important; border-radius:40% !important; }
   .sync { display:inline-block; margin-top:8px; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; padding:3px 12px; border-radius:20px; font-family:'Libre Baskerville',serif; }
   .sync.live { background:rgba(45,138,45,0.25); color:#7dca7d; border:1px solid #2d8a2d; }
   .sync.connecting { background:rgba(230,160,32,0.2); color:#e6c87d; border:1px solid #e6a020; }
@@ -781,6 +790,24 @@ function applyTheme(name, save = true) {
     .book-spine { box-shadow: ${t.spineShadow} !important; }
     .book-spine::after { background: ${t.spineAfter} !important; }
   `;
+  // Switch the header stamp
+  const stamp = document.querySelector('.library-stamp');
+  if (stamp) {
+    stamp.className = 'library-stamp';
+    if (name === 'gothic') {
+      stamp.classList.add('stamp-gothic');
+      stamp.innerHTML = `<span style="font-size:1.4rem;line-height:1;">☩</span><span class="stamp-text-large">Obscura</span><span>Bibliotheca</span>`;
+    } else if (name === 'japanese') {
+      stamp.classList.add('stamp-japanese');
+      stamp.innerHTML = `<span style="font-size:1.6rem;line-height:1.2;">蔵書</span><span style="font-size:0.45rem;letter-spacing:0.1em;">FAMILY LIBRARY</span>`;
+    } else if (name === 'beatrix') {
+      stamp.classList.add('stamp-beatrix');
+      stamp.innerHTML = `<span style="font-size:1rem;">🐇</span><span class="stamp-text-large">Hill Top</span><span>Collection</span>`;
+    } else {
+      stamp.innerHTML = `<span class="stamp-text-large">Property</span><span>of the</span><span class="stamp-text-large">Family</span><span>Library</span>`;
+    }
+  }
+
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-' + name).classList.add('active');
   document.getElementById('theme-menu').classList.remove('open');
