@@ -569,6 +569,10 @@ const THEMES = {
     bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
     bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: `repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,100,40,0.12) 28px,rgba(139,100,40,0.12) 29px),linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
+    shelfBg: 'linear-gradient(180deg, #1a0e06 0%, #140a04 60%, #100804 100%)',
+    shelfBorder: '2px solid #5a3010',
+    shelfBorderTop: '3px solid #7a4818',
+    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(160,90,15,0.2)',
     plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)',
     plankBorder: '2px solid #8a5828',
     plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
@@ -579,6 +583,10 @@ const THEMES = {
     bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
     bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
+    shelfBg: 'linear-gradient(180deg, #0e0414 0%, #0a0210 60%, #080110 100%)',
+    shelfBorder: '2px solid #4a1870',
+    shelfBorderTop: '3px solid #6a2890',
+    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.9), inset 0 -6px 24px rgba(100,40,160,0.2)',
     plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)',
     plankBorder: '2px solid #6a3090',
     plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
@@ -589,6 +597,10 @@ const THEMES = {
     bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
     bodySize: '18px 18px, 18px 18px', bodyPos: '0 0, 9px 9px',
     mainOverlay: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
+    shelfBg: 'linear-gradient(180deg, #d4c8a8 0%, #c8bc98 60%, #c0b488 100%)',
+    shelfBorder: '2px solid #b09060',
+    shelfBorderTop: '3px solid #c8a870',
+    shelfShadow: 'inset 0 8px 20px rgba(100,70,20,0.2), inset 0 -6px 24px rgba(180,140,60,0.15)',
     plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)',
     plankBorder: '2px solid #d4b878',
     plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
@@ -599,6 +611,10 @@ const THEMES = {
     bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
     bodySize: 'auto', bodyPos: '0 0',
     mainOverlay: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
+    shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)',
+    shelfBorder: '2px solid #c04030',
+    shelfBorderTop: '3px solid #d05040',
+    shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
     plankBg: '#1a2a4a',
     plankBorder: '2px solid #c04030',
     plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
@@ -615,6 +631,7 @@ function applyTheme(name) {
   styleEl.textContent = `
     body { background-color: ${t.bodyBg} !important; background-image: ${t.bodyImg} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
     .main-wrap::before { background: ${t.mainOverlay} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
+    .bookshelf { background: ${t.shelfBg} !important; border: ${t.shelfBorder} !important; border-top: ${t.shelfBorderTop} !important; box-shadow: ${t.shelfShadow} !important; }
     .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
   `;
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
