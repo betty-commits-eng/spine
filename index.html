@@ -561,6 +561,66 @@ function renderStats(){
   document.getElementById('stats-bar').innerHTML=`<div class="stat"><span class="stat-num">${total}</span><span class="stat-label">Total Books</span></div><div class="stat"><span class="stat-num">${read}</span><span class="stat-label">Read</span></div><div class="stat"><span class="stat-num">${reading}</span><span class="stat-label">Reading</span></div><div class="stat"><span class="stat-num">${unread}</span><span class="stat-label">Unread</span></div><div class="stat"><span class="stat-num">${wishlist}</span><span class="stat-label">Wishlist</span></div>`;
 }
 
+// ── Themes ────────────────────────────────────────────────────────────────────
+let currentTheme = 'antique';
+const THEMES = {
+  antique: {
+    bodyBg: '#b5975a',
+    bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
+    bodySize: 'auto', bodyPos: '0 0',
+    plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)',
+    plankBorder: '2px solid #8a5828',
+    plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
+    bookColors: [{base:'#280808',mid:'#4e1010',hi:'#782020'},{base:'#2c0808',mid:'#541212',hi:'#802828'},{base:'#0a180a',mid:'#182c16',hi:'#2a5228'},{base:'#0c1c0c',mid:'#1c3018',hi:'#306030'},{base:'#080e1a',mid:'#101c2e',hi:'#1e3450'},{base:'#0a1020',mid:'#141e30',hi:'#22345a'},{base:'#1c0e04',mid:'#341c08',hi:'#583010'},{base:'#180c04',mid:'#2e1806',hi:'#4e2c0e'},{base:'#280808',mid:'#4e1010',hi:'#782020'},{base:'#0a180a',mid:'#182c16',hi:'#2a5228'}],
+  },
+  gothic: {
+    bodyBg: '#0a0608',
+    bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
+    bodySize: 'auto', bodyPos: '0 0',
+    plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)',
+    plankBorder: '2px solid #6a3090',
+    plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
+    bookColors: [{base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},{base:'#1a0406',mid:'#300810',hi:'#481020'},{base:'#040e1a',mid:'#081828',hi:'#0a2030'},{base:'#0c2010',mid:'#183020',hi:'#204030'},{base:'#0a0820',mid:'#141040',hi:'#1c1860'},{base:'#180608',mid:'#280c10',hi:'#381018'},{base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},{base:'#0c0a04',mid:'#181408',hi:'#241e0c'},{base:'#1a0406',mid:'#300810',hi:'#481020'},{base:'#182030',mid:'#243040',hi:'#304050'}],
+  },
+  beatrix: {
+    bodyBg: '#ede8dc',
+    bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
+    bodySize: '18px 18px, 18px 18px', bodyPos: '0 0, 9px 9px',
+    plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)',
+    plankBorder: '2px solid #d4b878',
+    plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
+    bookColors: [{base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},{base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'},{base:'#7888b0',mid:'#8ea0c8',hi:'#a0b4d8'},{base:'#c0a870',mid:'#d4bc84',hi:'#e0cc98'},{base:'#9888b8',mid:'#b0a0cc',hi:'#c4b8dc'},{base:'#7a8858',mid:'#909c68',hi:'#a0ac78'},{base:'#c8a888',mid:'#dcc0a0',hi:'#e8d0b0'},{base:'#7aabb0',mid:'#8ec0c4',hi:'#a0d0d4'},{base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},{base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'}],
+  },
+  japanese: {
+    bodyBg: '#f2ede4',
+    bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
+    bodySize: 'auto', bodyPos: '0 0',
+    plankBg: '#1a2a4a',
+    plankBorder: '2px solid #c04030',
+    plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
+    bookColors: [{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#902020',hi:'#c04030'},{base:'#080c10',mid:'#101820',hi:'#181e28'},{base:'#b8a870',mid:'#d0c088',hi:'#e0d0a0'},{base:'#0c2010',mid:'#183020',hi:'#204030'},{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#802020',hi:'#a03030'},{base:'#182030',mid:'#243040',hi:'#304050'},{base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},{base:'#601818',mid:'#902020',hi:'#c04030'}],
+  },
+};
+
+function applyTheme(name) {
+  currentTheme = name;
+  const t = THEMES[name];
+  const styleEl = document.getElementById('theme-dynamic-style') || (() => {
+    const s = document.createElement('style'); s.id = 'theme-dynamic-style'; document.head.appendChild(s); return s;
+  })();
+  styleEl.textContent = `
+    body { background-color: ${t.bodyBg} !important; background-image: ${t.bodyImg} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
+    .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
+  `;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + name).classList.add('active');
+  document.getElementById('theme-menu').classList.remove('open');
+  renderAll();
+}
+window.applyTheme = applyTheme;
+window.toggleThemeMenu = () => document.getElementById('theme-menu').classList.toggle('open');
+document.addEventListener('click', e => { if (!document.getElementById('theme-switcher').contains(e.target)) document.getElementById('theme-menu').classList.remove('open'); });
+
 function renderAll(){
   renderStats();renderGoal();
   const fb=filteredBooks();
@@ -572,18 +632,7 @@ function renderAll(){
     const collapsed=collapsedSections.has(cls.num);
     // 5 antique colour families — all heavily desaturated and earthy
     // Sequence clusters 2-3 of the same family before shifting, creating natural shelf rhythm
-    const vintageColors= (typeof currentTheme !== 'undefined' && typeof THEMES !== 'undefined' && THEMES[currentTheme]) ? THEMES[currentTheme].bookColors : [
-      {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood
-      {base:'#2c0808',mid:'#541212',hi:'#802828'},  // oxblood variant
-      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest green
-      {base:'#0c1c0c',mid:'#1c3018',hi:'#306030'},  // forest variant
-      {base:'#080e1a',mid:'#101c2e',hi:'#1e3450'},  // navy
-      {base:'#0a1020',mid:'#141e30',hi:'#22345a'},  // navy variant
-      {base:'#1c0e04',mid:'#341c08',hi:'#583010'},  // saddle brown
-      {base:'#180c04',mid:'#2e1806',hi:'#4e2c0e'},  // brown variant
-      {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood repeat
-      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest repeat
-    ];
+    const vintageColors= THEMES[currentTheme].bookColors;
     const heights=[170,190,175,195,165,185,180,172,188,168];
     const spines=sectionBooks.map((b,i)=>{
       const vc=vintageColors[i%vintageColors.length];
@@ -683,143 +732,13 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
 <!-- ── Theme Switcher ──────────────────────────────────────────────────────── -->
 <div id="theme-switcher">
   <div id="theme-menu">
-    <button class="theme-btn active" onclick="applyTheme('antique')" id="btn-antique">🟤 Antique Leather</button>
-    <button class="theme-btn" onclick="applyTheme('gothic')" id="btn-gothic">🖤 Gothic</button>
-    <button class="theme-btn" onclick="applyTheme('beatrix')" id="btn-beatrix">🌿 Beatrix Potter</button>
-    <button class="theme-btn" onclick="applyTheme('japanese')" id="btn-japanese">🎋 Japanese Woodblock</button>
+    <button class="theme-btn active" onclick="window.applyTheme('antique')" id="btn-antique">🟤 Antique Leather</button>
+    <button class="theme-btn" onclick="window.applyTheme('gothic')" id="btn-gothic">🖤 Gothic</button>
+    <button class="theme-btn" onclick="window.applyTheme('beatrix')" id="btn-beatrix">🌿 Beatrix Potter</button>
+    <button class="theme-btn" onclick="window.applyTheme('japanese')" id="btn-japanese">🎋 Japanese Woodblock</button>
   </div>
   <button id="theme-toggle-btn" onclick="document.getElementById('theme-menu').classList.toggle('open')">🎨 Theme</button>
 </div>
 
-<script>
-const THEMES = {
-  antique: {
-    bodyBg: '#b5975a',
-    bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
-    bodySize: 'auto',
-    bodyPos: '0 0',
-    plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)',
-    plankBorder: '2px solid #8a5828',
-    plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
-    bookColors: [
-      {base:'#280808',mid:'#4e1010',hi:'#782020'},
-      {base:'#2c0808',mid:'#541212',hi:'#802828'},
-      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},
-      {base:'#0c1c0c',mid:'#1c3018',hi:'#306030'},
-      {base:'#080e1a',mid:'#101c2e',hi:'#1e3450'},
-      {base:'#0a1020',mid:'#141e30',hi:'#22345a'},
-      {base:'#1c0e04',mid:'#341c08',hi:'#583010'},
-      {base:'#180c04',mid:'#2e1806',hi:'#4e2c0e'},
-      {base:'#280808',mid:'#4e1010',hi:'#782020'},
-      {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},
-    ],
-  },
-  gothic: {
-    bodyBg: '#0a0608',
-    bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
-    bodySize: 'auto',
-    bodyPos: '0 0',
-    plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)',
-    plankBorder: '2px solid #6a3090',
-    plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
-    bookColors: [
-      {base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},
-      {base:'#1a0406',mid:'#300810',hi:'#481020'},
-      {base:'#040e1a',mid:'#081828',hi:'#0a2030'},
-      {base:'#0c2010',mid:'#183020',hi:'#204030'},
-      {base:'#0a0820',mid:'#141040',hi:'#1c1860'},
-      {base:'#180608',mid:'#280c10',hi:'#381018'},
-      {base:'#1a0830',mid:'#2e1055',hi:'#3d1870'},
-      {base:'#0c0a04',mid:'#181408',hi:'#241e0c'},
-      {base:'#1a0406',mid:'#300810',hi:'#481020'},
-      {base:'#182030',mid:'#243040',hi:'#304050'},
-    ],
-  },
-  beatrix: {
-    bodyBg: '#ede8dc',
-    bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
-    bodySize: '18px 18px, 18px 18px',
-    bodyPos: '0 0, 9px 9px',
-    plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)',
-    plankBorder: '2px solid #d4b878',
-    plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
-    bookColors: [
-      {base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},
-      {base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'},
-      {base:'#7888b0',mid:'#8ea0c8',hi:'#a0b4d8'},
-      {base:'#c0a870',mid:'#d4bc84',hi:'#e0cc98'},
-      {base:'#9888b8',mid:'#b0a0cc',hi:'#c4b8dc'},
-      {base:'#7a8858',mid:'#909c68',hi:'#a0ac78'},
-      {base:'#c8a888',mid:'#dcc0a0',hi:'#e8d0b0'},
-      {base:'#7aabb0',mid:'#8ec0c4',hi:'#a0d0d4'},
-      {base:'#8aaa80',mid:'#a0c090',hi:'#b0cc9e'},
-      {base:'#c09098',mid:'#d4a8b0',hi:'#e0bcc4'},
-    ],
-  },
-  japanese: {
-    bodyBg: '#f2ede4',
-    bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
-    bodySize: 'auto',
-    bodyPos: '0 0',
-    plankBg: '#1a2a4a',
-    plankBorder: '2px solid #c04030',
-    plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
-    bookColors: [
-      {base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},
-      {base:'#601818',mid:'#902020',hi:'#c04030'},
-      {base:'#080c10',mid:'#101820',hi:'#181e28'},
-      {base:'#b8a870',mid:'#d0c088',hi:'#e0d0a0'},
-      {base:'#0c2010',mid:'#183020',hi:'#204030'},
-      {base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},
-      {base:'#601818',mid:'#802020',hi:'#a03030'},
-      {base:'#182030',mid:'#243040',hi:'#304050'},
-      {base:'#0e1830',mid:'#1a2a4a',hi:'#223260'},
-      {base:'#601818',mid:'#902020',hi:'#c04030'},
-    ],
-  },
-};
-
-let currentTheme = 'antique';
-
-function applyTheme(name) {
-  currentTheme = name;
-  const t = THEMES[name];
-
-  const styleEl = document.getElementById('theme-dynamic-style') || (() => {
-    const s = document.createElement('style');
-    s.id = 'theme-dynamic-style';
-    document.head.appendChild(s);
-    return s;
-  })();
-
-  styleEl.textContent = `
-    body {
-      background-color: ${t.bodyBg} !important;
-      background-image: ${t.bodyImg} !important;
-      background-size: ${t.bodySize || 'auto'} !important;
-      background-position: ${t.bodyPos || '0 0'} !important;
-    }
-    .bookshelf::after {
-      background: ${t.plankBg} !important;
-      border-top: ${t.plankBorder} !important;
-      box-shadow: ${t.plankShadow} !important;
-    }
-  `;
-
-  window._themeBookColors = t.bookColors; // kept for safety
-  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + name).classList.add('active');
-  document.getElementById('theme-menu').classList.remove('open');
-
-  if (typeof renderAll === 'function') renderAll();
-}
-
-// Close menu when clicking outside
-document.addEventListener('click', e => {
-  if (!document.getElementById('theme-switcher').contains(e.target)) {
-    document.getElementById('theme-menu').classList.remove('open');
-  }
-});
-</script>
 </body>
 </html>
