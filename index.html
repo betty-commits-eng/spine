@@ -888,7 +888,7 @@ function renderAll(){
       <div class="section-header" onclick="window._toggleSection('${cls.num}')">
         <div class="section-number" style="background:${cls.color};">${cls.num}</div>
         <div class="section-title-wrap"><div class="section-title">${cls.name}</div><div class="section-sub">${cls.sub}</div></div>
-        <div class="section-count">${sectionBooks.length} vol${sectionBooks.length!==1?'s':''}.</div>
+        <div class="section-count" style="background:${THEMES[currentTheme].sectionCountBg};color:${THEMES[currentTheme].sectionCountText};border-color:${THEMES[currentTheme].sectionCountBorder};">${sectionBooks.length} vol${sectionBooks.length!==1?'s':''}.</div>
       </div>
       <div class="bookshelf shelf-view ${viewMode==='list'?'hide':''}"><div class="books-row">${spines||'<div class="empty-shelf">No volumes in this section.</div>'}</div></div>
       <div class="list-view ${viewMode==='list'?'show':''}">${listRows}</div>
