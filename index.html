@@ -568,6 +568,7 @@ const THEMES = {
     bodyBg: '#b5975a',
     bodyImg: `repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
     bodySize: 'auto', bodyPos: '0 0',
+    mainOverlay: `repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,100,40,0.12) 28px,rgba(139,100,40,0.12) 29px),linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%)`,
     plankBg: 'linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%)',
     plankBorder: '2px solid #8a5828',
     plankShadow: '0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25)',
@@ -577,6 +578,7 @@ const THEMES = {
     bodyBg: '#0a0608',
     bodyImg: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
     bodySize: 'auto', bodyPos: '0 0',
+    mainOverlay: 'linear-gradient(135deg,#120a10 0%,#0e0810 50%,#1a0d18 100%)',
     plankBg: 'linear-gradient(180deg, #1a0820 0%, #120618 30%, #0e0414 100%)',
     plankBorder: '2px solid #6a3090',
     plankShadow: '0 -2px 12px rgba(120,40,180,0.3), 0 8px 20px rgba(0,0,0,0.9)',
@@ -586,6 +588,7 @@ const THEMES = {
     bodyBg: '#ede8dc',
     bodyImg: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
     bodySize: '18px 18px, 18px 18px', bodyPos: '0 0, 9px 9px',
+    mainOverlay: `radial-gradient(circle, rgba(180,160,120,0.12) 1px, transparent 1px), radial-gradient(circle, rgba(160,180,140,0.1) 1px, transparent 1px)`,
     plankBg: 'linear-gradient(180deg, #c8a870 0%, #b89458 40%, #c4a06a 100%)',
     plankBorder: '2px solid #d4b878',
     plankShadow: '0 4px 10px rgba(100,70,20,0.2), inset 0 1px 0 rgba(255,240,180,0.4)',
@@ -595,6 +598,7 @@ const THEMES = {
     bodyBg: '#f2ede4',
     bodyImg: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
     bodySize: 'auto', bodyPos: '0 0',
+    mainOverlay: 'repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,42,74,0.04) 27px,rgba(26,42,74,0.04) 28px)',
     plankBg: '#1a2a4a',
     plankBorder: '2px solid #c04030',
     plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
@@ -610,6 +614,7 @@ function applyTheme(name) {
   })();
   styleEl.textContent = `
     body { background-color: ${t.bodyBg} !important; background-image: ${t.bodyImg} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
+    .main-wrap::before { background: ${t.mainOverlay} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
     .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
   `;
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
