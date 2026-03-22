@@ -375,7 +375,7 @@
 </div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = { apiKey:"AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc", authDomain:"spine-001.firebaseapp.com", databaseURL:"https://spine-001-default-rtdb.firebaseio.com", projectId:"spine-001", storageBucket:"spine-001.firebasestorage.app", messagingSenderId:"1058346929766", appId:"1:1058346929766:web:6704800343c22e34cae7a7" };
 const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com"];
@@ -396,6 +396,8 @@ onAuthStateChanged(auth, (user) => {
     if (user.photoURL) document.getElementById('user-avatar').src=user.photoURL;
     if (user.email==='chelseymcrory@gmail.com') document.getElementById('adding-for-row').classList.add('show');
     if (!dbUnsubscribe) startListening();
+    // Load this user's saved theme
+    loadAndApplyTheme(user.email);
   } else if (user) {
     fbSignOut(auth);
     document.getElementById('login-screen').classList.add('show');
@@ -522,8 +524,33 @@ function filteredBooks(){
     return mQ&&mS&&mO;
   });
 }
-function setOwnerFilter(f){ownerFilter=f;document.querySelectorAll('.owner-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+f).classList.add('active');renderAll();}
+function setOwnerFilter(f){
+  ownerFilter=f;
+  document.querySelectorAll('.owner-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+f).classList.add('active');
+  // Apply the member's saved theme
+  if (f === 'all') {
+    // Default to logged-in user's theme, or antique
+    loadAndApplyTheme(currentUserEmail);
+  } else {
+    const member = MEMBERS.find(m => m.key === f);
+    if (member) loadAndApplyTheme(member.email);
+  }
+  renderAll();
+}
 window.setOwnerFilter=setOwnerFilter;
+
+// Load a member's saved theme from Firebase and apply it
+async function loadAndApplyTheme(email) {
+  if (!email) { applyTheme('antique', false); return; }
+  try {
+    const snap = await get(ref(db, `themes/${email.replace(/[.@]/g,'_')}`));
+    const savedTheme = snap.exists() ? snap.val() : 'antique';
+    applyTheme(savedTheme, false);
+  } catch(e) {
+    applyTheme('antique', false);
+  }
+}
 
 const MEMBERS=[
   {key:'betty',email:'bettykwale@gmail.com',label:'Betty'},
@@ -682,7 +709,7 @@ const THEMES = {
   },
 };
 
-function applyTheme(name) {
+function applyTheme(name, save = true) {
   currentTheme = name;
   const t = THEMES[name];
   const styleEl = document.getElementById('theme-dynamic-style') || (() => {
@@ -756,6 +783,11 @@ function applyTheme(name) {
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-' + name).classList.add('active');
   document.getElementById('theme-menu').classList.remove('open');
+  // Save to Firebase if this is the user's own choice
+  if (save && currentUserEmail) {
+    const key = currentUserEmail.replace(/[.@]/g,'_');
+    set(ref(db, `themes/${key}`), name).catch(()=>{});
+  }
   // Force style recalculation before renderAll
   document.body.getBoundingClientRect();
   renderAll();
@@ -880,7 +912,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
     <button class="theme-btn" onclick="window.applyTheme('beatrix')" id="btn-beatrix">🌿 Beatrix Potter</button>
     <button class="theme-btn" onclick="window.applyTheme('japanese')" id="btn-japanese">🎋 Japanese Woodblock</button>
   </div>
-  <button id="theme-toggle-btn" onclick="document.getElementById('theme-menu').classList.toggle('open')">🎨 Theme</button>
+  <button id="theme-toggle-btn" onclick="document.getElementById('theme-menu').classList.toggle('open')" title="Choose your personal theme">🎨 My Theme</button>
 </div>
 
 </body>
