@@ -572,7 +572,7 @@ function renderAll(){
     const collapsed=collapsedSections.has(cls.num);
     // 5 antique colour families — all heavily desaturated and earthy
     // Sequence clusters 2-3 of the same family before shifting, creating natural shelf rhythm
-    const vintageColors= window._themeBookColors || [
+    const vintageColors= (typeof currentTheme !== 'undefined' && typeof THEMES !== 'undefined' && THEMES[currentTheme]) ? THEMES[currentTheme].bookColors : [
       {base:'#280808',mid:'#4e1010',hi:'#782020'},  // oxblood
       {base:'#2c0808',mid:'#541212',hi:'#802828'},  // oxblood variant
       {base:'#0a180a',mid:'#182c16',hi:'#2a5228'},  // forest green
@@ -806,27 +806,13 @@ function applyTheme(name) {
     }
   `;
 
-  window._themeBookColors = t.bookColors;
-
+  window._themeBookColors = t.bookColors; // kept for safety
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-' + name).classList.add('active');
   document.getElementById('theme-menu').classList.remove('open');
 
   if (typeof renderAll === 'function') renderAll();
 }
-
-// Patch vintageColors to use theme colors
-const _origRenderAll = window.renderAll;
-window.addEventListener('load', () => {
-  // Intercept renderAll to inject theme colors
-  const origRender = window.renderAll;
-  if (origRender) {
-    window.renderAll = function() {
-      window._themeBookColors = THEMES[currentTheme].bookColors;
-      origRender();
-    };
-  }
-});
 
 // Close menu when clicking outside
 document.addEventListener('click', e => {
