@@ -37,18 +37,18 @@
   header .subtitle { font-family:'Courier Prime',monospace; font-style:italic; color:#c9a96e; font-size:0.85rem; margin-top:4px; letter-spacing:0.18em; text-transform:uppercase; opacity:0.85; }
   .catalogue-tabs-strip { display:flex; justify-content:center; gap:3px; margin-top:14px; padding:0 20px; }
   .catalogue-tab-chip { background:linear-gradient(180deg,#e8d8b0,#d4c090); border:1px solid #8a6530; border-bottom:none; padding:3px 10px; font-family:'Special Elite',cursive; font-size:0.6rem; letter-spacing:0.1em; color:#3a2008; clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 100%,0% 100%); opacity:0.7; }
-  .library-stamp { position:absolute; top:28px; right:160px; width:80px; height:80px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:rotate(-8deg); color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.5rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.6; text-align:center; padding:6px; transition: all 0.4s ease; }
-  .library-stamp::before { content:''; position:absolute; inset:3px; border:1px solid rgba(180,60,40,0.3); border-radius:2px; }
-  .stamp-text-large { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; display:block; }
-  /* Gothic stamp */
-  .stamp-gothic { border-color:rgba(80,70,100,0.6) !important; color:rgba(80,70,100,0.6) !important; border-radius:50% !important; width:88px !important; height:88px !important; transform:rotate(-5deg) !important; font-family:'Libre Baskerville',serif !important; }
-  .stamp-gothic::before { border-color:rgba(80,70,100,0.3) !important; border-radius:50% !important; }
-  /* Japanese stamp */
-  .stamp-japanese { border-color:rgba(192,64,48,0.7) !important; color:rgba(192,64,48,0.7) !important; border-radius:4px !important; transform:rotate(3deg) !important; font-family:'Noto Serif JP',serif !important; border-width:4px !important; }
-  .stamp-japanese::before { border-color:rgba(192,64,48,0.4) !important; }
-  /* Beatrix stamp */
-  .stamp-beatrix { border-color:rgba(120,160,100,0.6) !important; color:rgba(120,160,100,0.6) !important; border-radius:40% !important; transform:rotate(-10deg) !important; font-family:'Kalam',cursive !important; border-style:dashed !important; }
-  .stamp-beatrix::before { border-color:rgba(120,160,100,0.3) !important; border-radius:40% !important; }
+  .library-stamp { position:absolute; top:20px; left:40px; width:110px; height:110px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; transform:rotate(-6deg); color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.7; text-align:center; padding:8px; transition: all 0.4s ease; }
+  .library-stamp::before { content:''; position:absolute; inset:4px; border:1px solid rgba(180,60,40,0.3); border-radius:2px; }
+  .stamp-text-large { font-size:0.85rem; font-weight:700; letter-spacing:0.08em; display:block; }
+  /* Gothic stamp - large circular wax seal */
+  .stamp-gothic { border-color:rgba(80,70,100,0.65) !important; color:rgba(80,70,100,0.65) !important; border-radius:50% !important; width:120px !important; height:120px !important; transform:rotate(-4deg) !important; font-family:'Libre Baskerville',serif !important; border-width:3px !important; }
+  .stamp-gothic::before { border-color:rgba(80,70,100,0.3) !important; border-radius:50% !important; border-style:solid !important; }
+  /* Japanese stamp - bold red hanko */
+  .stamp-japanese { border-color:rgba(192,64,48,0.8) !important; color:rgba(192,64,48,0.8) !important; border-radius:4px !important; transform:rotate(4deg) !important; font-family:'Noto Serif JP',serif !important; border-width:4px !important; width:110px !important; height:110px !important; }
+  .stamp-japanese::before { border-color:rgba(192,64,48,0.4) !important; border-width:2px !important; }
+  /* Beatrix stamp - large ornate oval */
+  .stamp-beatrix { border-color:rgba(100,140,80,0.7) !important; color:rgba(100,140,80,0.7) !important; border-radius:50% !important; transform:rotate(-8deg) !important; font-family:'Kalam',cursive !important; border-style:solid !important; border-width:3px !important; width:130px !important; height:120px !important; }
+  .stamp-beatrix::before { border-color:rgba(100,140,80,0.3) !important; border-radius:50% !important; border-style:dashed !important; }
   .sync { display:inline-block; margin-top:8px; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; padding:3px 12px; border-radius:20px; font-family:'Libre Baskerville',serif; }
   .sync.live { background:rgba(45,138,45,0.25); color:#7dca7d; border:1px solid #2d8a2d; }
   .sync.connecting { background:rgba(230,160,32,0.2); color:#e6c87d; border:1px solid #e6a020; }
@@ -302,6 +302,7 @@
       <span>of the</span>
       <span class="stamp-text-large">Family</span>
       <span>Library</span>
+      <span style="font-size:0.5rem;opacity:0.7;margin-top:2px;">Est. 2026</span>
     </div>
     <div class="user-bar" id="user-bar" style="display:none;">
       <img class="user-avatar" id="user-avatar" src="" alt="">
@@ -796,13 +797,13 @@ function applyTheme(name, save = true) {
     stamp.className = 'library-stamp';
     if (name === 'gothic') {
       stamp.classList.add('stamp-gothic');
-      stamp.innerHTML = `<span style="font-size:1.4rem;line-height:1;">☩</span><span class="stamp-text-large">Obscura</span><span>Bibliotheca</span>`;
+      stamp.innerHTML = `<span style="font-size:0.6rem;letter-spacing:0.2em;opacity:0.8;">✦ ✦ ✦</span><span style="font-size:1.8rem;line-height:1.1;">☩</span><span class="stamp-text-large" style="font-size:0.75rem;">Obscura</span><span style="font-size:0.55rem;letter-spacing:0.15em;">Bibliotheca</span><span style="font-size:0.5rem;opacity:0.7;">Est. MMXXVI</span>`;
     } else if (name === 'japanese') {
       stamp.classList.add('stamp-japanese');
-      stamp.innerHTML = `<span style="font-size:1.6rem;line-height:1.2;">蔵書</span><span style="font-size:0.45rem;letter-spacing:0.1em;">FAMILY LIBRARY</span>`;
+      stamp.innerHTML = `<span style="font-size:0.5rem;letter-spacing:0.2em;margin-bottom:2px;">蔵書印</span><span style="font-size:2.2rem;line-height:1.1;font-weight:700;">蔵書</span><span style="font-size:0.45rem;letter-spacing:0.15em;margin-top:2px;">FAMILY LIBRARY</span><span style="font-size:0.45rem;opacity:0.7;">二〇二六年</span>`;
     } else if (name === 'beatrix') {
       stamp.classList.add('stamp-beatrix');
-      stamp.innerHTML = `<span style="font-size:1rem;">🐇</span><span class="stamp-text-large">Hill Top</span><span>Collection</span>`;
+      stamp.innerHTML = `<span style="font-size:0.55rem;letter-spacing:0.1em;">✿ Hill Top ✿</span><span style="font-size:1.6rem;line-height:1.1;">🐇</span><span class="stamp-text-large" style="font-size:0.8rem;">Collection</span><span style="font-size:0.5rem;font-style:italic;opacity:0.85;">Near Sawrey</span><span style="font-size:0.55rem;opacity:0.7;">❧ Est. 1905 ❧</span>`;
     } else {
       stamp.innerHTML = `<span class="stamp-text-large">Property</span><span>of the</span><span class="stamp-text-large">Family</span><span>Library</span>`;
     }
