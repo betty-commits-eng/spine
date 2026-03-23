@@ -258,7 +258,7 @@
   .dewey-section.collapsed .list-view { display:none !important; }
   .view-toggle-row { display:flex; justify-content:flex-end; margin-bottom:10px; }
   @media (max-width:700px) {
-    header h1 { font-size:1.8rem; } .header-label-strip { font-size:0.55rem; padding:5px 12px; } .library-stamp { width:70px; height:70px; font-size:0.42rem; left:10px; top:50%; } .catalogue-tabs-strip { display:none; } .header-inner { padding:16px 16px 14px; } .catalogue-plate { font-size:0.55rem; margin-bottom:6px; } .user-bar { top:10px; right:10px; } .user-name { display:none; } .main-wrap { padding:16px 12px; } .controls { flex-direction:column; padding:16px; } .field,.field.wide { min-width:100%; } .controls::before { display:none; } button.add-btn { width:100%; text-align:center; } .stats-bar { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; } .stat { min-width:75px; padding:10px 8px; } .stat-num { font-size:1.4rem; } .stat-label { font-size:0.55rem; } .owner-tabs { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; padding-bottom:4px; gap:3px; -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%); mask-image:linear-gradient(to right,black 85%,transparent 100%); margin-bottom:16px; } .owner-tab { flex:0 0 auto; font-size:0.7rem; padding:8px 12px 10px; letter-spacing:0.06em; white-space:nowrap; } .tab-icon { display:none; } .search-row { flex-wrap:wrap; gap:8px; } .search-row input { min-width:100%; } .search-row select { flex:1; } .view-toggle-row { margin-bottom:8px; } .section-number { width:48px; height:48px; font-size:1.1rem; } .section-title { font-size:1rem; } .section-sub { font-size:0.72rem; } .bli-author { display:none; } .bli-call { min-width:44px; font-size:0.85rem; }
+    header h1 { font-size:1.8rem; } .header-label-strip { font-size:0.55rem; padding:5px 12px; } .library-stamp { width:54px; height:54px; font-size:0.38rem; left:8px; top:50%; padding:4px; line-height:1.5; } .stamp-text-large { font-size:0.5rem; } .catalogue-tabs-strip { display:none; } .header-inner { padding:16px 16px 14px; } .catalogue-plate { font-size:0.55rem; margin-bottom:6px; } .user-bar { top:10px; right:10px; } .user-name { display:none; } .main-wrap { padding:16px 12px; } .controls { flex-direction:column; padding:16px; } .field,.field.wide { min-width:100%; } .controls::before { display:none; } button.add-btn { width:100%; text-align:center; } .stats-bar { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; } .stat { min-width:75px; padding:10px 8px; } .stat-num { font-size:1.4rem; } .stat-label { font-size:0.55rem; } .owner-tabs { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; padding-bottom:4px; gap:3px; -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%); mask-image:linear-gradient(to right,black 85%,transparent 100%); margin-bottom:16px; } .owner-tab { flex:0 0 auto; font-size:0.7rem; padding:8px 12px 10px; letter-spacing:0.06em; white-space:nowrap; } .tab-icon { display:none; } .search-row { flex-wrap:wrap; gap:8px; } .search-row input { min-width:100%; } .search-row select { flex:1; } .view-toggle-row { margin-bottom:8px; } .section-number { width:48px; height:48px; font-size:1.1rem; } .section-title { font-size:1rem; } .section-sub { font-size:0.72rem; } .bli-author { display:none; } .bli-call { min-width:44px; font-size:0.85rem; }
   }
   .owner-tabs::-webkit-scrollbar { display:none; }
   .owner-tabs { -ms-overflow-style:none; scrollbar-width:none; }
@@ -942,34 +942,91 @@ document.querySelectorAll('#edit-stars .star').forEach(star=>{
 window.signInWithGoogle=signInWithGoogle;window.signOut=signOut;window.addBook=addBook;window.closeModal=closeModal;window.saveEdit=saveEdit;window.setView=setView;window._openEdit=openEdit;window._deleteBook=deleteBook;window._toggleSection=toggleSection;
 
 // Smart book card positioning for mobile
+let activeCard = null;
+
 document.addEventListener('click', e => {
+  // Close if clicking outside
+  if (activeCard && !e.target.closest('.book') && !e.target.closest('#floating-card')) {
+    const fc = document.getElementById('floating-card');
+    if (fc) fc.style.display = 'none';
+    activeCard = null;
+    return;
+  }
   const book = e.target.closest('.book');
-  // Close any open cards first
-  document.querySelectorAll('.book-card.visible').forEach(c => {
-    c.classList.remove('visible');
-    c.style.top = '';
-    c.style.left = '';
-  });
   if (!book) return;
-  // Don't open card if clicking a button inside it
   if (e.target.closest('button') || e.target.closest('a')) return;
+
   const card = book.querySelector('.book-card');
   if (!card) return;
   e.stopPropagation();
-  // Position card
-  card.classList.add('visible');
+
+  // Create or reuse floating card container at body level
+  let fc = document.getElementById('floating-card');
+  if (!fc) {
+    fc = document.createElement('div');
+    fc.id = 'floating-card';
+    fc.style.cssText = 'position:fixed;z-index:9999;display:none;';
+    document.body.appendChild(fc);
+  }
+
+  // If same book tapped again, toggle off
+  if (activeCard === book) {
+    fc.style.display = 'none';
+    activeCard = null;
+    return;
+  }
+  activeCard = book;
+
+  // Copy card content
+  fc.innerHTML = card.innerHTML;
+  fc.className = card.className + ' visible';
+  fc.style.display = 'block';
+  fc.style.position = 'fixed';
+  fc.style.zIndex = '9999';
+  fc.style.background = '#f5edd8';
+  fc.style.border = '2px solid #7b4f2e';
+  fc.style.padding = '14px';
+  fc.style.width = Math.min(260, window.innerWidth * 0.88) + 'px';
+  fc.style.maxWidth = '90vw';
+  fc.style.boxShadow = '4px 4px 0 #3d2314';
+  fc.style.fontFamily = 'Libre Baskerville, serif';
+
+  // Copy any dynamic theme styles
+  const themeStyle = document.getElementById('theme-dynamic-style');
+  if (themeStyle) {
+    const bcMeta = fc.querySelectorAll('.bc-meta, .bc-author, h4');
+    bcMeta.forEach(el => { el.style.color = '#1a1008'; el.style.webkitTextFillColor = '#1a1008'; });
+  }
+
+  // Position: above book, centred, within viewport
   const bookRect = book.getBoundingClientRect();
-  const cardW = Math.min(260, window.innerWidth * 0.9);
-  card.style.width = cardW + 'px';
-  // Horizontal: centre on book but keep within viewport
-  let left = bookRect.left + bookRect.width/2 - cardW/2;
+  const cardW = parseInt(fc.style.width);
+  let left = bookRect.left + bookRect.width / 2 - cardW / 2;
   left = Math.max(8, Math.min(left, window.innerWidth - cardW - 8));
-  // Vertical: above book if possible, below if not enough room
-  const cardH = card.offsetHeight || 200;
-  let top = bookRect.top - cardH - 8 + window.scrollY;
-  if (bookRect.top < cardH + 20) top = bookRect.bottom + 8 + window.scrollY;
-  card.style.left = left + 'px';
-  card.style.top = top + 'px';
+  fc.style.left = left + 'px';
+  fc.style.top = '-9999px';
+  fc.style.display = 'block';
+  const cardH = fc.offsetHeight;
+  let top = bookRect.top - cardH - 10;
+  if (top < 8) top = bookRect.bottom + 10;
+  fc.style.top = top + 'px';
+
+  // Re-attach button events
+  const editBtn = fc.querySelector('button:not(.delete)');
+  const delBtn = fc.querySelector('button.delete');
+  const key = book.querySelector('.book-card')?.getAttribute ? null : null;
+  // Find key from original card onclick
+  const origCard = book.querySelector('.book-card');
+  if (origCard) {
+    const origBtns = origCard.querySelectorAll('button');
+    const fcBtns = fc.querySelectorAll('button');
+    origBtns.forEach((ob, i) => {
+      if (fcBtns[i]) fcBtns[i].onclick = ob.onclick;
+    });
+    const origLinks = origCard.querySelectorAll('a');
+    const fcLinks = fc.querySelectorAll('a');
+    origLinks.forEach((ol, i) => { if (fcLinks[i]) { fcLinks[i].href = ol.href; fcLinks[i].target = '_blank'; }});
+  }
 });
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 document.getElementById('inp-title').addEventListener('keydown',e=>{if(e.key==='Enter')addBook();});
