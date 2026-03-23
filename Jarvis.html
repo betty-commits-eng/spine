@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPINE — Library Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#06040200;}
+body{background:#080602;color:#c9a96e;font-family:'Courier Prime',monospace;overflow-x:hidden;}
+
+/* ── Login Screen ── */
+#login-screen{display:flex;position:fixed;inset:0;background:#080602;z-index:500;align-items:center;justify-content:center;flex-direction:column;gap:24px;}
+#login-screen h1{font-family:'Special Elite',cursive;font-size:2.5rem;letter-spacing:0.3em;color:#d4a843;text-align:center;}
+#login-screen p{font-family:'Courier Prime',monospace;font-size:0.8rem;letter-spacing:0.2em;color:#5a4a20;text-align:center;}
+#login-screen .ornament{color:#3a2a10;font-size:1.2rem;letter-spacing:0.5em;}
+.google-btn{display:flex;align-items:center;gap:12px;background:#1a1206;color:#c9a96e;border:1px solid #3a2a10;padding:14px 28px;font-family:'Courier Prime',monospace;font-size:0.9rem;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;}
+.google-btn:hover{background:#2a1e0a;border-color:#c9a96e;}
+.google-btn svg{width:20px;height:20px;}
+
+/* ── Scanlines overlay ── */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:1000;}
+
+/* ── Grid lines ── */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(201,169,110,0.02) 28px,rgba(201,169,110,0.02) 29px),repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(201,169,110,0.02) 28px,rgba(201,169,110,0.02) 29px);pointer-events:none;z-index:0;}
+
+/* ── Main Layout ── */
+#jarvis{display:none;min-height:100vh;padding:20px;position:relative;z-index:1;}
+
+/* ── Header ── */
+.jv-header{border-bottom:1px solid #2a1e08;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.jv-title{font-family:'Special Elite',cursive;font-size:1.3rem;letter-spacing:0.35em;color:#d4a843;}
+.jv-title span{color:#3a2a10;font-size:0.9rem;margin-left:8px;}
+.jv-meta{display:flex;gap:20px;align-items:center;}
+.jv-status{font-size:0.6rem;letter-spacing:0.2em;color:#3a2a10;}
+.jv-status .dot{color:#2d8a2d;animation:blink 2s infinite;}
+.jv-user{font-size:0.65rem;letter-spacing:0.12em;color:#5a4a20;display:flex;align-items:center;gap:8px;}
+.jv-avatar{width:24px;height:24px;border-radius:50%;border:1px solid #3a2a10;object-fit:cover;}
+.sign-out{background:none;border:1px solid #2a1e08;color:#3a2a10;font-family:'Courier Prime',monospace;font-size:0.55rem;letter-spacing:0.12em;padding:3px 8px;cursor:pointer;}
+.sign-out:hover{border-color:#c9a96e;color:#c9a96e;}
+
+/* ── Stats Row ── */
+.jv-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.jv-stat{border:1px solid #2a1e08;padding:12px;position:relative;}
+.jv-stat::before{content:'';position:absolute;top:-1px;left:12px;width:24px;height:1px;background:#c9a96e;}
+.jv-stat-label{font-size:0.52rem;letter-spacing:0.22em;color:#3a2a10;text-transform:uppercase;margin-bottom:6px;}
+.jv-stat-value{font-size:2rem;font-family:'Special Elite',cursive;color:#d4a843;line-height:1;}
+.jv-stat-sub{font-size:0.55rem;color:#3a2a10;margin-top:4px;letter-spacing:0.1em;}
+
+/* ── Main Grid ── */
+.jv-grid{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:14px;margin-bottom:14px;}
+
+/* ── Radar ── */
+.jv-radar-panel{border:1px solid #2a1e08;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.radar-label{font-size:0.52rem;letter-spacing:0.22em;color:#3a2a10;}
+#radar-svg{width:100%;max-width:180px;}
+.radar-ring{fill:none;stroke:#1a1206;stroke-width:1;}
+.radar-grid{stroke:#1a1206;stroke-width:0.5;}
+.radar-pulse{fill:none;stroke:#c9a96e;stroke-width:1;animation:radarPulse 2.5s ease-out infinite;}
+.radar-pulse2{animation-delay:1.25s;}
+.radar-dot{fill:#d4a843;}
+.radar-member{fill:#c9a96e;}
+
+/* ── Feed ── */
+.jv-feed-panel{border:1px solid #2a1e08;display:flex;flex-direction:column;overflow:hidden;}
+.jv-feed-head{padding:8px 14px;border-bottom:1px solid #1a1206;font-size:0.52rem;letter-spacing:0.2em;color:#3a2a10;flex-shrink:0;}
+.jv-feed-list{flex:1;overflow:hidden;position:relative;height:220px;}
+.feed-scroll{animation:feedScroll 25s linear infinite;}
+.feed-scroll:hover{animation-play-state:paused;}
+.jv-feed-item{padding:7px 14px;font-size:0.68rem;letter-spacing:0.04em;border-bottom:1px solid rgba(26,18,6,0.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px;}
+.fi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.fi-owner{font-size:0.5rem;color:#3a2a10;letter-spacing:0.1em;flex-shrink:0;}
+
+/* ── Members Panel ── */
+.jv-members-panel{border:1px solid #2a1e08;padding:14px;}
+.jv-panel-head{font-size:0.52rem;letter-spacing:0.22em;color:#3a2a10;margin-bottom:12px;}
+.member-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a1206;}
+.member-row:last-child{border-bottom:none;}
+.member-name{font-size:0.72rem;letter-spacing:0.1em;color:#c9a96e;}
+.member-stats{display:flex;gap:12px;}
+.member-stat{text-align:right;}
+.member-stat-val{font-size:0.9rem;font-family:'Special Elite',cursive;color:#d4a843;display:block;}
+.member-stat-lbl{font-size:0.45rem;letter-spacing:0.1em;color:#3a2a10;}
+.member-bar{width:100%;height:3px;background:#1a1206;margin-top:4px;}
+.member-bar-fill{height:100%;background:#c9a96e;transition:width 1s ease;}
+
+/* ── Bottom Row ── */
+.jv-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ── Goal Panel ── */
+.jv-goal-panel{border:1px solid #2a1e08;padding:16px;}
+.goal-layout{display:flex;align-items:center;gap:20px;margin-top:12px;}
+.goal-ring-wrap{flex-shrink:0;}
+.goal-details{flex:1;}
+.goal-fraction{font-size:1.6rem;font-family:'Special Elite',cursive;color:#d4a843;}
+.goal-desc{font-size:0.55rem;letter-spacing:0.12em;color:#3a2a10;margin-top:4px;}
+.goal-bar{background:#1a1206;height:6px;border:1px solid #2a1e08;margin-top:10px;}
+.goal-bar-fill{height:100%;background:#c9a96e;transition:width 1.5s ease;}
+.goal-quarters{display:flex;justify-content:space-between;margin-top:3px;}
+.goal-q{font-size:0.48rem;color:#2a1e08;letter-spacing:0.08em;}
+
+/* ── Log Panel ── */
+.jv-log-panel{border:1px solid #2a1e08;padding:16px;display:flex;flex-direction:column;gap:5px;}
+.log-line{font-size:0.65rem;letter-spacing:0.06em;color:#2a1e08;min-height:16px;transition:color 0.3s;}
+.log-line.active{color:#c9a96e;}
+.log-cursor{display:inline-block;width:8px;height:13px;background:#c9a96e;animation:blink 1s infinite;vertical-align:middle;margin-left:2px;}
+
+/* ── Animations ── */
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes radarPulse{0%{r:6;opacity:0.9;}100%{r:75;opacity:0;}}
+@keyframes feedScroll{0%{transform:translateY(0);}100%{transform:translateY(-50%);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.jv-stat,.jv-radar-panel,.jv-feed-panel,.jv-members-panel,.jv-goal-panel,.jv-log-panel{animation:fadeIn 0.6s ease both;}
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="ornament">✦ ✦ ✦</div>
+  <h1>S P I N E</h1>
+  <p>LIBRARY INTELLIGENCE SYSTEM</p>
+  <div class="ornament">— ✦ —</div>
+  <button class="google-btn" onclick="signIn()">
+    <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    ACCESS LIBRARY SYSTEM
+  </button>
+  <div id="login-error" style="color:#8b2020;font-size:0.65rem;letter-spacing:0.12em;display:none;">ACCESS DENIED — AUTHORISED PERSONNEL ONLY</div>
+</div>
+
+<!-- Main Interface -->
+<div id="jarvis">
+  <!-- Header -->
+  <div class="jv-header">
+    <div class="jv-title">S P I N E <span>// LIBRARY INTELLIGENCE</span></div>
+    <div class="jv-meta">
+      <div class="jv-status">SYSTEM STATUS &nbsp;<span class="dot">● ONLINE</span>&nbsp;&nbsp; <span id="jv-date"></span></div>
+      <div class="jv-user">
+        <img class="jv-avatar" id="jv-avatar" src="" alt="">
+        <span id="jv-name"></span>
+        <button class="sign-out" onclick="signOut()">SIGN OUT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="jv-stats">
+    <div class="jv-stat" style="animation-delay:0.1s">
+      <div class="jv-stat-label">Total Volumes</div>
+      <div class="jv-stat-value" id="s-total">—</div>
+      <div class="jv-stat-sub">FAMILY CATALOGUE</div>
+    </div>
+    <div class="jv-stat" style="animation-delay:0.15s">
+      <div class="jv-stat-label">Read</div>
+      <div class="jv-stat-value" id="s-read">—</div>
+      <div class="jv-stat-sub">COMPLETED</div>
+    </div>
+    <div class="jv-stat" style="animation-delay:0.2s">
+      <div class="jv-stat-label">Reading</div>
+      <div class="jv-stat-value" id="s-reading">—</div>
+      <div class="jv-stat-sub">IN PROGRESS</div>
+    </div>
+    <div class="jv-stat" style="animation-delay:0.25s">
+      <div class="jv-stat-label">Unread</div>
+      <div class="jv-stat-value" id="s-unread">—</div>
+      <div class="jv-stat-sub">AWAITING</div>
+    </div>
+    <div class="jv-stat" style="animation-delay:0.3s">
+      <div class="jv-stat-label">Wishlist</div>
+      <div class="jv-stat-value" id="s-wishlist">—</div>
+      <div class="jv-stat-sub">REQUESTED</div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="jv-grid">
+    <!-- Radar -->
+    <div class="jv-radar-panel" style="animation-delay:0.35s">
+      <div class="radar-label">// LIBRARY SCAN</div>
+      <svg id="radar-svg" viewBox="0 0 180 180">
+        <circle class="radar-ring" cx="90" cy="90" r="80"/>
+        <circle class="radar-ring" cx="90" cy="90" r="60"/>
+        <circle class="radar-ring" cx="90" cy="90" r="40"/>
+        <circle class="radar-ring" cx="90" cy="90" r="20"/>
+        <line class="radar-grid" x1="10" y1="90" x2="170" y2="90"/>
+        <line class="radar-grid" x1="90" y1="10" x2="90" y2="170"/>
+        <line class="radar-grid" x1="33" y1="33" x2="147" y2="147" stroke-dasharray="3 3"/>
+        <line class="radar-grid" x1="147" y1="33" x2="33" y2="147" stroke-dasharray="3 3"/>
+        <circle class="radar-pulse" cx="90" cy="90" r="6"/>
+        <circle class="radar-pulse radar-pulse2" cx="90" cy="90" r="6"/>
+        <!-- Member dots placed around radar -->
+        <circle class="radar-member" cx="55" cy="48" r="4" opacity="0.8"/>
+        <text x="55" y="42" text-anchor="middle" fill="#5a4a20" font-family="Courier Prime" font-size="8" letter-spacing="1">BETTY</text>
+        <circle class="radar-member" cx="128" cy="60" r="4" opacity="0.7"/>
+        <text x="128" y="54" text-anchor="middle" fill="#5a4a20" font-family="Courier Prime" font-size="8" letter-spacing="1">CHELS</text>
+        <circle class="radar-member" cx="68" cy="130" r="4" opacity="0.6"/>
+        <text x="68" y="148" text-anchor="middle" fill="#5a4a20" font-family="Courier Prime" font-size="8" letter-spacing="1">PETER</text>
+        <circle class="radar-member" cx="130" cy="118" r="3" opacity="0.5"/>
+        <text x="130" y="136" text-anchor="middle" fill="#5a4a20" font-family="Courier Prime" font-size="8" letter-spacing="1">AVA</text>
+        <circle class="radar-dot" cx="90" cy="90" r="4"/>
+      </svg>
+      <div class="radar-label" id="radar-status">SCANNING...</div>
+    </div>
+
+    <!-- Feed -->
+    <div class="jv-feed-panel" style="animation-delay:0.4s">
+      <div class="jv-feed-head">// CATALOGUE FEED — FAMILY COLLECTION</div>
+      <div class="jv-feed-list">
+        <div class="feed-scroll" id="feed-scroll">
+          <div id="feed-items"></div>
+          <div id="feed-items-clone"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members -->
+    <div class="jv-members-panel" style="animation-delay:0.45s">
+      <div class="jv-panel-head">// MEMBER PROFILES</div>
+      <div id="member-rows"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="jv-bottom">
+    <!-- Goal -->
+    <div class="jv-goal-panel" style="animation-delay:0.5s">
+      <div class="jv-panel-head">// PERSONAL READING MISSION — <span id="goal-member-name"></span></div>
+      <div class="goal-layout">
+        <div class="goal-ring-wrap">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="38" fill="none" stroke="#1a1206" stroke-width="7"/>
+            <circle cx="45" cy="45" r="38" fill="none" stroke="#c9a96e" stroke-width="7"
+              stroke-dasharray="238.76" id="goal-arc" stroke-dashoffset="238.76"
+              stroke-linecap="round" transform="rotate(-90 45 45)"/>
+            <text x="45" y="49" text-anchor="middle" fill="#d4a843"
+              font-family="Special Elite" font-size="16" id="goal-pct">0%</text>
+          </svg>
+        </div>
+        <div class="goal-details">
+          <div class="goal-fraction" id="goal-fraction">— / —</div>
+          <div class="goal-desc">VOLUMES THIS YEAR</div>
+          <div class="goal-bar" style="margin-top:12px;">
+            <div class="goal-bar-fill" id="goal-bar-fill" style="width:0%"></div>
+          </div>
+          <div class="goal-quarters">
+            <span class="goal-q">Q1</span><span class="goal-q">Q2</span>
+            <span class="goal-q">Q3</span><span class="goal-q">Q4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="jv-log-panel" style="animation-delay:0.55s">
+      <div class="jv-panel-head">// SYSTEM LOG</div>
+      <div class="log-line" id="l0">SPINE INTELLIGENCE v2.0 — INITIALISING...</div>
+      <div class="log-line" id="l1">CONNECTING TO FIREBASE DATABASE...</div>
+      <div class="log-line" id="l2">AUTHENTICATING USER CREDENTIALS...</div>
+      <div class="log-line" id="l3">CATALOGUE SYNC IN PROGRESS...</div>
+      <div class="log-line" id="l4">LOADING MEMBER PROFILES...</div>
+      <div class="log-line" id="l5">READING GOAL ANALYSIS COMPLETE.</div>
+      <div class="log-line" id="l6">ALL SYSTEMS NOMINAL.<span class="log-cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = { apiKey:"AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc", authDomain:"spine-001.firebaseapp.com", databaseURL:"https://spine-001-default-rtdb.firebaseio.com", projectId:"spine-001", storageBucket:"spine-001.firebasestorage.app", messagingSenderId:"1058346929766", appId:"1:1058346929766:web:6704800343c22e34cae7a7" };
+
+const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com"];
+const MEMBERS = [
+  {key:'betty',  email:'bettykwale@gmail.com',     label:'Betty'},
+  {key:'chelsey',email:'chelseymcrory@gmail.com',  label:'Chelsey'},
+  {key:'peter',  email:'petersmcrory@gmail.com',   label:'Peter'},
+  {key:'ava',    email:'ava',                       label:'Ava'},
+];
+const STATUS_COLORS = {read:'#2d8a2d', reading:'#e6a020', unread:'#555555', wishlist:'#6a4fcc'};
+
+const app  = initializeApp(firebaseConfig);
+const db   = getDatabase(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+let books = [];
+let currentUserEmail = '';
+
+// Date
+const d = new Date();
+document.getElementById('jv-date').textContent =
+  d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase().replace(/ /g,'.');
+
+// Auth
+window.signIn = () => signInWithPopup(auth, provider).catch(()=>{});
+window.signOut = () => fbSignOut(auth);
+
+onAuthStateChanged(auth, async user => {
+  if (user && ALLOWED_EMAILS.includes(user.email)) {
+    currentUserEmail = user.email;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('jarvis').style.display = 'block';
+    document.getElementById('jv-name').textContent = (user.displayName || user.email).split(' ')[0].toUpperCase();
+    if (user.photoURL) document.getElementById('jv-avatar').src = user.photoURL;
+    bootSequence();
+    await loadData(user);
+  } else if (user) {
+    fbSignOut(auth);
+    document.getElementById('login-error').style.display = 'block';
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('jarvis').style.display = 'none';
+  }
+});
+
+async function loadData(user) {
+  try {
+    const token = await user.getIdToken();
+    const res = await fetch(`https://spine-001-default-rtdb.firebaseio.com/books.json?auth=${token}`);
+    const data = await res.json();
+    books = data ? Object.entries(data).map(([k,v])=>({_key:k,...v})) : [];
+    renderAll();
+  } catch(e) {
+    log(6, 'DATA LOAD ERROR — CHECK CONNECTION.');
+  }
+}
+
+function renderAll() {
+  renderStats();
+  renderFeed();
+  renderMembers();
+  renderGoal();
+  document.getElementById('radar-status').textContent = `${books.length} VOLUMES INDEXED`;
+}
+
+function renderStats() {
+  const total    = books.length;
+  const read     = books.filter(b=>b.status==='read').length;
+  const reading  = books.filter(b=>b.status==='reading').length;
+  const unread   = books.filter(b=>b.status==='unread').length;
+  const wishlist = books.filter(b=>b.status==='wishlist').length;
+  animateCount('s-total',   total);
+  animateCount('s-read',    read);
+  animateCount('s-reading', reading);
+  animateCount('s-unread',  unread);
+  animateCount('s-wishlist',wishlist);
+}
+
+function animateCount(id, target) {
+  const el = document.getElementById(id);
+  let cur = 0;
+  const step = Math.max(1, Math.floor(target / 20));
+  const t = setInterval(()=>{
+    cur = Math.min(target, cur + step);
+    el.textContent = String(cur).padStart(2,'0');
+    if (cur >= target) clearInterval(t);
+  }, 60);
+}
+
+function renderFeed() {
+  const items = [...books].sort((a,b)=>(b.added||'').localeCompare(a.added||''));
+  const html = items.map(b => {
+    const owner = MEMBERS.find(m=>m.email===b.addedBy);
+    const color = STATUS_COLORS[b.status] || '#555';
+    return `<div class="jv-feed-item">
+      <span class="fi-dot" style="background:${color}"></span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;">${b.title}${b.author?' — '+b.author.split(' ').pop():''}</span>
+      <span class="fi-owner">${owner?owner.label.toUpperCase():''}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('feed-items').innerHTML = html;
+  document.getElementById('feed-items-clone').innerHTML = html;
+}
+
+function renderMembers() {
+  const maxBooks = Math.max(1, ...MEMBERS.map(m => books.filter(b=>b.addedBy===m.email||b.addedBy===m.key).length));
+  const html = MEMBERS.map(m => {
+    const mb = books.filter(b=>b.addedBy===m.email||b.addedBy===m.key);
+    const total = mb.length;
+    const read  = mb.filter(b=>b.status==='read').length;
+    const pct   = Math.round((total/maxBooks)*100);
+    return `<div class="member-row">
+      <div>
+        <div class="member-name">${m.label.toUpperCase()}</div>
+        <div class="member-bar"><div class="member-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="member-stats">
+        <div class="member-stat">
+          <span class="member-stat-val">${String(total).padStart(2,'0')}</span>
+          <span class="member-stat-lbl">TOTAL</span>
+        </div>
+        <div class="member-stat">
+          <span class="member-stat-val">${String(read).padStart(2,'0')}</span>
+          <span class="member-stat-lbl">READ</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('member-rows').innerHTML = html;
+}
+
+function renderGoal() {
+  const member = MEMBERS.find(m=>m.email===currentUserEmail) || MEMBERS[0];
+  const goal   = parseInt(localStorage.getItem(`spine-goal-${member.key}`) || '12');
+  const read   = books.filter(b=>(b.addedBy===member.email||b.addedBy===member.key)&&b.status==='read').length;
+  const pct    = Math.min(100, Math.round((read/goal)*100));
+  const circ   = 238.76;
+  const offset = circ - (circ * pct / 100);
+
+  document.getElementById('goal-member-name').textContent = member.label.toUpperCase();
+  document.getElementById('goal-fraction').textContent = `${read} / ${goal}`;
+  document.getElementById('goal-pct').textContent = `${pct}%`;
+  document.getElementById('goal-bar-fill').style.width = `${pct}%`;
+  setTimeout(()=>{
+    document.getElementById('goal-arc').style.transition = 'stroke-dashoffset 1.5s ease';
+    document.getElementById('goal-arc').setAttribute('stroke-dashoffset', offset);
+  }, 500);
+}
+
+function bootSequence() {
+  const lines = ['l0','l1','l2','l3','l4','l5','l6'];
+  lines.forEach((id,i)=>{
+    setTimeout(()=>{
+      document.getElementById(id).classList.add('active');
+    }, 300 + i*400);
+  });
+}
+
+function log(lineNum, msg) {
+  const el = document.getElementById('l'+lineNum);
+  if (el) el.textContent = msg;
+}
+</script>
+</body>
+</html>
