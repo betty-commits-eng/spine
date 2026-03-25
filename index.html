@@ -42,7 +42,6 @@
   .stamp-text-large { font-size:0.85rem; font-weight:700; letter-spacing:0.08em; display:block; }
   /* Gothic stamp - large circular wax seal */
   .stamp-gothic { border-color:rgba(80,70,100,0.65) !important; color:rgba(80,70,100,0.65) !important; border-radius:50% !important; width:120px !important; height:120px !important; transform:translateY(-50%) rotate(-4deg) !important; font-family:'Libre Baskerville',serif !important; border-width:3px !important; }
-  @media (max-width:700px) { .stamp-gothic, .stamp-japanese, .stamp-beatrix { display:none !important; } }
   .stamp-gothic::before { border-color:rgba(80,70,100,0.3) !important; border-radius:50% !important; border-style:solid !important; }
   /* Japanese stamp - bold red hanko */
   .stamp-japanese { border-color:rgba(192,64,48,0.8) !important; color:rgba(192,64,48,0.8) !important; border-radius:4px !important; transform:translateY(-50%) rotate(4deg) !important; font-family:'Noto Serif JP',serif !important; border-width:4px !important; width:110px !important; height:110px !important; }
@@ -259,7 +258,7 @@
   .dewey-section.collapsed .list-view { display:none !important; }
   .view-toggle-row { display:flex; justify-content:flex-end; margin-bottom:10px; }
   @media (max-width:700px) {
-    header h1 { font-size:1.8rem; } .header-label-strip { font-size:0.55rem; padding:5px 12px; } .library-stamp { display:none; } .stamp-text-large { font-size:0.5rem; } .catalogue-tabs-strip { display:none; } .header-inner { padding:16px 16px 14px; } .catalogue-plate { font-size:0.55rem; margin-bottom:6px; } .user-bar { top:10px; right:10px; } .user-name { display:none; } .view-btn { color:var(--brown) !important; -webkit-text-fill-color:var(--brown) !important; } .view-btn.active { color:var(--cream) !important; -webkit-text-fill-color:var(--cream) !important; } .main-wrap { padding:16px 12px; } .controls { flex-direction:column; padding:16px; } .field,.field.wide { min-width:100%; } .controls::before { display:none; } button.add-btn { width:100%; text-align:center; } .stats-bar { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; } .stat { min-width:75px; padding:10px 8px; } .stat-num { font-size:1.4rem; } .stat-label { font-size:0.55rem; } .owner-tabs { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; padding-bottom:4px; gap:3px; -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%); mask-image:linear-gradient(to right,black 85%,transparent 100%); margin-bottom:16px; } .owner-tab { flex:0 0 auto; font-size:0.7rem; padding:8px 12px 10px; letter-spacing:0.06em; white-space:nowrap; } .tab-icon { display:none; } .search-row { flex-wrap:wrap; gap:8px; } .search-row input { min-width:100%; } .search-row select { flex:1; } .view-toggle-row { margin-bottom:8px; } .section-number { width:48px; height:48px; font-size:1.1rem; } .section-title { font-size:1rem; } .section-sub { font-size:0.72rem; } .bli-author { display:none; } .bli-call { min-width:44px; font-size:0.85rem; }
+    header h1 { font-size:1.8rem; } .header-label-strip { font-size:0.55rem; padding:5px 12px; } .library-stamp { width:54px; height:54px; font-size:0.38rem; left:8px; top:50%; padding:4px; line-height:1.5; } .stamp-text-large { font-size:0.5rem; } .catalogue-tabs-strip { display:none; } .header-inner { padding:16px 16px 14px; } .catalogue-plate { font-size:0.55rem; margin-bottom:6px; } .user-bar { top:10px; right:10px; } .user-name { display:none; } .main-wrap { padding:16px 12px; } .controls { flex-direction:column; padding:16px; } .field,.field.wide { min-width:100%; } .controls::before { display:none; } button.add-btn { width:100%; text-align:center; } .stats-bar { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; } .stat { min-width:75px; padding:10px 8px; } .stat-num { font-size:1.4rem; } .stat-label { font-size:0.55rem; } .owner-tabs { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; padding-bottom:4px; gap:3px; -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%); mask-image:linear-gradient(to right,black 85%,transparent 100%); margin-bottom:16px; } .owner-tab { flex:0 0 auto; font-size:0.7rem; padding:8px 12px 10px; letter-spacing:0.06em; white-space:nowrap; } .tab-icon { display:none; } .search-row { flex-wrap:wrap; gap:8px; } .search-row input { min-width:100%; } .search-row select { flex:1; } .view-toggle-row { margin-bottom:8px; } .section-number { width:48px; height:48px; font-size:1.1rem; } .section-title { font-size:1rem; } .section-sub { font-size:0.72rem; } .bli-author { display:none; } .bli-call { min-width:44px; font-size:0.85rem; }
   }
   .owner-tabs::-webkit-scrollbar { display:none; }
   .owner-tabs { -ms-overflow-style:none; scrollbar-width:none; }
@@ -345,6 +344,8 @@
     <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')"><span class="tab-icon">❧</span> Chelsey's Library</button>
     <button class="owner-tab" id="tab-peter" onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter's Library</button>
     <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')"><span class="tab-icon">❧</span> Ava's Library</button>
+    <button class="owner-tab" id="tab-patricia" onclick="setOwnerFilter('patricia')"><span class="tab-icon">❧</span> Patricia's Library</button>
+    <button class="owner-tab" id="tab-ashley" onclick="setOwnerFilter('ashley')"><span class="tab-icon">❧</span> Ashley's Library</button>
   </div>
   <div class="view-toggle-row"><div class="view-toggle"><button class="view-btn active" id="btn-shelf" onclick="setView('shelf')">Shelf</button><button class="view-btn" id="btn-list" onclick="setView('list')">List</button></div></div>
   <div class="search-row">
@@ -389,7 +390,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = { apiKey:"AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc", authDomain:"spine-001.firebaseapp.com", databaseURL:"https://spine-001-default-rtdb.firebaseio.com", projectId:"spine-001", storageBucket:"spine-001.firebasestorage.app", messagingSenderId:"1058346929766", appId:"1:1058346929766:web:6704800343c22e34cae7a7" };
-const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com"];
+const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com","p.bowa@hotmail.com","ashleybowa@gmail.com"];
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
 const auth = getAuth(fbApp);
@@ -524,14 +525,14 @@ function saveEdit() {
 }
 function statusColor(s){return{read:'#2d8a2d',reading:'#e6a020',unread:'#888',wishlist:'#6a4fcc'}[s]||'#888';}
 function statusLabel(s){return{read:'Read',reading:'Reading',unread:'Unread',wishlist:'Wishlist'}[s]||s;}
-function ownerFilteredBooks(){return books.filter(b=>ownerFilter==='all'||(ownerFilter==='betty'&&b.addedBy==='bettykwale@gmail.com')||(ownerFilter==='chelsey'&&b.addedBy==='chelseymcrory@gmail.com')||(ownerFilter==='peter'&&b.addedBy==='petersmcrory@gmail.com')||(ownerFilter==='ava'&&b.addedBy==='ava'));}
+function ownerFilteredBooks(){const m=MEMBERS.find(m=>m.key===ownerFilter);return books.filter(b=>ownerFilter==='all'||(m&&b.addedBy===m.email)||(ownerFilter==='ava'&&b.addedBy==='ava'));}
 function filteredBooks(){
   const q=document.getElementById('search').value.toLowerCase();
   const fs=document.getElementById('filter-status').value;
   return books.filter(b=>{
     const mQ=!q||b.title.toLowerCase().includes(q)||(b.author||'').toLowerCase().includes(q);
     const mS=!fs||b.status===fs;
-    const mO=ownerFilter==='all'||(ownerFilter==='betty'&&b.addedBy==='bettykwale@gmail.com')||(ownerFilter==='chelsey'&&b.addedBy==='chelseymcrory@gmail.com')||(ownerFilter==='peter'&&b.addedBy==='petersmcrory@gmail.com')||(ownerFilter==='ava'&&b.addedBy==='ava');
+    const _om=MEMBERS.find(m=>m.key===ownerFilter);const mO=ownerFilter==='all'||(_om&&b.addedBy===_om.email)||(ownerFilter==='ava'&&b.addedBy==='ava');
     return mQ&&mS&&mO;
   });
 }
@@ -567,6 +568,8 @@ const MEMBERS=[
   {key:'chelsey',email:'chelseymcrory@gmail.com',label:'Chelsey'},
   {key:'peter',email:'petersmcrory@gmail.com',label:'Peter'},
   {key:'ava',email:'ava',label:'Ava'},
+  {key:'patricia',email:'p.bowa@hotmail.com',label:'Patricia'},
+  {key:'ashley',email:'ashleybowa@gmail.com',label:'Ashley'},
 ];
 function getMemberGoal(key){return parseInt(localStorage.getItem(`spine-goal-${key}`)||'12');}
 function setMemberGoal(key,val){if(val>0)localStorage.setItem(`spine-goal-${key}`,val);}
@@ -711,8 +714,8 @@ const THEMES = {
     sectionNumBorder: 'rgba(192,64,48,0.4)', sectionNumText: '#f0e8d8', sectionTitle: '#f0e8d8', sectionSub: '#8090b0',
     legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8',
     sectionCountBg: 'rgba(26,42,74,0.9)', sectionCountText: '#f0e8d8', sectionCountBorder: '#c04030',
-    shelfBg: 'repeating-linear-gradient(90deg,rgba(0,0,0,0.06) 0px,transparent 1px,transparent 8px,rgba(0,0,0,0.04) 8px),linear-gradient(180deg,#3a1e08 0%,#2a1406 30%,#321a08 60%,#241006 100%)', shelfBorder: '2px solid #8a4020', shelfBorderTop: '3px solid #c06030', shelfShadow: 'inset 0 8px 24px rgba(0,0,0,0.7),inset 0 2px 0 rgba(200,140,80,0.2)',
-    plankBg: 'repeating-linear-gradient(90deg,rgba(0,0,0,0.08) 0px,transparent 2px,transparent 10px,rgba(0,0,0,0.05) 10px),linear-gradient(180deg,#4a2810 0%,#3a1e08 40%,#2a1406 100%)', plankBorder: '2px solid #c06030', plankShadow: '0 6px 16px rgba(0,0,0,0.8),inset 0 1px 0 rgba(200,140,60,0.3)',
+    shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)', shelfBorder: '2px solid #c04030', shelfBorderTop: '3px solid #d05040', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
+    plankBg: '#1a2a4a', plankBorder: '2px solid #c04030', plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
     bandBg: 'linear-gradient(180deg,rgba(80,30,10,0.7) 0%,rgba(200,150,80,0.1) 30%,rgba(80,30,10,0.05) 55%,rgba(200,150,80,0.08) 75%,rgba(80,30,10,0.65) 100%)', bandShadow: '0 2px 6px rgba(0,0,0,0.5),inset 0 1px 0 rgba(200,160,80,0.2)', bandLine: 'linear-gradient(90deg,transparent,rgba(192,64,48,0.4) 20%,rgba(220,80,60,0.9) 50%,rgba(192,64,48,0.4) 80%,transparent)',
     grooveBg: 'linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(192,64,48,0.06) 40%,rgba(0,0,0,0.65) 100%)',
     labelBg: 'linear-gradient(180deg,#f0e8d0 0%,#e4d8bc 40%,#d8c8a8 100%)', labelBorder: '#8a4020', labelText: 'linear-gradient(180deg,#2a1408 0%,#3a1e0c 40%,#4a2810 70%,#3a1e0c 100%)',
@@ -779,8 +782,8 @@ function applyTheme(name, save = true) {
 
     /* Legend & view toggle */
     .legend-item { color: ${t.legendText} !important; }
-    .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; -webkit-text-fill-color: ${t.tabText} !important; }
-    .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; -webkit-text-fill-color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; }
+    .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; }
+    .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; }
 
     /* Bookshelf */
     .bookshelf { background: ${t.shelfBg} !important; border: ${t.shelfBorder} !important; border-top: ${t.shelfBorderTop} !important; box-shadow: ${t.shelfShadow} !important; }
@@ -871,7 +874,7 @@ function renderAll(){
           <h4>${b.title}</h4>
           <div class="bc-author">${b.author||'Unknown Author'}</div>
           <div class="bc-meta">Dewey: ${b.dewey} · ${b.year||'n.d.'}</div>
-          <div class="bc-meta bc-owner">${b.addedBy==='bettykwale@gmail.com'?'❧ Betty':b.addedBy==='chelseymcrory@gmail.com'?'❧ Chelsey':b.addedBy==='petersmcrory@gmail.com'?'❧ Peter':b.addedBy==='ava'?'❧ Ava':''}</div>
+          <div class="bc-meta bc-owner">${(()=>{const _m=MEMBERS.find(m=>m.email===b.addedBy||(m.key==='ava'&&b.addedBy==='ava'));return _m?'❧ '+_m.label:'';})()}</div>
           <div class="bc-meta"><span style="background:${statusColor(b.status)};color:#fff;font-size:0.68rem;padding:2px 8px;letter-spacing:0.06em;text-transform:uppercase;">${statusLabel(b.status)}</span></div>
           ${b.rating?`<div style="color:#c8960c;font-size:1rem;margin-top:4px;">${'★'.repeat(b.rating)}<span style="color:#ddd;">${'★'.repeat(5-b.rating)}</span></div>`:`<div style="color:#ddd;font-size:1rem;margin-top:4px;">☆☆☆☆☆</div>`}
           ${b.notes?`<div class="bc-review">"${b.notes}"</div>`:''}
