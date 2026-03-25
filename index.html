@@ -152,7 +152,7 @@
   .book-band-bottom { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-top:1px solid rgba(0,0,0,0.95); box-shadow:0 -3px 8px rgba(0,0,0,0.8),inset 0 -1px 0 rgba(255,255,255,0.12); }
   .book-band-bottom::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
   /* Brass label — Dewey + author, slightly larger */
-  .book-label { background:linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%) !important; padding:2px 3px; text-align:center; width:calc(100% - 16px); letter-spacing:0.04em; line-height:1.4; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15),0 0 0 1px rgba(100,65,10,0.5); position:relative; z-index:4; flex-shrink:0; color:transparent; -webkit-text-fill-color:transparent; }
+  .book-label { background:linear-gradient(180deg,#5a3a12 0%,#3a2208 40%,#281806 100%) !important; padding:2px 3px; text-align:center; width:calc(100% - 16px); letter-spacing:0.04em; line-height:1.4; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15); position:relative; z-index:4; flex-shrink:0; color:transparent; -webkit-text-fill-color:transparent; }
   .book-label::before { content:''; position:absolute; inset:2px; border-radius:2px; border:1px solid rgba(200,155,40,0.3); pointer-events:none; }
   .book-label span { background:linear-gradient(180deg,#fff6c0 0%,#e8c84a 40%,#c8960c 70%,#8c6b1f 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter:drop-shadow(0 0 3px rgba(255,200,60,0.4)); display:block; font-size:5px; font-family:'Courier Prime',monospace; font-weight:700; }
   /* Gold foil title text */
@@ -390,7 +390,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, push, remove, update, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = { apiKey:"AIzaSyCtjswyv_p66BrRV-HmNOn1vPF8PhC9KFc", authDomain:"spine-001.firebaseapp.com", databaseURL:"https://spine-001-default-rtdb.firebaseio.com", projectId:"spine-001", storageBucket:"spine-001.firebasestorage.app", messagingSenderId:"1058346929766", appId:"1:1058346929766:web:6704800343c22e34cae7a7" };
-const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com","p.bowa@hotmail.com","ashleybowa@gmail.com"];
+const ALLOWED_EMAILS = ["bettykwale@gmail.com","chelseymcrory@gmail.com","petersmcrory@gmail.com","p.bowa64@gmail.com","ashleybowa@gmail.com"];
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
 const auth = getAuth(fbApp);
