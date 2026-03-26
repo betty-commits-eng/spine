@@ -862,7 +862,7 @@ function renderAll(){
         <div class="book-spine" style="background:${spineGrad};height:${h}px;position:relative;">
           <div class="book-band-top"></div>
           <div class="book-label"><span>${b.dewey}<br>${(b.author||'').split(' ').pop().substring(0,4).toUpperCase()||'—'}</span></div>
-          ${isJP?`<div style="position:absolute;right:3px;top:60px;width:14px;height:14px;background:${hColor};border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Noto Serif JP',serif;font-size:4.5px;color:rgba(255,255,255,0.92);line-height:1.2;border-radius:1px;box-shadow:0 1px 3px rgba(0,0,0,0.6);">${hChar[0]}<br>${hChar[1]}</div>`:''}
+          ${isJP?`<div style="position:absolute;right:0px;top:60px;width:13px;height:18px;background:linear-gradient(135deg,${hColor} 60%,rgba(0,0,0,0.35) 100%);border-left:1px solid rgba(255,255,255,0.12);border-top:1px solid rgba(255,255,255,0.1);border-right:none;border-bottom:1px solid rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Noto Serif JP',serif;font-size:4.5px;color:rgba(255,255,255,0.95);line-height:1.3;border-radius:2px 0 0 2px;box-shadow:inset -2px 0 4px rgba(0,0,0,0.5),inset 1px 0 2px rgba(255,255,255,0.1),-1px 1px 4px rgba(0,0,0,0.7);text-shadow:0 0 3px rgba(0,0,0,0.8);">${hChar[0]}<br>${hChar[1]}</div>`:''}
           <div class="book-title-spine">${b.title}</div>
           <div class="book-mid-groove"></div>
           <div class="book-status-dot" style="background:${statusColor(b.status)};"></div>
