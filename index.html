@@ -887,7 +887,7 @@ function renderAll(){
             `:`<button onclick="event.stopPropagation();window._openEdit('${b._key}',true)" style="width:100%;">View Details</button>`}
           </div>
           <a class="bc-amazon" href="https://www.amazon.com/s?k=${encodeURIComponent(b.title+' '+(b.author||''))}" target="_blank" onclick="event.stopPropagation()">🛒 Buy on Amazon</a>
-          <a class="bc-amazon" href="https://bookshop.org/search?keywords=${encodeURIComponent(b.title+' '+(b.author||''))}" target="_blank" onclick="event.stopPropagation()" style="margin-top:4px;border-color:#5a8a3c;color:#5a8a3c;">📗 Buy at Bookshop.org</a>
+          <a class="bc-amazon" href="https://www.indigo.ca/en-ca/search/?q=${encodeURIComponent(b.title+' '+(b.author||''))}" target="_blank" onclick="event.stopPropagation()" style="margin-top:4px;border-color:#8a2060;color:#8a2060;">📕 Buy at Indigo</a>
           <div class="library-dropdown" onclick="event.stopPropagation()">
             <button class="library-btn" onclick="this.nextElementSibling.classList.toggle('open')">🏛️ Find at Library ▾</button>
             <div class="library-menu">
