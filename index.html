@@ -331,6 +331,15 @@
   }
   .owner-tabs::-webkit-scrollbar { display:none; }
   .owner-tabs { -ms-overflow-style:none; scrollbar-width:none; }
+  /* ── Collapsible add form on mobile ── */
+  .controls-toggle { display:none; }
+  @media(max-width:700px) {
+    .controls-toggle { display:flex; justify-content:space-between; align-items:center; width:100%; background:linear-gradient(135deg,#f5edd8,#e8d8b0); border:2px solid #8a6530; padding:12px 20px; font-family:'Special Elite',cursive; font-size:0.85rem; letter-spacing:0.12em; color:#3a2008; cursor:pointer; margin-bottom:8px; }
+    .controls-toggle .arrow { transition: transform 0.3s; }
+    .controls-toggle.open .arrow { transform: rotate(180deg); }
+    .controls { display:none !important; }
+    .controls.open { display:flex !important; }
+  }
 </style>
 </head>
 <body>
@@ -380,7 +389,10 @@
   </div>
 </header>
 <div class="main-wrap">
-  <div class="controls">
+  <button class="controls-toggle" id="controls-toggle" onclick="this.classList.toggle('open');document.getElementById('add-form').classList.toggle('open')">
+    <span>➕ Add a Book</span><span class="arrow">▼</span>
+  </button>
+  <div class="controls" id="add-form">
     <div class="field wide" style="position:relative;">
       <label>Title <span style="font-size:0.65rem;color:var(--brown);font-style:italic;">— type to search books automatically</span></label>
       <input type="text" id="inp-title" placeholder="Search by title or author..." autocomplete="off" oninput="searchBooks(this.value)">
