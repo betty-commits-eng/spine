@@ -13,8 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Kalam:wght@300;400&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root { --ink:#1a1008; --cream:#f5edd8; --parchment:#ede0c4; --tan:#c9a96e; --brown:#7b4f2e; --dark-brown:#3d2314; --red:#8b2020; --green:#2d5a27; }
-
-  /* ── Theme switcher button ───────────────────────────────────────────────── */
   #theme-switcher { position:fixed; bottom:20px; right:20px; z-index:400; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
   #theme-toggle-btn { background:rgba(0,0,0,0.7); color:#f0e8d0; border:1px solid rgba(255,255,255,0.25); padding:12px 20px; font-family:'Courier Prime',monospace; font-size:0.85rem; letter-spacing:0.12em; cursor:pointer; border-radius:4px; backdrop-filter:blur(4px); transition:all 0.2s; }
   #theme-toggle-btn:hover { background:rgba(0,0,0,0.9); border-color:rgba(255,255,255,0.4); }
@@ -23,8 +21,6 @@
   .theme-btn { background:rgba(0,0,0,0.7); color:#f0e8d0; border:1px solid rgba(255,255,255,0.15); padding:7px 14px; font-family:'Courier Prime',monospace; font-size:0.68rem; letter-spacing:0.1em; cursor:pointer; border-radius:3px; text-align:right; backdrop-filter:blur(4px); transition:all 0.2s; white-space:nowrap; }
   .theme-btn:hover { background:rgba(0,0,0,0.9); border-color:rgba(255,255,255,0.35); }
   .theme-btn.active { border-color:rgba(255,220,100,0.6); color:#f0d060; }
-  /* ── Jarvis overlay ── */
-  /* ── Jarvis overlay — Antique Spine aesthetic ── */
   #jarvis-overlay{display:none;position:fixed;inset:0;background:#b5975a;background-image:repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px),repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px),linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%);z-index:600;overflow-y:auto;}
   #jarvis-overlay.open{display:block;}
   #jarvis-close{position:fixed;top:16px;right:20px;z-index:700;background:linear-gradient(180deg,#2a1a08,#3d2a10);color:#f5edd8;border:2px solid #8a6530;padding:8px 18px;font-family:'Special Elite',cursive;font-size:0.7rem;letter-spacing:0.15em;cursor:pointer;box-shadow:2px 2px 0 rgba(0,0,0,0.4);}
@@ -65,15 +61,6 @@
   .jv-member-bar{width:100%;height:4px;background:rgba(196,160,96,0.3);margin-top:4px;border-radius:2px;}
   .jv-member-bar-fill{height:100%;background:linear-gradient(90deg,#a07840,#d4a843);transition:width 1s ease;border-radius:2px;}
   .jv-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:0;}
-  .goal-layout{display:flex;align-items:center;gap:20px;margin-top:12px;}
-  .goal-ring-wrap{flex-shrink:0;}
-  .goal-details-jv{flex:1;}
-  .goal-fraction-jv{font-size:1.8rem;font-family:'Special Elite',cursive;color:#3d2314;}
-  .goal-desc-jv{font-size:0.58rem;letter-spacing:0.1em;color:#7b4f2e;margin-top:4px;font-family:'Courier Prime',monospace;text-transform:uppercase;}
-  .goal-bar-jv{background:rgba(196,160,96,0.3);height:8px;border-radius:4px;margin-top:10px;}
-  .goal-bar-fill-jv{height:100%;background:linear-gradient(90deg,#a07840,#d4a843);transition:width 1.5s ease;border-radius:4px;}
-  .goal-quarters{display:flex;justify-content:space-between;margin-top:4px;}
-  .goal-q{font-size:0.5rem;color:#a07840;letter-spacing:0.08em;font-family:'Courier Prime',monospace;}
   .jv-log-panel{display:flex;flex-direction:column;gap:6px;}
   .jv-log-line{font-size:0.7rem;letter-spacing:0.04em;color:rgba(61,35,20,0.35);min-height:18px;transition:color 0.4s;font-family:'Courier Prime',monospace;}
   .jv-log-line.active{color:#3d2314;}
@@ -81,7 +68,6 @@
   @keyframes jvblink{0%,100%{opacity:1;}50%{opacity:0;}}
   @keyframes jvfeedScroll{0%{transform:translateY(0);}100%{transform:translateY(-50%);}}
   @media(max-width:600px){.jv-stats{grid-template-columns:repeat(3,1fr);}.jv-grid{grid-template-columns:1fr!important;}.jv-bottom{grid-template-columns:1fr!important;}}
-  /* ── Collapsible add form on mobile ── */
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background-color:#b5975a; background-image: repeating-linear-gradient(92deg,transparent,transparent 60px,rgba(0,0,0,0.04) 60px,rgba(0,0,0,0.04) 61px), repeating-linear-gradient(180deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px), linear-gradient(135deg,#c4a265 0%,#a07840 25%,#b5975a 50%,#9a7035 75%,#b0904e 100%); font-family:'Libre Baskerville',serif; color:var(--ink); min-height:100vh; }
   header { background: linear-gradient(180deg, #2a1a08 0%, #3d2a10 40%, #2e1e0a 100%); border-bottom: 6px solid #8a6530; padding: 0; text-align: center; position: relative; box-shadow: 0 6px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); }
@@ -99,13 +85,10 @@
   .library-stamp { position:absolute; top:50%; left:18%; transform:translateY(-50%) rotate(-6deg); width:110px; height:110px; border:3px solid rgba(180,60,40,0.5); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:rgba(180,60,40,0.5); font-family:'Special Elite',cursive; font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; line-height:1.7; text-align:center; padding:8px; transition: all 0.4s ease; }
   .library-stamp::before { content:''; position:absolute; inset:4px; border:1px solid rgba(180,60,40,0.3); border-radius:2px; }
   .stamp-text-large { font-size:0.85rem; font-weight:700; letter-spacing:0.08em; display:block; }
-  /* Gothic stamp - large circular wax seal */
   .stamp-gothic { border-color:rgba(80,70,100,0.65) !important; color:rgba(80,70,100,0.65) !important; border-radius:50% !important; width:120px !important; height:120px !important; transform:translateY(-50%) rotate(-4deg) !important; font-family:'Libre Baskerville',serif !important; border-width:3px !important; }
   .stamp-gothic::before { border-color:rgba(80,70,100,0.3) !important; border-radius:50% !important; border-style:solid !important; }
-  /* Japanese stamp - bold red hanko */
   .stamp-japanese { border-color:rgba(192,64,48,0.8) !important; color:rgba(192,64,48,0.8) !important; border-radius:4px !important; transform:translateY(-50%) rotate(4deg) !important; font-family:'Noto Serif JP',serif !important; border-width:4px !important; width:110px !important; height:110px !important; }
   .stamp-japanese::before { border-color:rgba(192,64,48,0.4) !important; border-width:2px !important; }
-  /* Beatrix stamp - large ornate oval */
   .stamp-beatrix { border-color:rgba(60,100,40,0.9) !important; color:rgba(60,100,40,0.9) !important; border-radius:50% !important; transform:translateY(-50%) rotate(-8deg) !important; font-family:'Kalam',cursive !important; border-style:solid !important; border-width:3px !important; width:130px !important; height:120px !important; }
   .stamp-beatrix::before { border-color:rgba(60,100,40,0.5) !important; border-radius:50% !important; border-style:dashed !important; }
   .sync { display:inline-block; margin-top:8px; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; padding:3px 12px; border-radius:20px; font-family:'Libre Baskerville',serif; }
@@ -163,77 +146,27 @@
   .section-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--cream); letter-spacing:0.04em; }
   .section-sub { font-family:'IM Fell English',serif; font-style:italic; color:var(--tan); font-size:0.85rem; margin-top:2px; }
   .section-count { background:rgba(0,0,0,0.3); color:var(--tan); font-family:'Playfair Display',serif; font-size:0.8rem; padding:4px 12px; border:1px solid var(--tan); letter-spacing:0.08em; }
-  /* Shelf — warm walnut */
   .bookshelf { background: linear-gradient(180deg, #1a0e06 0%, #140a04 60%, #100804 100%); border: 2px solid #5a3010; border-top: 3px solid #7a4818; border-radius: 2px; padding: 24px 20px 0; position: relative; min-height: 100px; box-shadow: inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(160,90,15,0.2); overflow: visible; }
   .bookshelf::before { content: ''; position: absolute; bottom: 38px; left: 0; right: 0; height: 80px; background: linear-gradient(0deg, rgba(200,130,20,0.28) 0%, rgba(170,100,10,0.12) 50%, transparent 100%); pointer-events: none; z-index: 0; }
-  /* Shelf plank sits behind books — books float just above the tan edge line */
   .bookshelf::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 38px; background: linear-gradient(180deg, #2a1608 0%, #3a2010 20%, #4a2c14 45%, #5a3818 60%, #4a2c14 80%, #362010 100%); border-top: 2px solid #8a5828; border-radius: 0 0 2px 2px; box-shadow: 0 6px 16px rgba(0,0,0,0.9), inset 0 1px 0 rgba(220,160,60,0.25); z-index: 1; }
   .books-row { display:flex; gap:3px; flex-wrap:wrap; align-items:flex-end; min-height:210px; position:relative; z-index:2; margin-bottom:48px; }
-
-  /* ── Embossed leather spines ── */
   .book { position:relative; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s ease; flex-shrink:0; z-index:1; }
-  .book:hover { transform:translateY(-20px) rotate(-1deg); filter:brightness(1.3) contrast(1.1) saturate(1.1); z-index:200; }  /* Layer 1: Base spine structure */
-  .book-spine { width:46px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:0; border-radius:3px 1px 1px 3px; position:relative; overflow:hidden;
-    box-shadow:
-      -5px 0 10px rgba(0,0,0,0.95),
-      inset 4px 0 8px rgba(255,255,255,0.06),
-      inset -3px 0 10px rgba(0,0,0,0.8),
-      4px 0 0 rgba(0,0,0,0.9),
-      inset 0 0 40px rgba(0,0,0,0.6);
-  }
-  /* Layer 2: Leather grain texture */
-  .book-spine::before {
-    content:'';
-    position:absolute; inset:0;
-    background:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px),
-      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px),
-      repeating-linear-gradient(160deg, transparent, transparent 8px, rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 9px);
-    pointer-events:none; z-index:1;
-  }
-  /* Layer 3: Specular highlight + edge darkening */
-  .book-spine::after {
-    content:'';
-    position:absolute; inset:0;
-    background:
-      linear-gradient(90deg,
-        rgba(0,0,0,0.5) 0%,
-        rgba(255,255,255,0.08) 15%,
-        transparent 35%,
-        rgba(255,255,255,0.12) 50%,
-        transparent 65%,
-        rgba(0,0,0,0.3) 100%
-      );
-    pointer-events:none; z-index:3;
-  }
+  .book:hover { transform:translateY(-20px) rotate(-1deg); filter:brightness(1.3) contrast(1.1) saturate(1.1); z-index:200; }
+  .book-spine { width:46px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:0; border-radius:3px 1px 1px 3px; position:relative; overflow:hidden; box-shadow: -5px 0 10px rgba(0,0,0,0.95), inset 4px 0 8px rgba(255,255,255,0.06), inset -3px 0 10px rgba(0,0,0,0.8), 4px 0 0 rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.6); }
+  .book-spine::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 3px), repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px), repeating-linear-gradient(160deg, transparent, transparent 8px, rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 9px); pointer-events:none; z-index:1; }
+  .book-spine::after { content:''; position:absolute; inset:0; background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.08) 15%, transparent 35%, rgba(255,255,255,0.12) 50%, transparent 65%, rgba(0,0,0,0.3) 100%); pointer-events:none; z-index:3; }
   .book-band-top { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(180deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-bottom:1px solid rgba(0,0,0,0.95); box-shadow:0 3px 8px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.12); }
   .book-band-top::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
   .book-band-bottom { width:100%; flex-shrink:0; position:relative; z-index:2; height:18px; background:linear-gradient(0deg,rgba(0,0,0,0.85) 0%,rgba(255,255,255,0.14) 30%,rgba(0,0,0,0.12) 55%,rgba(255,255,255,0.1) 75%,rgba(0,0,0,0.75) 100%); border-top:1px solid rgba(0,0,0,0.95); box-shadow:0 -3px 8px rgba(0,0,0,0.8),inset 0 -1px 0 rgba(255,255,255,0.12); }
   .book-band-bottom::after { content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:linear-gradient(90deg,transparent,rgba(212,168,67,0.4) 20%,rgba(255,220,90,0.98) 50%,rgba(212,168,67,0.4) 80%,transparent); transform:translateY(-50%); box-shadow:0 0 4px rgba(255,200,60,0.4); }
-  /* Brass label — Dewey + author, slightly larger */
   .book-label { background:linear-gradient(180deg,#1a2a4a 0%,#0e1830 40%,#081020 100%) !important; padding:2px 3px; text-align:center; width:calc(100% - 16px); letter-spacing:0.04em; line-height:1.4; border-radius:3px; border:1px solid rgba(200,150,40,0.65); box-shadow:0 2px 6px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,215,80,0.15); position:relative; z-index:4; flex-shrink:0; color:transparent; -webkit-text-fill-color:transparent; }
   .book-label::before { content:''; position:absolute; inset:2px; border-radius:2px; border:1px solid rgba(200,155,40,0.3); pointer-events:none; }
   .book-label span { background:linear-gradient(180deg,#fff6c0 0%,#e8c84a 40%,#c8960c 70%,#8c6b1f 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; filter:drop-shadow(0 0 3px rgba(255,200,60,0.4)); display:block; font-size:5px; font-family:'Courier Prime',monospace; font-weight:700; }
-  /* Gold foil title text */
-  .book-title-spine {
-    writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);
-    font-family:'IM Fell English',serif; font-size:11px; font-style:italic;
-    text-align:center; overflow:hidden; flex:1; max-height:130px;
-    letter-spacing:0.09em; position:relative; z-index:2; padding:4px 0;
-    /* Gold foil effect */
-    background: linear-gradient(180deg, #fff6c0 0%, #e8c84a 35%, #d4af37 55%, #c8960c 75%, #a07820 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 4px rgba(255,180,40,0.5)) drop-shadow(1px 1px 2px rgba(0,0,0,0.9));
-  }
+  .book-title-spine { writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg); font-family:'IM Fell English',serif; font-size:11px; font-style:italic; text-align:center; overflow:hidden; flex:1; max-height:130px; letter-spacing:0.09em; position:relative; z-index:2; padding:4px 0; background: linear-gradient(180deg, #fff6c0 0%, #e8c84a 35%, #d4af37 55%, #c8960c 75%, #a07820 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 4px rgba(255,180,40,0.5)) drop-shadow(1px 1px 2px rgba(0,0,0,0.9)); }
   .book-mid-groove { width:100%; height:5px; flex-shrink:0; position:relative; z-index:2; background:linear-gradient(180deg,rgba(0,0,0,0.7) 0%,rgba(255,255,255,0.04) 40%,rgba(0,0,0,0.6) 100%); border-top:1px solid rgba(0,0,0,0.9); border-bottom:1px solid rgba(0,0,0,0.9); }
   .book-status-dot { width:9px; height:9px; border-radius:50%; border:1px solid rgba(0,0,0,0.8); flex-shrink:0; position:relative; z-index:4; margin-bottom:3px; box-shadow:0 2px 6px rgba(0,0,0,0.98),inset 0 1px 0 rgba(255,255,255,0.35),0 0 0 2px rgba(0,0,0,0.6),0 0 0 3px rgba(180,130,30,0.25); }
   .book-author-tag { display:none; }
-  /* Ground shadow so books sit ON the shelf */
-  .book { position:relative; cursor:pointer; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),filter 0.3s ease; flex-shrink:0; z-index:1; }
   .book::after { content:''; position:absolute; bottom:0; left:2%; right:2%; height:8px; background:rgba(0,0,0,0.8); border-radius:50%; filter:blur(5px); z-index:0; pointer-events:none; }
-
   .book-card { display:none; position:fixed; background:#f5edd8; border:2px solid var(--brown); padding:14px; width:260px; z-index:2000; box-shadow:4px 4px 0 var(--dark-brown); text-align:left; isolation:isolate; max-width:90vw; }
   .book-card::after { content:''; position:absolute; top:100%; left:0; right:0; height:12px; background:transparent; }
   .book-card.visible { display:block; }
@@ -330,7 +263,6 @@
   }
   .owner-tabs::-webkit-scrollbar { display:none; }
   .owner-tabs { -ms-overflow-style:none; scrollbar-width:none; }
-  /* ── Collapsible add form on mobile ── */
   .controls-toggle { display:none; }
   @media(max-width:700px) {
     .controls-toggle { display:flex; justify-content:space-between; align-items:center; width:100%; background:linear-gradient(135deg,#f5edd8,#e8d8b0); border:2px solid #8a6530; padding:12px 20px; font-family:'Special Elite',cursive; font-size:0.85rem; letter-spacing:0.12em; color:#3a2008; cursor:pointer; margin-bottom:8px; }
@@ -339,9 +271,16 @@
     .controls { display:none !important; }
     .controls.open { display:flex !important; }
   }
+  /* ── Demo Mode Banner ── */
+  #demo-banner { display:none; position:fixed; top:0; left:0; right:0; z-index:9999; background:linear-gradient(90deg,#6a1010,#8b2020,#6a1010); color:#f5edd8; text-align:center; padding:7px 16px; font-family:'Special Elite',cursive; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; box-shadow:0 2px 8px rgba(0,0,0,0.4); }
+  #demo-banner.show { display:block; }
+  #demo-banner a { color:#f5edd8; text-decoration:underline; cursor:pointer; margin-left:16px; opacity:0.85; font-style:italic; }
+  body.demo-mode header { margin-top:34px; }
+  body.demo-mode .controls::before { content:'DEMO — CHANGES NOT SAVED' !important; color:rgba(139,32,32,0.6) !important; }
 </style>
 </head>
 <body>
+<div id="demo-banner">📚 Demo Mode — Sample Data &nbsp;·&nbsp; No login required &nbsp;·&nbsp; Changes are not saved <a onclick="exitDemo()">✕ Exit Demo</a></div>
 <div id="login-screen">
   <div class="login-card">
     <span class="login-ornament">❧</span>
@@ -351,6 +290,10 @@
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
       Sign in with Google
     </button>
+    <button class="google-btn" onclick="startDemo()" style="margin-top:10px;background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;justify-content:center;">
+      📚 Try Demo — No Login Needed
+    </button>
+    <p style="font-size:0.68rem;color:#a08060;margin-top:10px;letter-spacing:0.05em;font-style:italic;margin-bottom:0;">Explore all features with sample data</p>
     <div class="login-error" id="login-error">Access denied. Your account is not on the allowed list.</div>
   </div>
 </div>
@@ -402,111 +345,19 @@
       <label>Dewey Class</label>
       <select id="inp-dewey">
         <option value="">— Select —</option>
-        <optgroup label="000 — Generalities">
-          <option value="000">000 General</option>
-          <option value="004">004 Computer Science</option>
-          <option value="020">020 Library Science</option>
-        </optgroup>
-        <optgroup label="100 — Philosophy &amp; Psychology">
-          <option value="100">100 Philosophy</option>
-          <option value="128">128 Humankind</option>
-          <option value="150">150 Psychology</option>
-          <option value="152">152 Emotions</option>
-          <option value="158">158 Self-Help</option>
-        </optgroup>
-        <optgroup label="200 — Religion">
-          <option value="200">200 Religion</option>
-          <option value="210">210 Philosophy of Religion</option>
-          <option value="220">220 Bible</option>
-          <option value="230">230 Christianity</option>
-          <option value="290">290 Other Religions</option>
-        </optgroup>
-        <optgroup label="300 — Social Sciences">
-          <option value="300">300 Social Sciences</option>
-          <option value="305">305 Social Groups</option>
-          <option value="320">320 Political Science</option>
-          <option value="330">330 Economics</option>
-          <option value="340">340 Law</option>
-          <option value="360">360 Social Problems</option>
-          <option value="370">370 Education</option>
-          <option value="380">380 Commerce</option>
-        </optgroup>
-        <optgroup label="400 — Language">
-          <option value="400">400 Language</option>
-          <option value="410">410 Linguistics</option>
-          <option value="420">420 English</option>
-          <option value="440">440 French</option>
-          <option value="460">460 Spanish</option>
-        </optgroup>
-        <optgroup label="500 — Natural Sciences">
-          <option value="500">500 Natural Sciences</option>
-          <option value="508">508 Natural History</option>
-          <option value="510">510 Mathematics</option>
-          <option value="520">520 Astronomy</option>
-          <option value="530">530 Physics</option>
-          <option value="540">540 Chemistry</option>
-          <option value="560">560 Fossils</option>
-          <option value="570">570 Biology</option>
-          <option value="580">580 Plants</option>
-          <option value="590">590 Animals</option>
-        </optgroup>
-        <optgroup label="600 — Technology">
-          <option value="600">600 Technology</option>
-          <option value="610">610 Medicine</option>
-          <option value="613">613 Health &amp; Fitness</option>
-          <option value="616">616 Diseases</option>
-          <option value="630">630 Agriculture</option>
-          <option value="640">640 Home &amp; Family</option>
-          <option value="641">641 Food &amp; Cooking</option>
-          <option value="650">650 Business</option>
-          <option value="690">690 Building</option>
-        </optgroup>
-        <optgroup label="700 — Arts &amp; Recreation">
-          <option value="700">700 Arts</option>
-          <option value="710">710 Landscape Arts</option>
-          <option value="720">720 Architecture</option>
-          <option value="730">730 Sculpture</option>
-          <option value="740">740 Drawing &amp; Crafts</option>
-          <option value="745">745 Decorative Arts</option>
-          <option value="750">750 Painting</option>
-          <option value="770">770 Photography</option>
-          <option value="780">780 Music</option>
-          <option value="790">790 Sports &amp; Recreation</option>
-        </optgroup>
-        <optgroup label="800 — Literature">
-          <option value="800">800 Literature</option>
-          <option value="810">810 American Literature</option>
-          <option value="811">811 American Poetry</option>
-          <option value="813">813 American Fiction</option>
-          <option value="820">820 English Literature</option>
-          <option value="821">821 English Poetry</option>
-          <option value="823">823 English Fiction</option>
-          <option value="830">830 German Literature</option>
-          <option value="840">840 French Literature</option>
-          <option value="843">843 French Fiction</option>
-          <option value="850">850 Italian Literature</option>
-          <option value="860">860 Spanish Literature</option>
-          <option value="880">880 Classical Literature</option>
-          <option value="891">891 Other Languages</option>
-        </optgroup>
-        <optgroup label="900 — History &amp; Geography">
-          <option value="900">900 History</option>
-          <option value="910">910 Geography &amp; Travel</option>
-          <option value="920">920 Biography</option>
-          <option value="930">930 Ancient History</option>
-          <option value="940">940 European History</option>
-          <option value="950">950 Asian History</option>
-          <option value="960">960 African History</option>
-          <option value="970">970 North American History</option>
-          <option value="971">971 Canadian History</option>
-          <option value="980">980 South American History</option>
-        </optgroup>
+        <optgroup label="000 — Generalities"><option value="000">000 General</option><option value="004">004 Computer Science</option><option value="020">020 Library Science</option></optgroup>
+        <optgroup label="100 — Philosophy &amp; Psychology"><option value="100">100 Philosophy</option><option value="128">128 Humankind</option><option value="150">150 Psychology</option><option value="152">152 Emotions</option><option value="158">158 Self-Help</option></optgroup>
+        <optgroup label="200 — Religion"><option value="200">200 Religion</option><option value="210">210 Philosophy of Religion</option><option value="220">220 Bible</option><option value="230">230 Christianity</option><option value="290">290 Other Religions</option></optgroup>
+        <optgroup label="300 — Social Sciences"><option value="300">300 Social Sciences</option><option value="305">305 Social Groups</option><option value="320">320 Political Science</option><option value="330">330 Economics</option><option value="340">340 Law</option><option value="360">360 Social Problems</option><option value="370">370 Education</option><option value="380">380 Commerce</option></optgroup>
+        <optgroup label="400 — Language"><option value="400">400 Language</option><option value="410">410 Linguistics</option><option value="420">420 English</option><option value="440">440 French</option><option value="460">460 Spanish</option></optgroup>
+        <optgroup label="500 — Natural Sciences"><option value="500">500 Natural Sciences</option><option value="508">508 Natural History</option><option value="510">510 Mathematics</option><option value="520">520 Astronomy</option><option value="530">530 Physics</option><option value="540">540 Chemistry</option><option value="560">560 Fossils</option><option value="570">570 Biology</option><option value="580">580 Plants</option><option value="590">590 Animals</option></optgroup>
+        <optgroup label="600 — Technology"><option value="600">600 Technology</option><option value="610">610 Medicine</option><option value="613">613 Health &amp; Fitness</option><option value="616">616 Diseases</option><option value="630">630 Agriculture</option><option value="640">640 Home &amp; Family</option><option value="641">641 Food &amp; Cooking</option><option value="650">650 Business</option><option value="690">690 Building</option></optgroup>
+        <optgroup label="700 — Arts &amp; Recreation"><option value="700">700 Arts</option><option value="710">710 Landscape Arts</option><option value="720">720 Architecture</option><option value="730">730 Sculpture</option><option value="740">740 Drawing &amp; Crafts</option><option value="745">745 Decorative Arts</option><option value="750">750 Painting</option><option value="770">770 Photography</option><option value="780">780 Music</option><option value="790">790 Sports &amp; Recreation</option></optgroup>
+        <optgroup label="800 — Literature"><option value="800">800 Literature</option><option value="810">810 American Literature</option><option value="811">811 American Poetry</option><option value="813">813 American Fiction</option><option value="820">820 English Literature</option><option value="821">821 English Poetry</option><option value="823">823 English Fiction</option><option value="830">830 German Literature</option><option value="840">840 French Literature</option><option value="843">843 French Fiction</option><option value="850">850 Italian Literature</option><option value="860">860 Spanish Literature</option><option value="880">880 Classical Literature</option><option value="891">891 Other Languages</option></optgroup>
+        <optgroup label="900 — History &amp; Geography"><option value="900">900 History</option><option value="910">910 Geography &amp; Travel</option><option value="920">920 Biography</option><option value="930">930 Ancient History</option><option value="940">940 European History</option><option value="950">950 Asian History</option><option value="960">960 African History</option><option value="970">970 North American History</option><option value="971">971 Canadian History</option><option value="980">980 South American History</option></optgroup>
       </select>
     </div>
-    <div class="field">
-      <label>Status</label>
-      <select id="inp-status"><option value="unread">Unread</option><option value="reading">Reading</option><option value="read">Read</option><option value="wishlist">Wishlist</option></select>
-    </div>
+    <div class="field"><label>Status</label><select id="inp-status"><option value="unread">Unread</option><option value="reading">Reading</option><option value="read">Read</option><option value="wishlist">Wishlist</option></select></div>
     <div class="field"><label>Year</label><input type="number" id="inp-year" placeholder="e.g. 1984" min="1000" max="2099"></div>
     <button class="add-btn" onclick="addBook()">+ Add to Collection</button>
     <div class="adding-for-row" id="adding-for-row">
@@ -548,105 +399,17 @@
     <label>Author</label><input type="text" id="edit-author">
     <label>Dewey Classification</label>
     <select id="edit-dewey"><option value="">— Select —</option>
-        <optgroup label="000 — Generalities">
-          <option value="000">000 General</option>
-          <option value="004">004 Computer Science</option>
-          <option value="020">020 Library Science</option>
-        </optgroup>
-        <optgroup label="100 — Philosophy &amp; Psychology">
-          <option value="100">100 Philosophy</option>
-          <option value="128">128 Humankind</option>
-          <option value="150">150 Psychology</option>
-          <option value="152">152 Emotions</option>
-          <option value="158">158 Self-Help</option>
-        </optgroup>
-        <optgroup label="200 — Religion">
-          <option value="200">200 Religion</option>
-          <option value="210">210 Philosophy of Religion</option>
-          <option value="220">220 Bible</option>
-          <option value="230">230 Christianity</option>
-          <option value="290">290 Other Religions</option>
-        </optgroup>
-        <optgroup label="300 — Social Sciences">
-          <option value="300">300 Social Sciences</option>
-          <option value="305">305 Social Groups</option>
-          <option value="320">320 Political Science</option>
-          <option value="330">330 Economics</option>
-          <option value="340">340 Law</option>
-          <option value="360">360 Social Problems</option>
-          <option value="370">370 Education</option>
-          <option value="380">380 Commerce</option>
-        </optgroup>
-        <optgroup label="400 — Language">
-          <option value="400">400 Language</option>
-          <option value="410">410 Linguistics</option>
-          <option value="420">420 English</option>
-          <option value="440">440 French</option>
-          <option value="460">460 Spanish</option>
-        </optgroup>
-        <optgroup label="500 — Natural Sciences">
-          <option value="500">500 Natural Sciences</option>
-          <option value="508">508 Natural History</option>
-          <option value="510">510 Mathematics</option>
-          <option value="520">520 Astronomy</option>
-          <option value="530">530 Physics</option>
-          <option value="540">540 Chemistry</option>
-          <option value="560">560 Fossils</option>
-          <option value="570">570 Biology</option>
-          <option value="580">580 Plants</option>
-          <option value="590">590 Animals</option>
-        </optgroup>
-        <optgroup label="600 — Technology">
-          <option value="600">600 Technology</option>
-          <option value="610">610 Medicine</option>
-          <option value="613">613 Health &amp; Fitness</option>
-          <option value="616">616 Diseases</option>
-          <option value="630">630 Agriculture</option>
-          <option value="640">640 Home &amp; Family</option>
-          <option value="641">641 Food &amp; Cooking</option>
-          <option value="650">650 Business</option>
-          <option value="690">690 Building</option>
-        </optgroup>
-        <optgroup label="700 — Arts &amp; Recreation">
-          <option value="700">700 Arts</option>
-          <option value="710">710 Landscape Arts</option>
-          <option value="720">720 Architecture</option>
-          <option value="730">730 Sculpture</option>
-          <option value="740">740 Drawing &amp; Crafts</option>
-          <option value="745">745 Decorative Arts</option>
-          <option value="750">750 Painting</option>
-          <option value="770">770 Photography</option>
-          <option value="780">780 Music</option>
-          <option value="790">790 Sports &amp; Recreation</option>
-        </optgroup>
-        <optgroup label="800 — Literature">
-          <option value="800">800 Literature</option>
-          <option value="810">810 American Literature</option>
-          <option value="811">811 American Poetry</option>
-          <option value="813">813 American Fiction</option>
-          <option value="820">820 English Literature</option>
-          <option value="821">821 English Poetry</option>
-          <option value="823">823 English Fiction</option>
-          <option value="830">830 German Literature</option>
-          <option value="840">840 French Literature</option>
-          <option value="843">843 French Fiction</option>
-          <option value="850">850 Italian Literature</option>
-          <option value="860">860 Spanish Literature</option>
-          <option value="880">880 Classical Literature</option>
-          <option value="891">891 Other Languages</option>
-        </optgroup>
-        <optgroup label="900 — History &amp; Geography">
-          <option value="900">900 History</option>
-          <option value="910">910 Geography &amp; Travel</option>
-          <option value="920">920 Biography</option>
-          <option value="930">930 Ancient History</option>
-          <option value="940">940 European History</option>
-          <option value="950">950 Asian History</option>
-          <option value="960">960 African History</option>
-          <option value="970">970 North American History</option>
-          <option value="971">971 Canadian History</option>
-          <option value="980">980 South American History</option>
-        </optgroup></select>
+        <optgroup label="000 — Generalities"><option value="000">000 General</option><option value="004">004 Computer Science</option><option value="020">020 Library Science</option></optgroup>
+        <optgroup label="100 — Philosophy &amp; Psychology"><option value="100">100 Philosophy</option><option value="128">128 Humankind</option><option value="150">150 Psychology</option><option value="152">152 Emotions</option><option value="158">158 Self-Help</option></optgroup>
+        <optgroup label="200 — Religion"><option value="200">200 Religion</option><option value="210">210 Philosophy of Religion</option><option value="220">220 Bible</option><option value="230">230 Christianity</option><option value="290">290 Other Religions</option></optgroup>
+        <optgroup label="300 — Social Sciences"><option value="300">300 Social Sciences</option><option value="305">305 Social Groups</option><option value="320">320 Political Science</option><option value="330">330 Economics</option><option value="340">340 Law</option><option value="360">360 Social Problems</option><option value="370">370 Education</option><option value="380">380 Commerce</option></optgroup>
+        <optgroup label="400 — Language"><option value="400">400 Language</option><option value="410">410 Linguistics</option><option value="420">420 English</option><option value="440">440 French</option><option value="460">460 Spanish</option></optgroup>
+        <optgroup label="500 — Natural Sciences"><option value="500">500 Natural Sciences</option><option value="508">508 Natural History</option><option value="510">510 Mathematics</option><option value="520">520 Astronomy</option><option value="530">530 Physics</option><option value="540">540 Chemistry</option><option value="560">560 Fossils</option><option value="570">570 Biology</option><option value="580">580 Plants</option><option value="590">590 Animals</option></optgroup>
+        <optgroup label="600 — Technology"><option value="600">600 Technology</option><option value="610">610 Medicine</option><option value="613">613 Health &amp; Fitness</option><option value="616">616 Diseases</option><option value="630">630 Agriculture</option><option value="640">640 Home &amp; Family</option><option value="641">641 Food &amp; Cooking</option><option value="650">650 Business</option><option value="690">690 Building</option></optgroup>
+        <optgroup label="700 — Arts &amp; Recreation"><option value="700">700 Arts</option><option value="710">710 Landscape Arts</option><option value="720">720 Architecture</option><option value="730">730 Sculpture</option><option value="740">740 Drawing &amp; Crafts</option><option value="745">745 Decorative Arts</option><option value="750">750 Painting</option><option value="770">770 Photography</option><option value="780">780 Music</option><option value="790">790 Sports &amp; Recreation</option></optgroup>
+        <optgroup label="800 — Literature"><option value="800">800 Literature</option><option value="810">810 American Literature</option><option value="811">811 American Poetry</option><option value="813">813 American Fiction</option><option value="820">820 English Literature</option><option value="821">821 English Poetry</option><option value="823">823 English Fiction</option><option value="830">830 German Literature</option><option value="840">840 French Literature</option><option value="843">843 French Fiction</option><option value="850">850 Italian Literature</option><option value="860">860 Spanish Literature</option><option value="880">880 Classical Literature</option><option value="891">891 Other Languages</option></optgroup>
+        <optgroup label="900 — History &amp; Geography"><option value="900">900 History</option><option value="910">910 Geography &amp; Travel</option><option value="920">920 Biography</option><option value="930">930 Ancient History</option><option value="940">940 European History</option><option value="950">950 Asian History</option><option value="960">960 African History</option><option value="970">970 North American History</option><option value="971">971 Canadian History</option><option value="980">980 South American History</option></optgroup>
+    </select>
     <label>Status</label>
     <select id="edit-status" onchange="toggleReadDate(this.value)"><option value="unread">Unread</option><option value="reading">Reading</option><option value="read">Read</option><option value="wishlist">Wishlist</option></select>
     <label>Publication Year</label><input type="number" id="edit-year" min="1000" max="2099">
@@ -675,8 +438,8 @@ const auth = getAuth(fbApp);
 const provider = new GoogleAuthProvider();
 const booksRef = ref(db, 'books');
 let books=[], viewMode='shelf', collapsedSections=new Set(), dbUnsubscribe=null, ownerFilter='all', currentUserEmail='';
-
 onAuthStateChanged(auth, (user) => {
+  if (window._isDemoMode) return;
   if (user && (ALLOWED_EMAILS.length===0 || ALLOWED_EMAILS.includes(user.email))) {
     currentUserEmail=user.email; window._spineUserEmail=user.email;
     document.getElementById('login-screen').classList.remove('show');
@@ -686,7 +449,6 @@ onAuthStateChanged(auth, (user) => {
     if (user.photoURL) document.getElementById('user-avatar').src=user.photoURL;
     if (user.email==='chelseymcrory@gmail.com') document.getElementById('adding-for-row').classList.add('show');
     if (!dbUnsubscribe) startListening();
-    // Load this user's saved theme
     loadAndApplyTheme(user.email);
   } else if (user) {
     fbSignOut(auth);
@@ -694,14 +456,15 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('login-error').classList.add('show');
     document.getElementById('user-bar').style.display='none';
   } else {
-    document.getElementById('login-screen').classList.add('show');
-    document.getElementById('user-bar').style.display='none';
+    if (!window._isDemoMode) {
+      document.getElementById('login-screen').classList.add('show');
+      document.getElementById('user-bar').style.display='none';
+    }
     if (dbUnsubscribe) { clearInterval(dbUnsubscribe); dbUnsubscribe=null; }
-    books=[]; renderAll();
-  window._spineBooks = books;
+    if (!window._isDemoMode) { books=[]; renderAll(); }
+    window._spineBooks = books;
   }
 });
-
 let lastDataHash='';
 function hashData(data) { return JSON.stringify(data?Object.keys(data).sort():[])+JSON.stringify(data); }
 function startListening() {
@@ -729,7 +492,6 @@ function signOut() { fbSignOut(auth); }
 function fbAdd(data) { const readDate=data.status==='read'?new Date().toISOString():null; push(booksRef,{...data,added:new Date().toISOString(),...(readDate?{readDate}:{})}).catch(e=>{alert('Could not save: '+e.message);}); }
 function fbUpdate(key,data) { update(ref(db,`books/${key}`),data); }
 function fbDelete(key) { remove(ref(db,`books/${key}`)); }
-
 const DEWEY_CLASSES=[
   {num:'000',name:'Generalities',sub:'Computer science, information & general works',color:'#5c4a1a'},
   {num:'100',name:'Philosophy',sub:'Philosophy & psychology',color:'#8b2020'},
@@ -742,7 +504,6 @@ const DEWEY_CLASSES=[
   {num:'800',name:'Literature',sub:'Fiction, poetry & drama',color:'#3a5c1a'},
   {num:'900',name:'History',sub:'History, geography & biography',color:'#1a5c5c'},
 ];
-
 function addBook() {
   const title=document.getElementById('inp-title').value.trim();
   const author=document.getElementById('inp-author').value.trim();
@@ -752,16 +513,21 @@ function addBook() {
   if (!title||!dewey){alert('Please enter a title and select a Dewey class.');return;}
   const currentUser=auth.currentUser;
   const addingForEl=document.getElementById('inp-adding-for');
-  let addedBy=currentUser?currentUser.email:'';
-  if (addingForEl&&addingForEl.closest('.adding-for-row').classList.contains('show')) { if (addingForEl.value==='ava') addedBy='ava'; }
-  fbAdd({title,author,dewey,status,year:year?parseInt(year):null,notes:'',addedBy,coverImage:window._pendingCover||null});
+  let addedBy=window._isDemoMode?'alice@demo.com':(currentUser?currentUser.email:'');
+  if (!window._isDemoMode && addingForEl&&addingForEl.closest('.adding-for-row').classList.contains('show')) { if (addingForEl.value==='ava') addedBy='ava'; }
+  if (window._isDemoMode) {
+    const demoBook={_key:'d'+Date.now(),title,author,dewey,status,year:year?parseInt(year):null,notes:'',addedBy,coverImage:window._pendingCover||null,added:new Date().toISOString(),readDate:status==='read'?new Date().toISOString():null,rating:0};
+    books.push(demoBook);window._spineBooks=books;renderAll();
+  } else {
+    fbAdd({title,author,dewey,status,year:year?parseInt(year):null,notes:'',addedBy,coverImage:window._pendingCover||null});
+  }
   window._pendingCover=null;
   document.getElementById('inp-title').value='';
   document.getElementById('inp-author').value='';
   document.getElementById('inp-dewey').value='';
   document.getElementById('inp-year').value='';
 }
-function deleteBook(key) { if (!confirm('Remove this book from your collection?')) return; fbDelete(key); }
+function deleteBook(key) { if (!confirm('Remove this book from your collection?')) return; if(window._isDemoMode){books=books.filter(b=>b._key!==key);window._spineBooks=books;renderAll();return;}fbDelete(key); }
 function openEdit(key,viewOnly=false) {
   const b=books.find(x=>x._key===key); if (!b) return;
   document.getElementById('edit-id').value=key;
@@ -790,6 +556,11 @@ function openEdit(key,viewOnly=false) {
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 function saveEdit() {
   const key=document.getElementById('edit-id').value;
+  if (window._isDemoMode) {
+    const idx=books.findIndex(b=>b._key===key);
+    if(idx>=0){books[idx]={...books[idx],title:document.getElementById('edit-title').value.trim(),author:document.getElementById('edit-author').value.trim(),dewey:document.getElementById('edit-dewey').value,status:document.getElementById('edit-status').value,year:document.getElementById('edit-year').value?parseInt(document.getElementById('edit-year').value):null,notes:document.getElementById('edit-notes').value,rating:parseInt(document.getElementById('edit-rating').value)||0,readDate:document.getElementById('edit-status').value==='read'?(document.getElementById('edit-readdate').value?new Date(document.getElementById('edit-readdate').value).toISOString():new Date().toISOString()):null,coverImage:document.getElementById('edit-cover').value||null};window._spineBooks=books;}
+    closeModal();renderAll();return;
+  }
   fbUpdate(key,{
     title:document.getElementById('edit-title').value.trim(),
     author:document.getElementById('edit-author').value.trim(),
@@ -805,35 +576,35 @@ function saveEdit() {
 }
 function statusColor(s){return{read:'#2d8a2d',reading:'#e6a020',unread:'#888',wishlist:'#6a4fcc'}[s]||'#888';}
 function statusLabel(s){return{read:'Read',reading:'Reading',unread:'Unread',wishlist:'Wishlist'}[s]||s;}
-function ownerFilteredBooks(){const m=MEMBERS.find(m=>m.key===ownerFilter);return books.filter(b=>ownerFilter==='all'||(m&&b.addedBy===m.email)||(ownerFilter==='ava'&&b.addedBy==='ava'));}
+function ownerFilteredBooks(){const _M=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;const m=_M.find(m=>m.key===ownerFilter);return books.filter(b=>ownerFilter==='all'||(m&&(b.addedBy===m.email||b.addedBy===m.key)));}
 function filteredBooks(){
   const q=document.getElementById('search').value.toLowerCase();
   const fs=document.getElementById('filter-status').value;
+  const _M2=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
   return books.filter(b=>{
     const mQ=!q||b.title.toLowerCase().includes(q)||(b.author||'').toLowerCase().includes(q);
     const mS=!fs||b.status===fs;
-    const _om=MEMBERS.find(m=>m.key===ownerFilter);const mO=ownerFilter==='all'||(_om&&b.addedBy===_om.email)||(ownerFilter==='ava'&&b.addedBy==='ava');
+    const _om=_M2.find(m=>m.key===ownerFilter);const mO=ownerFilter==='all'||(_om&&(b.addedBy===_om.email||b.addedBy===_om.key));
     return mQ&&mS&&mO;
   });
 }
 function setOwnerFilter(f){
   ownerFilter=f;
   document.querySelectorAll('.owner-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+f).classList.add('active');
-  // Apply the member's saved theme, or antique for Main Library
+  const tabEl=document.getElementById('tab-'+f);
+  if(tabEl)tabEl.classList.add('active');
   if (f === 'all') {
     applyTheme('antique', false);
   } else {
-    const member = MEMBERS.find(m => m.key === f);
+    const _M=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
+    const member = _M.find(m => m.key === f);
     if (member) loadAndApplyTheme(member.email);
   }
   renderAll();
 }
 window.setOwnerFilter=setOwnerFilter;
-
-// Load a member's saved theme from Firebase and apply it
 async function loadAndApplyTheme(email) {
-  if (!email) { applyTheme('antique', false); return; }
+  if (!email || window._isDemoMode) { applyTheme('antique', false); return; }
   try {
     const snap = await get(ref(db, `themes/${email.replace(/[.@]/g,'_')}`));
     const savedTheme = snap.exists() ? snap.val() : 'antique';
@@ -842,7 +613,6 @@ async function loadAndApplyTheme(email) {
     applyTheme('antique', false);
   }
 }
-
 const MEMBERS=[
   {key:'betty',email:'bettykwale@gmail.com',label:'Betty'},
   {key:'chelsey',email:'chelseymcrory@gmail.com',label:'Chelsey'},
@@ -859,33 +629,33 @@ function renderRecentlyAdded(){
   const el=document.getElementById('recently-added');
   if(recent.length===0){el.style.display='none';return;}
   el.style.display='block';
+  const _allM=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
   el.innerHTML=`<h3>📚 Recently Added</h3><div class="recent-books">${recent.map(b=>{
-    const m=MEMBERS.find(mb=>mb.email===b.addedBy||(mb.key==='ava'&&b.addedBy==='ava'));
-    return `<div class="recent-book" onclick="window._openEdit('${b._key}',${b.addedBy!==currentUserEmail})">
+    const m=_allM.find(mb=>mb.email===b.addedBy||mb.key===b.addedBy);
+    return `<div class="recent-book" onclick="window._openEdit('${b._key}',${b.addedBy!==currentUserEmail&&!window._isDemoMode})">
       <div class="recent-book-title">${b.title}</div>
       <div class="recent-book-author">${b.author||'—'}</div>
       <div class="recent-book-owner">❧ ${m?m.label:''}</div>
     </div>`;
   }).join('')}</div>`;
 }
-
 function renderGoal(){
   const year=new Date().getFullYear();
   const el=document.getElementById('goal-bar');
-  // Hide on Main Library tab
   if(ownerFilter==='all'){el.style.display='none';return;}
   el.style.display='block';
-  const activeMembers=MEMBERS.filter(m=>m.key===ownerFilter);
+  const _MG=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
+  const activeMembers=_MG.filter(m=>m.key===ownerFilter);
   const label=activeMembers[0]?activeMembers[0].label+"'s":'Family';
   let totalRead=0,totalGoal=0;
   activeMembers.forEach(m=>{
-    const read=books.filter(b=>(b.addedBy===m.email)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
+    const read=books.filter(b=>(b.addedBy===m.email||b.addedBy===m.key)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
     totalRead+=read;totalGoal+=getMemberGoal(m.key);
   });
   const pct=Math.min(100,Math.round((totalRead/totalGoal)*100));
   const done=totalRead>=totalGoal;
   const activeMember=activeMembers[0];
-  const canEdit=activeMember&&activeMember.email===currentUserEmail;
+  const canEdit=activeMember&&(activeMember.email===currentUserEmail||window._isDemoMode);
   const editBtn=canEdit?`<span onclick="window._editGoal('${activeMember.key}',${totalGoal})" style="cursor:pointer;font-size:1.1rem;margin-left:8px;color:var(--dark-brown);font-weight:bold;" title="Edit goal">✎</span>`:'';
   el.innerHTML=`
     <div class="goal-header"><span class="goal-label">📖 ${year} ${label} Reading Goal</span><span class="goal-fraction">${totalRead} / ${totalGoal} books${editBtn}</span></div>
@@ -893,14 +663,11 @@ function renderGoal(){
     ${done?`<div class="goal-congrats">🎉 ${label} goal achieved!</div>`:''}`;
 }
 window._editGoal=function(key,current){const newVal=parseInt(prompt(`Set ${key.charAt(0).toUpperCase()+key.slice(1)}'s ${new Date().getFullYear()} goal:`,current));if(newVal>0){setMemberGoal(key,newVal);renderGoal();}};
-
 function renderStats(){
   const pool=ownerFilteredBooks();
   const total=pool.length,read=pool.filter(b=>b.status==='read').length,reading=pool.filter(b=>b.status==='reading').length,unread=pool.filter(b=>b.status==='unread').length,wishlist=pool.filter(b=>b.status==='wishlist').length;
   document.getElementById('stats-bar').innerHTML=`<div class="stat"><span class="stat-num">${total}</span><span class="stat-label">Total Books</span></div><div class="stat"><span class="stat-num">${read}</span><span class="stat-label">Read</span></div><div class="stat"><span class="stat-num">${reading}</span><span class="stat-label">Reading</span></div><div class="stat"><span class="stat-num">${unread}</span><span class="stat-label">Unread</span></div><div class="stat"><span class="stat-num">${wishlist}</span><span class="stat-label">Wishlist</span></div>`;
 }
-
-// ── Themes ────────────────────────────────────────────────────────────────────
 let currentTheme = 'antique';
 const THEMES = {
   antique: {
@@ -1024,7 +791,6 @@ const THEMES = {
     bookColors: [{base:'#5a2818',mid:'#8a3820',hi:'#b04828'},{base:'#c8b890',mid:'#ddd0a8',hi:'#ede0be'},{base:'#c0b888',mid:'#d4cc9c',hi:'#e4dcb0'},{base:'#8a6030',mid:'#b08040',hi:'#c89850'},{base:'#4a6830',mid:'#6a9040',hi:'#88b050'},{base:'#8a9898',mid:'#a8b4b4',hi:'#c4cccc'},{base:'#6a4a28',mid:'#8a6838',hi:'#a88448'},{base:'#5a2818',mid:'#8a3820',hi:'#b04828'},{base:'#c8b890',mid:'#ddd0a8',hi:'#ede0be'},{base:'#4a6830',mid:'#6a9040',hi:'#88b050'}],
   },
 };
-
 function applyTheme(name, save = true) {
   currentTheme = name;
   const t = THEMES[name];
@@ -1034,37 +800,26 @@ function applyTheme(name, save = true) {
   styleEl.textContent = `
     body { background-color: ${t.bodyBg} !important; background-image: ${t.bodyImg} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
     .main-wrap::before { background: ${t.mainOverlay} !important; background-size: ${t.bodySize} !important; background-position: ${t.bodyPos} !important; }
-
     header { background: ${t.headerBg} !important; border-bottom: 6px solid ${t.headerBorder} !important; }
     header h1 { color: ${t.headerH1} !important; text-shadow: ${t.headerH1Shadow} !important; }
     .header-label-strip { background: ${t.headerStrip} !important; border-top: 2px solid ${t.headerStripBorderTop} !important; border-bottom: 2px solid ${t.headerStripBorderBot} !important; color: ${t.headerStripText} !important; }
     .catalogue-plate { background: ${t.plateBg} !important; border: 2px solid ${t.plateBorder} !important; color: ${t.plateText} !important; }
-
-    /* Stats bar */
     .stats-bar { background: ${t.statsBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
     .stat { background: ${t.statCellBg} !important; border: 1px solid ${t.statCellBorder} !important; border-top: 3px solid ${t.statsBorderTop} !important; }
     .stat::after { background: ${t.statsBorderTop} !important; }
     .stat-num { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
     .stat-label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
-
-    /* Goal bar */
     .goal-bar { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
     .recently-added { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
     .recent-book { background: ${t.statCellBg} !important; border-color: ${t.statCellBorder} !important; }
     .goal-label { color: ${t.statLabel} !important; }
     .goal-track { background: ${t.goalTrack} !important; }
-
-    /* Section headers - extra specificity */
     .dewey-section .section-header .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
     .dewey-section .section-header .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
     .dewey-section .section-header .section-sub { color: ${t.sectionSub} !important; }
-
-    /* Tabs */
     .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; }
     .owner-tab:hover { background: ${t.tabHover} !important; }
     .owner-tab.active { background: ${t.tabActive} !important; color: ${t.tabActiveText} !important; border-bottom: 3px solid ${t.tabActiveBotBorder} !important; }
-
-    /* Search & controls */
     .search-row input { background: ${t.inputBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 3px solid ${t.inputBorderTop} !important; color: ${t.inputText} !important; }
     .search-row input::placeholder { color: ${t.inputPlaceholder} !important; }
     .search-row select { background: ${t.tabBg} !important; border: 2px solid ${t.inputBorder} !important; color: ${t.tabText} !important; }
@@ -1073,24 +828,15 @@ function applyTheme(name, save = true) {
     .controls input, .controls select { background: ${t.inputBg} !important; border-bottom: 2px solid ${t.inputBorder} !important; color: ${t.inputText} !important; -webkit-text-fill-color: ${t.inputText} !important; }
     .controls input::placeholder { color: ${t.inputPlaceholder} !important; }
     button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; }
-
-    /* Section headers */
     .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
     .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
     .section-sub { color: ${t.sectionSub} !important; -webkit-text-fill-color: ${t.sectionSub} !important; }
-
     .section-count { background: ${t.sectionCountBg} !important; color: ${t.sectionCountText} !important; border-color: ${t.sectionCountBorder} !important; -webkit-text-fill-color: ${t.sectionCountText} !important; }
-
-    /* Legend & view toggle */
     .legend-item { color: ${t.legendText} !important; }
     .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; }
     .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; }
-
-    /* Bookshelf */
     .bookshelf { background: ${t.shelfBg} !important; border: ${t.shelfBorder} !important; border-top: ${t.shelfBorderTop} !important; box-shadow: ${t.shelfShadow} !important; }
     .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
-
-    /* Books */
     .book-band-top { background: ${t.bandBg} !important; box-shadow: ${t.bandShadow} !important; }
     .book-band-bottom { background: ${t.bandBg} !important; box-shadow: ${t.bandShadow} !important; }
     .book-band-top::after, .book-band-bottom::after { background: ${t.bandLine} !important; }
@@ -1102,7 +848,6 @@ function applyTheme(name, save = true) {
     .book-spine { box-shadow: ${t.spineShadow} !important; }
     .book-spine::after { background: ${t.spineAfter} !important; }
   `;
-  // Switch the header stamp
   const stamp = document.querySelector('.library-stamp');
   if (stamp) {
     stamp.className = 'library-stamp';
@@ -1119,23 +864,20 @@ function applyTheme(name, save = true) {
       stamp.innerHTML = `<span class="stamp-text-large">Property</span><span>of the</span><span class="stamp-text-large">Family</span><span>Library</span>`;
     }
   }
-
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + name).classList.add('active');
+  const btnEl = document.getElementById('btn-' + name);
+  if (btnEl) btnEl.classList.add('active');
   document.getElementById('theme-menu').classList.remove('open');
-  // Save to Firebase if this is the user's own choice
-  if (save && currentUserEmail) {
+  if (save && currentUserEmail && !window._isDemoMode) {
     const key = currentUserEmail.replace(/[.@]/g,'_');
     set(ref(db, `themes/${key}`), name).catch(()=>{});
   }
-  // Force style recalculation before renderAll
   document.body.getBoundingClientRect();
   renderAll();
 }
 window.applyTheme = applyTheme;
 window.toggleThemeMenu = () => document.getElementById('theme-menu').classList.toggle('open');
 document.addEventListener('click', e => { if (!document.getElementById('theme-switcher').contains(e.target)) document.getElementById('theme-menu').classList.remove('open'); });
-
 function renderAll(){
   renderStats();renderGoal();renderRecentlyAdded();
   const fb=filteredBooks();
@@ -1145,11 +887,8 @@ function renderAll(){
   lib.innerHTML=sectionsWithBooks.map(cls=>{
     const sectionBooks=fb.filter(b=>String(b.dewey).substring(0,1)+'00'===cls.num||b.dewey===cls.num);
     const collapsed=collapsedSections.has(cls.num);
-    // 5 antique colour families — all heavily desaturated and earthy
-    // Sequence clusters 2-3 of the same family before shifting, creating natural shelf rhythm
     const vintageColors= THEMES[currentTheme].bookColors;
     const heights=[170,190,175,195,165,185,180,172,188,168];
-    // Split into rows of 6, max 4 rows
     const allSpineHtml = sectionBooks.map((b,i)=>{
       const vc=vintageColors[i%vintageColors.length];
       const h=heights[i%heights.length];
@@ -1160,6 +899,8 @@ function renderAll(){
       const hankoChars = [['蔵','書'],['文','庫'],['読','書'],['書','斎']];
       const hColor = hankoColors[i%4];
       const hChar = hankoChars[i%4];
+      const _allM=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
+      const _m=_allM.find(m=>m.email===b.addedBy||m.key===b.addedBy);
       return `<div class="book" title="${b.title}" style="${isFeatured?'transform:translateY(-10px);z-index:10;filter:brightness(1.1);':''}">
         <div class="book-spine" style="background:${spineGrad};height:${h}px;position:relative;">
           <div class="book-band-top"></div>
@@ -1177,12 +918,12 @@ function renderAll(){
           <h4>${b.title}</h4>
           <div class="bc-author">${b.author||'Unknown Author'}</div>
           <div class="bc-meta">Dewey: ${b.dewey} · ${b.year||'n.d.'}</div>
-          <div class="bc-meta bc-owner">${(()=>{const _m=MEMBERS.find(m=>m.email===b.addedBy||(m.key==='ava'&&b.addedBy==='ava'));return _m?'❧ '+_m.label:'';})()}</div>
+          <div class="bc-meta bc-owner">${_m?'❧ '+_m.label:''}</div>
           <div class="bc-meta"><span style="background:${statusColor(b.status)};color:#fff;font-size:0.68rem;padding:2px 8px;letter-spacing:0.06em;text-transform:uppercase;">${statusLabel(b.status)}</span></div>
           ${b.rating?`<div style="color:#c8960c;font-size:1rem;margin-top:4px;">${'★'.repeat(b.rating)}<span style="color:#ddd;">${'★'.repeat(5-b.rating)}</span></div>`:`<div style="color:#ddd;font-size:1rem;margin-top:4px;">☆☆☆☆☆</div>`}
           ${b.notes?`<div class="bc-review">"${b.notes}"</div>`:''}
           <div class="bc-actions">
-            ${(b.addedBy===currentUserEmail||(currentUserEmail==='chelseymcrory@gmail.com'&&b.addedBy==='ava'))?`
+            ${(b.addedBy===currentUserEmail||window._isDemoMode||(currentUserEmail==='chelseymcrory@gmail.com'&&b.addedBy==='ava'))?`
             <button onclick="event.stopPropagation();window._openEdit('${b._key}',false)">Edit</button>
             <button class="delete" onclick="event.stopPropagation();window._deleteBook('${b._key}')">Remove</button>
             `:`<button onclick="event.stopPropagation();window._openEdit('${b._key}',true)" style="width:100%;">View Details</button>`}
@@ -1214,10 +955,8 @@ function renderAll(){
     </div>`;
   }).join('');
 }
-
 function toggleSection(num){collapsedSections.has(num)?collapsedSections.delete(num):collapsedSections.add(num);renderAll();}
 function setView(mode){viewMode=mode;document.getElementById('btn-shelf').classList.toggle('active',mode==='shelf');document.getElementById('btn-list').classList.toggle('active',mode==='list');renderAll();}
-
 let searchTimer=null;
 function searchBooks(query){
   clearTimeout(searchTimer);
@@ -1225,7 +964,7 @@ function searchBooks(query){
   if (!query||query.length<3){box.innerHTML='';return;}
   box.innerHTML='<div class="book-suggestion" style="color:#888;font-style:italic;">Searching…</div>';
   searchTimer=setTimeout(()=>{
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6& printType=books&key=AIzaSyAQU2osIV_bI3OJ06ubqNqITVgI_feU1_o`)
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=6&printType=books&key=AIzaSyAQU2osIV_bI3OJ06ubqNqITVgI_feU1_o`)
       .then(r=>r.json()).then(data=>{
         if (!data.items){box.innerHTML='<div class="book-suggestion" style="color:#888;font-style:italic;">No results found.</div>';return;}
         box.innerHTML=`<div style="text-align:right;padding:4px 8px;border-bottom:1px solid #e8d8b0;"><span onclick="document.getElementById('book-suggestions').innerHTML=''" style="cursor:pointer;font-size:0.8rem;color:var(--brown);font-family:'Courier Prime',monospace;letter-spacing:0.05em;">✕ close</span></div>`+data.items.map((item,i)=>{
@@ -1238,23 +977,19 @@ function searchBooks(query){
 }
 function selectBook(i){const b=window._bookResults[i];document.getElementById('inp-title').value=b.title;document.getElementById('inp-author').value=b.author;if(b.year)document.getElementById('inp-year').value=b.year;if(b.dewey)document.getElementById('inp-dewey').value=b.dewey;window._pendingCover=b.coverImage||null;document.getElementById('book-suggestions').innerHTML='';}
 function guessDewey(categories,title){const text=(categories.join(' ')+' '+title).toLowerCase();if(text.match(/fiction|novel|literature|poetry|drama|short stor/))return'800';if(text.match(/histor|biograph|geography|travel/))return'900';if(text.match(/science|physics|chemistry|biology|math|nature/))return'500';if(text.match(/technolog|engineer|medicine|health|computer|programming/))return'600';if(text.match(/social|econom|law|politic|education|sociology/))return'300';if(text.match(/philosoph|psychology|self.help|mind/))return'100';if(text.match(/religion|spiritual|theolog|bible|quran/))return'200';if(text.match(/art|music|sport|game|film|cook/))return'700';if(text.match(/language|linguist|grammar|dictionary/))return'400';return'000';}
-window.findCover=function(){const title=document.getElementById('edit-title').value.trim();const author=document.getElementById('edit-author').value.trim();if(!title){alert('Please enter a title first.');return;}fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title+' '+author)}&maxResults=1& printType=books&key=AIzaSyAQU2osIV_bI3OJ06ubqNqITVgI_feU1_o`).then(r=>r.json()).then(data=>{if(!data.items){alert('No cover found.');return;}const info=data.items[0].volumeInfo;const thumb=info.imageLinks?(info.imageLinks.thumbnail||info.imageLinks.smallThumbnail||null):null;if(!thumb){alert('No cover found.');return;}const url=thumb.replace('http://','https://');document.getElementById('edit-cover').value=url;document.getElementById('edit-cover-preview').innerHTML=`<img src="${url}" alt="Cover" style="height:80px;border:1px solid #c8a96e;">`;}).catch(()=>alert('Could not fetch cover.'));};
+window.findCover=function(){const title=document.getElementById('edit-title').value.trim();const author=document.getElementById('edit-author').value.trim();if(!title){alert('Please enter a title first.');return;}fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title+' '+author)}&maxResults=1&printType=books&key=AIzaSyAQU2osIV_bI3OJ06ubqNqITVgI_feU1_o`).then(r=>r.json()).then(data=>{if(!data.items){alert('No cover found.');return;}const info=data.items[0].volumeInfo;const thumb=info.imageLinks?(info.imageLinks.thumbnail||info.imageLinks.smallThumbnail||null):null;if(!thumb){alert('No cover found.');return;}const url=thumb.replace('http://','https://');document.getElementById('edit-cover').value=url;document.getElementById('edit-cover-preview').innerHTML=`<img src="${url}" alt="Cover" style="height:80px;border:1px solid #c8a96e;">`;}).catch(()=>alert('Could not fetch cover.'));};
 window.toggleReadDate=function(status){const show=status==='read';document.getElementById('edit-readdate-label').style.display=show?'':'none';document.getElementById('edit-readdate').style.display=show?'':'none';if(show&&!document.getElementById('edit-readdate').value)document.getElementById('edit-readdate').value=new Date().toISOString().substring(0,10);};
 window.searchBooks=searchBooks;window.selectBook=selectBook;
-
 document.querySelectorAll('#edit-stars .star').forEach(star=>{
   star.addEventListener('click',()=>{const val=parseInt(star.dataset.val);const current=parseInt(document.getElementById('edit-rating').value)||0;const newVal=current===val?0:val;document.getElementById('edit-rating').value=newVal;document.querySelectorAll('#edit-stars .star').forEach(s=>{s.classList.toggle('lit',parseInt(s.dataset.val)<=newVal);});});
   star.addEventListener('mouseover',()=>{const val=parseInt(star.dataset.val);document.querySelectorAll('#edit-stars .star').forEach(s=>{s.classList.toggle('lit',parseInt(s.dataset.val)<=val);});});
   star.addEventListener('mouseout',()=>{const current=parseInt(document.getElementById('edit-rating').value)||0;document.querySelectorAll('#edit-stars .star').forEach(s=>{s.classList.toggle('lit',parseInt(s.dataset.val)<=current);});});
 });
-
 window.signInWithGoogle=signInWithGoogle;window.signOut=signOut;window.addBook=addBook;window.closeModal=closeModal;window.saveEdit=saveEdit;window.setView=setView;window._openEdit=openEdit;window._deleteBook=deleteBook;window._toggleSection=toggleSection;
-
-// Smart book card positioning for mobile
+window._setBooks=(b)=>{books=b;window._spineBooks=b;};
+// Smart book card positioning
 let activeCard = null;
-
 document.addEventListener('click', e => {
-  // Close if clicking outside
   if (activeCard && !e.target.closest('.book') && !e.target.closest('#floating-card')) {
     const fc = document.getElementById('floating-card');
     if (fc) fc.style.display = 'none';
@@ -1264,12 +999,9 @@ document.addEventListener('click', e => {
   const book = e.target.closest('.book');
   if (!book) return;
   if (e.target.closest('button') || e.target.closest('a')) return;
-
   const card = book.querySelector('.book-card');
   if (!card) return;
   e.stopPropagation();
-
-  // Create or reuse floating card container at body level
   let fc = document.getElementById('floating-card');
   if (!fc) {
     fc = document.createElement('div');
@@ -1277,16 +1009,12 @@ document.addEventListener('click', e => {
     fc.style.cssText = 'position:fixed;z-index:9999;display:none;';
     document.body.appendChild(fc);
   }
-
-  // If same book tapped again, toggle off
   if (activeCard === book) {
     fc.style.display = 'none';
     activeCard = null;
     return;
   }
   activeCard = book;
-
-  // Copy card content
   fc.innerHTML = card.innerHTML;
   fc.className = card.className + ' visible';
   fc.style.display = 'block';
@@ -1299,15 +1027,6 @@ document.addEventListener('click', e => {
   fc.style.maxWidth = '90vw';
   fc.style.boxShadow = '4px 4px 0 #3d2314';
   fc.style.fontFamily = 'Libre Baskerville, serif';
-
-  // Copy any dynamic theme styles
-  const themeStyle = document.getElementById('theme-dynamic-style');
-  if (themeStyle) {
-    const bcMeta = fc.querySelectorAll('.bc-meta, .bc-author, h4');
-    bcMeta.forEach(el => { el.style.color = '#1a1008'; el.style.webkitTextFillColor = '#1a1008'; });
-  }
-
-  // Position: above book, centred, within viewport
   const bookRect = book.getBoundingClientRect();
   const cardW = parseInt(fc.style.width);
   let left = bookRect.left + bookRect.width / 2 - cardW / 2;
@@ -1319,25 +1038,16 @@ document.addEventListener('click', e => {
   let top = bookRect.top - cardH - 10;
   if (top < 8) top = bookRect.bottom + 10;
   fc.style.top = top + 'px';
-
-  // Re-attach button events
-  const editBtn = fc.querySelector('button:not(.delete)');
-  const delBtn = fc.querySelector('button.delete');
-  const key = book.querySelector('.book-card')?.getAttribute ? null : null;
-  // Find key from original card onclick
   const origCard = book.querySelector('.book-card');
   if (origCard) {
     const origBtns = origCard.querySelectorAll('button');
     const fcBtns = fc.querySelectorAll('button');
-    origBtns.forEach((ob, i) => {
-      if (fcBtns[i]) fcBtns[i].onclick = ob.onclick;
-    });
+    origBtns.forEach((ob, i) => { if (fcBtns[i]) fcBtns[i].onclick = ob.onclick; });
     const origLinks = origCard.querySelectorAll('a');
     const fcLinks = fc.querySelectorAll('a');
     origLinks.forEach((ol, i) => { if (fcLinks[i]) { fcLinks[i].href = ol.href; fcLinks[i].target = '_blank'; }});
   }
 });
-// ── Drag to scroll shelf rows ─────────────────────────────────────────────────
 document.addEventListener('mousedown', e => {
   const row = e.target.closest('.books-row');
   if (!row) return;
@@ -1362,7 +1072,7 @@ document.getElementById('search').addEventListener('input',renderAll);
 document.getElementById('filter-status').addEventListener('change',renderAll);
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>r.forEach(x=>x.unregister()));}
 </script>
-<!-- ── Theme Switcher ──────────────────────────────────────────────────────── -->
+<!-- ── Theme Switcher ── -->
 <div id="theme-switcher">
   <div id="theme-menu">
     <button class="theme-btn active" onclick="window.applyTheme('antique')" id="btn-antique">🟤 Antique Leather</button>
@@ -1372,8 +1082,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
   </div>
   <button id="theme-toggle-btn" onclick="document.getElementById('theme-menu').classList.toggle('open')" title="Choose your personal theme">🎨 My Theme</button>
 </div>
-
-<!-- ── Jarvis Overlay ─────────────────────────────────────────────────────── -->
+<!-- ── Jarvis Overlay ── -->
 <div id="jarvis-overlay">
   <button id="jarvis-close" onclick="document.getElementById('jarvis-overlay').classList.remove('open')">✕ CLOSE</button>
   <div id="jv-body">
@@ -1392,18 +1101,9 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
       <div class="jv-stat"><div class="jv-stat-label">Wishlist</div><div class="jv-stat-value" id="jv-s-wishlist">—</div><div class="jv-stat-sub">Requested</div></div>
     </div>
     <div class="jv-grid">
-      <div class="jv-panel">
-        <div class="jv-panel-head">Collection by Subject</div>
-        <div id="jv-dewey-bars"></div>
-      </div>
-      <div class="jv-panel">
-        <div class="jv-panel-head">Recent Additions</div>
-        <div class="jv-feed-list"><div class="feed-scroll-jv" id="jv-feed-scroll"><div id="jv-feed-items"></div><div id="jv-feed-items-clone"></div></div></div>
-      </div>
-      <div class="jv-panel">
-        <div class="jv-panel-head">Member Profiles</div>
-        <div id="jv-member-rows"></div>
-      </div>
+      <div class="jv-panel"><div class="jv-panel-head">Collection by Subject</div><div id="jv-dewey-bars"></div></div>
+      <div class="jv-panel"><div class="jv-panel-head">Recent Additions</div><div class="jv-feed-list"><div class="feed-scroll-jv" id="jv-feed-scroll"><div id="jv-feed-items"></div><div id="jv-feed-items-clone"></div></div></div></div>
+      <div class="jv-panel"><div class="jv-panel-head">Member Profiles</div><div id="jv-member-rows"></div></div>
     </div>
     <div class="jv-bottom">
       <div class="jv-panel">
@@ -1423,11 +1123,9 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
     </div>
   </div>
 </div>
-
 <script>
-// ── Jarvis init (uses books already loaded by Spine) ──────────────────────
 window.jarvisInit = function() {
-  const MEMBERS = [
+  const MEMBERS = (window._getMembersOverride?window._getMembersOverride():null) || [
     {key:'betty',  email:'bettykwale@gmail.com',    label:'Betty'},
     {key:'chelsey',email:'chelseymcrory@gmail.com', label:'Chelsey'},
     {key:'peter',  email:'petersmcrory@gmail.com',  label:'Peter'},
@@ -1437,18 +1135,12 @@ window.jarvisInit = function() {
   ];
   const STATUS_COLORS = {read:'#2d8a2d',reading:'#e6a020',unread:'#555555',wishlist:'#6a4fcc'};
   const bks = window._spineBooks || [];
-
-  // Date
   const d = new Date();
   document.getElementById('jv-date').textContent = d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase().replace(/ /g,'.');
-
-  // User info from Spine
   const uname = document.getElementById('user-name');
   const uavatar = document.getElementById('user-avatar');
   if (uname) document.getElementById('jv-name').textContent = (uname.textContent||'').split(' ')[0].toUpperCase();
   if (uavatar && uavatar.src) document.getElementById('jv-avatar').src = uavatar.src;
-
-  // Stats
   function animCount(id, target) {
     const el = document.getElementById(id); let cur=0;
     const step = Math.max(1,Math.floor(target/20));
@@ -1459,7 +1151,6 @@ window.jarvisInit = function() {
   animCount('jv-s-reading', bks.filter(b=>b.status==='reading').length);
   animCount('jv-s-unread', bks.filter(b=>b.status==='unread').length);
   animCount('jv-s-wishlist', bks.filter(b=>b.status==='wishlist').length);
-  // Dewey breakdown bars
   const deweyLabels = {'000':'Generalities','100':'Philosophy','200':'Religion','300':'Social Sci.','400':'Language','500':'Sciences','600':'Technology','700':'Arts','800':'Literature','900':'History'};
   const deweyCounts = {};
   bks.forEach(b => { const d = b.dewey ? b.dewey.toString().substring(0,1)+'00' : '000'; deweyCounts[d] = (deweyCounts[d]||0)+1; });
@@ -1467,17 +1158,9 @@ window.jarvisInit = function() {
   const deweyHtml = Object.entries(deweyLabels).map(([d,name])=>{
     const count = deweyCounts[d]||0;
     const pct = Math.round((count/maxD)*100);
-    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-      <span style="font-family:'Courier Prime',monospace;font-size:0.58rem;color:#7b4f2e;min-width:28px;">${d}</span>
-      <div style="flex:1;background:rgba(196,160,96,0.25);height:10px;border-radius:2px;">
-        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,#a07840,#d4a843);border-radius:2px;transition:width 1s ease;"></div>
-      </div>
-      <span style="font-family:'Courier Prime',monospace;font-size:0.58rem;color:#3d2314;min-width:20px;text-align:right;">${count}</span>
-    </div>`;
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-family:'Courier Prime',monospace;font-size:0.58rem;color:#7b4f2e;min-width:28px;">${d}</span><div style="flex:1;background:rgba(196,160,96,0.25);height:10px;border-radius:2px;"><div style="width:${pct}%;height:100%;background:linear-gradient(90deg,#a07840,#d4a843);border-radius:2px;transition:width 1s ease;"></div></div><span style="font-family:'Courier Prime',monospace;font-size:0.58rem;color:#3d2314;min-width:20px;text-align:right;">${count}</span></div>`;
   }).join('');
   document.getElementById('jv-dewey-bars').innerHTML = deweyHtml;
-
-  // Feed
   const items = [...bks].sort((a,b)=>(b.added||'').localeCompare(a.added||''));
   const feedHtml = items.map(b => {
     const owner = MEMBERS.find(m=>m.email===b.addedBy||m.key===b.addedBy);
@@ -1485,16 +1168,12 @@ window.jarvisInit = function() {
   }).join('');
   document.getElementById('jv-feed-items').innerHTML = feedHtml;
   document.getElementById('jv-feed-items-clone').innerHTML = feedHtml;
-
-  // Members
   const maxB = Math.max(1,...MEMBERS.map(m=>bks.filter(b=>b.addedBy===m.email||b.addedBy===m.key).length));
   document.getElementById('jv-member-rows').innerHTML = MEMBERS.map(m=>{
     const mb = bks.filter(b=>b.addedBy===m.email||b.addedBy===m.key);
     const pct = Math.round((mb.length/maxB)*100);
     return `<div class="jv-member-row"><div style="flex:1;"><div class="jv-member-name">${m.label}</div><div class="jv-member-bar"><div class="jv-member-bar-fill" style="width:${pct}%"></div></div></div><div class="jv-member-stats"><div class="jv-member-stat"><span class="jv-member-stat-val">${String(mb.length).padStart(2,'0')}</span><span class="jv-member-stat-lbl">Total</span></div><div class="jv-member-stat"><span class="jv-member-stat-val">${String(mb.filter(b=>b.status==='read').length).padStart(2,'0')}</span><span class="jv-member-stat-lbl">Read</span></div></div></div>`;
   }).join('');
-
-  // Per-member goals
   const year = new Date().getFullYear();
   document.getElementById('jv-goal-year').textContent = year;
   document.getElementById('jv-goal-rows').innerHTML = MEMBERS.map(m => {
@@ -1502,17 +1181,86 @@ window.jarvisInit = function() {
     const read = bks.filter(b=>(b.addedBy===m.email||b.addedBy===m.key)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
     const pct = Math.min(100,Math.round((read/goal)*100));
     const done = read >= goal;
-    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-      <span style="font-family:'Special Elite',cursive;font-size:0.78rem;color:#3d2314;min-width:72px;">${m.label}</span>
-      <div style="flex:1;background:rgba(196,160,96,0.25);height:10px;border-radius:4px;">
-        <div style="width:${pct}%;height:100%;background:${done?'linear-gradient(90deg,#2d8a2d,#4aaa4a)':'linear-gradient(90deg,#a07840,#d4a843)'};border-radius:4px;transition:width 1s ease;"></div>
-      </div>
-      <span style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#7b4f2e;min-width:44px;text-align:right;">${read}/${goal}${done?' 🎉':''}</span>
-    </div>`;
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="font-family:'Special Elite',cursive;font-size:0.78rem;color:#3d2314;min-width:72px;">${m.label}</span><div style="flex:1;background:rgba(196,160,96,0.25);height:10px;border-radius:4px;"><div style="width:${pct}%;height:100%;background:${done?'linear-gradient(90deg,#2d8a2d,#4aaa4a)':'linear-gradient(90deg,#a07840,#d4a843)'};border-radius:4px;transition:width 1s ease;"></div></div><span style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#7b4f2e;min-width:44px;text-align:right;">${read}/${goal}${done?' 🎉':''}</span></div>`;
   }).join('');
-
-  // Boot log
   ['jvl0','jvl1','jvl2','jvl3','jvl4','jvl5','jvl6'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('active'),300+i*400));
+};
+
+// ── Demo Mode ─────────────────────────────────────────────────────────────────
+window._isDemoMode = false;
+window._getMembersOverride = null;
+
+const DEMO_BOOKS = [
+  {_key:'d1',title:'The Joy Luck Club',author:'Amy Tan',dewey:'813',status:'read',year:1989,notes:'A masterpiece of mother-daughter stories.',rating:5,addedBy:'alice@demo.com',added:'2024-10-15T10:00:00Z',readDate:'2024-11-01T00:00:00Z',coverImage:null},
+  {_key:'d2',title:'Lives of Girls and Women',author:'Alice Munro',dewey:'813',status:'read',year:1971,notes:'Quietly devastating.',rating:5,addedBy:'alice@demo.com',added:'2024-11-01T10:00:00Z',readDate:'2024-11-20T00:00:00Z',coverImage:null},
+  {_key:'d3',title:"The Handmaid's Tale",author:'Margaret Atwood',dewey:'813',status:'reading',year:1985,notes:'',rating:0,addedBy:'alice@demo.com',added:'2024-12-01T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d4',title:'Circe',author:'Madeline Miller',dewey:'823',status:'unread',year:2018,notes:'',rating:0,addedBy:'alice@demo.com',added:'2025-01-05T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d5',title:'Pachinko',author:'Min Jin Lee',dewey:'813',status:'unread',year:2017,notes:'On the to-read list.',rating:0,addedBy:'alice@demo.com',added:'2025-02-01T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d6',title:'Quiet: The Power of Introverts',author:'Susan Cain',dewey:'155',status:'read',year:2012,notes:'Validated so much.',rating:4,addedBy:'alice@demo.com',added:'2025-01-20T10:00:00Z',readDate:'2025-02-10T00:00:00Z',coverImage:null},
+  {_key:'d7',title:'The Name of the Rose',author:'Umberto Eco',dewey:'853',status:'read',year:1980,notes:'A labyrinth of a book.',rating:4,addedBy:'bob@demo.com',added:'2024-09-10T10:00:00Z',readDate:'2024-09-30T00:00:00Z',coverImage:null},
+  {_key:'d8',title:'Sapiens',author:'Yuval Noah Harari',dewey:'909',status:'read',year:2011,notes:'Changed my perspective entirely.',rating:4,addedBy:'bob@demo.com',added:'2024-10-20T10:00:00Z',readDate:'2024-11-10T00:00:00Z',coverImage:null},
+  {_key:'d9',title:'Thinking, Fast and Slow',author:'Daniel Kahneman',dewey:'153',status:'reading',year:2011,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-01-15T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d10',title:'Beloved',author:'Toni Morrison',dewey:'813',status:'read',year:1987,notes:'Haunting and essential.',rating:5,addedBy:'bob@demo.com',added:'2025-02-20T10:00:00Z',readDate:'2025-03-05T00:00:00Z',coverImage:null},
+  {_key:'d11',title:'The Shadow of the Wind',author:'Carlos Ruiz Zafon',dewey:'863',status:'wishlist',year:2001,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-02-15T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d12',title:'The Alchemist',author:'Paulo Coelho',dewey:'869',status:'read',year:1988,notes:'',rating:3,addedBy:'cara@demo.com',added:'2024-08-01T10:00:00Z',readDate:'2024-08-20T00:00:00Z',coverImage:null},
+  {_key:'d13',title:'Little Women',author:'Louisa May Alcott',dewey:'813',status:'read',year:1868,notes:'A timeless comfort read.',rating:5,addedBy:'cara@demo.com',added:'2024-09-15T10:00:00Z',readDate:'2024-10-05T00:00:00Z',coverImage:null},
+  {_key:'d14',title:'Norwegian Wood',author:'Haruki Murakami',dewey:'895',status:'read',year:1987,notes:'Melancholy and beautiful.',rating:4,addedBy:'cara@demo.com',added:'2024-11-20T10:00:00Z',readDate:'2024-12-10T00:00:00Z',coverImage:null},
+  {_key:'d15',title:'A Room with a View',author:'E.M. Forster',dewey:'823',status:'read',year:1908,notes:'',rating:4,addedBy:'cara@demo.com',added:'2024-12-15T10:00:00Z',readDate:'2025-01-05T00:00:00Z',coverImage:null},
+  {_key:'d16',title:"Harry Potter and the Philosopher's Stone",author:'J.K. Rowling',dewey:'823',status:'read',year:1997,notes:'',rating:5,addedBy:'dan@demo.com',added:'2024-07-01T10:00:00Z',readDate:'2024-07-15T00:00:00Z',coverImage:null},
+  {_key:'d17',title:"The Hitchhiker's Guide to the Galaxy",author:'Douglas Adams',dewey:'823',status:'read',year:1979,notes:'42.',rating:5,addedBy:'dan@demo.com',added:'2024-08-10T10:00:00Z',readDate:'2024-08-20T00:00:00Z',coverImage:null},
+  {_key:'d18',title:"On Earth We're Briefly Gorgeous",author:'Ocean Vuong',dewey:'813',status:'wishlist',year:2019,notes:'',rating:0,addedBy:'dan@demo.com',added:'2025-03-01T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d19',title:'The Count of Monte Cristo',author:'Alexandre Dumas',dewey:'843',status:'unread',year:1844,notes:'',rating:0,addedBy:'dan@demo.com',added:'2025-03-10T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d20',title:'The Hundred-Year-Old Man Who Climbed Out the Window',author:'Jonas Jonasson',dewey:'839',status:'read',year:2009,notes:'Delightfully absurd.',rating:4,addedBy:'cara@demo.com',added:'2025-01-10T10:00:00Z',readDate:'2025-01-25T00:00:00Z',coverImage:null},
+];
+
+const DEMO_MEMBERS = [
+  {key:'alice', email:'alice@demo.com', label:'Alice'},
+  {key:'bob',   email:'bob@demo.com',   label:'Bob'},
+  {key:'cara',  email:'cara@demo.com',  label:'Cara'},
+  {key:'dan',   email:'dan@demo.com',   label:'Dan'},
+];
+
+window.startDemo = function() {
+  window._isDemoMode = true;
+  window._getMembersOverride = () => DEMO_MEMBERS;
+  if (window._setBooks) window._setBooks(DEMO_BOOKS);
+  window._spineBooks = DEMO_BOOKS;
+  document.getElementById('login-screen').classList.remove('show');
+  document.getElementById('demo-banner').classList.add('show');
+  document.body.classList.add('demo-mode');
+  document.getElementById('user-bar').style.display = 'flex';
+  document.getElementById('user-name').textContent = 'Alice (Demo)';
+  document.getElementById('user-avatar').src = '';
+  document.getElementById('sync-status').textContent = '📚 Demo Mode';
+  document.getElementById('sync-status').className = 'sync connecting';
+  document.querySelector('.owner-tabs').innerHTML = `
+    <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
+    <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
+    <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
+    <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
+    <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
+  window.applyTheme('antique', false);
+  window.setOwnerFilter('all');
+};
+
+window.exitDemo = function() {
+  window._isDemoMode = false;
+  window._getMembersOverride = null;
+  if (window._setBooks) window._setBooks([]);
+  window._spineBooks = [];
+  document.getElementById('demo-banner').classList.remove('show');
+  document.body.classList.remove('demo-mode');
+  document.getElementById('login-screen').classList.add('show');
+  document.getElementById('user-bar').style.display = 'none';
+  document.querySelector('.owner-tabs').innerHTML = `
+    <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
+    <button class="owner-tab" id="tab-betty" onclick="setOwnerFilter('betty')"><span class="tab-icon">❧</span> Betty's Library</button>
+    <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')"><span class="tab-icon">❧</span> Chelsey's Library</button>
+    <button class="owner-tab" id="tab-peter" onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter's Library</button>
+    <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')"><span class="tab-icon">❧</span> Ava's Library</button>
+    <button class="owner-tab" id="tab-patricia" onclick="setOwnerFilter('patricia')"><span class="tab-icon">❧</span> Patricia's Library</button>
+    <button class="owner-tab" id="tab-ashley" onclick="setOwnerFilter('ashley')"><span class="tab-icon">❧</span> Ashley's Library</button>`;
+  window.setOwnerFilter('all');
 };
 </script>
 </body>
