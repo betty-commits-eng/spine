@@ -871,41 +871,26 @@ function renderRecentlyAdded(){
 
 function renderGoal(){
   const year=new Date().getFullYear();
-  const activeMembers=ownerFilter==='all'?MEMBERS:MEMBERS.filter(m=>m.key===ownerFilter);
-  const label=ownerFilter==='all'?'Family':(activeMembers[0]?activeMembers[0].label+"'s":'Family');
-
-  if(ownerFilter==='all'){
-    // Show per-member progress bars
-    const rows=MEMBERS.map(m=>{
-      const read=books.filter(b=>b.addedBy===m.email&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
-      const goal=getMemberGoal(m.key);
-      const pct=Math.min(100,Math.round((read/goal)*100));
-      const done=read>=goal;
-      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-        <span style="font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.08em;color:var(--dark-brown);min-width:70px;">${m.label}</span>
-        <div class="goal-track" style="flex:1;"><div class="goal-fill ${done?'complete':''}" style="width:${pct}%"></div></div>
-        <span style="font-family:'Courier Prime',monospace;font-size:0.7rem;color:var(--brown);min-width:50px;text-align:right;">${read}/${goal}</span>
-      </div>`;
-    }).join('');
-    document.getElementById('goal-bar').innerHTML=`
-      <div class="goal-header" style="margin-bottom:10px;"><span class="goal-label">📖 ${year} Family Reading Goals</span></div>
-      ${rows}`;
-  } else {
-    let totalRead=0,totalGoal=0;
-    activeMembers.forEach(m=>{
-      const read=books.filter(b=>(b.addedBy===m.email)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
-      totalRead+=read;totalGoal+=getMemberGoal(m.key);
-    });
-    const pct=Math.min(100,Math.round((totalRead/totalGoal)*100));
-    const done=totalRead>=totalGoal;
-    const activeMember=activeMembers[0];
-    const canEdit=activeMember&&activeMember.email===currentUserEmail;
-    const editBtn=canEdit?`<span onclick="window._editGoal('${activeMember.key}',${totalGoal})" style="cursor:pointer;font-size:1.1rem;margin-left:8px;color:var(--dark-brown);font-weight:bold;" title="Edit goal">✎</span>`:'';
-    document.getElementById('goal-bar').innerHTML=`
-      <div class="goal-header"><span class="goal-label">📖 ${year} ${label} Reading Goal</span><span class="goal-fraction">${totalRead} / ${totalGoal} books${editBtn}</span></div>
-      <div class="goal-track"><div class="goal-fill ${done?'complete':''}" style="width:${pct}%"></div></div>
-      ${done?`<div class="goal-congrats">🎉 ${label} goal achieved!</div>`:''}`;
-  }
+  const el=document.getElementById('goal-bar');
+  // Hide on Main Library tab
+  if(ownerFilter==='all'){el.style.display='none';return;}
+  el.style.display='block';
+  const activeMembers=MEMBERS.filter(m=>m.key===ownerFilter);
+  const label=activeMembers[0]?activeMembers[0].label+"'s":'Family';
+  let totalRead=0,totalGoal=0;
+  activeMembers.forEach(m=>{
+    const read=books.filter(b=>(b.addedBy===m.email)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
+    totalRead+=read;totalGoal+=getMemberGoal(m.key);
+  });
+  const pct=Math.min(100,Math.round((totalRead/totalGoal)*100));
+  const done=totalRead>=totalGoal;
+  const activeMember=activeMembers[0];
+  const canEdit=activeMember&&activeMember.email===currentUserEmail;
+  const editBtn=canEdit?`<span onclick="window._editGoal('${activeMember.key}',${totalGoal})" style="cursor:pointer;font-size:1.1rem;margin-left:8px;color:var(--dark-brown);font-weight:bold;" title="Edit goal">✎</span>`:'';
+  el.innerHTML=`
+    <div class="goal-header"><span class="goal-label">📖 ${year} ${label} Reading Goal</span><span class="goal-fraction">${totalRead} / ${totalGoal} books${editBtn}</span></div>
+    <div class="goal-track"><div class="goal-fill ${done?'complete':''}" style="width:${pct}%"></div></div>
+    ${done?`<div class="goal-congrats">🎉 ${label} goal achieved!</div>`:''}`;
 }
 window._editGoal=function(key,current){const newVal=parseInt(prompt(`Set ${key.charAt(0).toUpperCase()+key.slice(1)}'s ${new Date().getFullYear()} goal:`,current));if(newVal>0){setMemberGoal(key,newVal);renderGoal();}};
 
@@ -1422,22 +1407,8 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
     </div>
     <div class="jv-bottom">
       <div class="jv-panel">
-        <div class="jv-panel-head">Reading Goal — <span id="jv-goal-member-name"></span></div>
-        <div class="goal-layout">
-          <div class="goal-ring-wrap">
-            <svg width="90" height="90" viewBox="0 0 90 90">
-              <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(196,160,96,0.3)" stroke-width="7"/>
-              <circle cx="45" cy="45" r="38" fill="none" stroke="#a07840" stroke-width="7" stroke-dasharray="238.76" id="jv-goal-arc" stroke-dashoffset="238.76" stroke-linecap="round" transform="rotate(-90 45 45)"/>
-              <text x="45" y="49" text-anchor="middle" fill="#3d2314" font-family="Special Elite" font-size="16" id="jv-goal-pct">0%</text>
-            </svg>
-          </div>
-          <div class="goal-details-jv">
-            <div class="goal-fraction-jv" id="jv-goal-fraction">— / —</div>
-            <div class="goal-desc-jv">Volumes this year</div>
-            <div class="goal-bar-jv"><div class="goal-bar-fill-jv" id="jv-goal-bar-fill" style="width:0%"></div></div>
-            <div class="goal-quarters"><span class="goal-q">Q1</span><span class="goal-q">Q2</span><span class="goal-q">Q3</span><span class="goal-q">Q4</span></div>
-          </div>
-        </div>
+        <div class="jv-panel-head">Family Reading Goals — <span id="jv-goal-year"></span></div>
+        <div id="jv-goal-rows" style="margin-top:8px;"></div>
       </div>
       <div class="jv-panel jv-log-panel">
         <div class="jv-panel-head">System Log</div>
@@ -1523,17 +1494,22 @@ window.jarvisInit = function() {
     return `<div class="jv-member-row"><div style="flex:1;"><div class="jv-member-name">${m.label}</div><div class="jv-member-bar"><div class="jv-member-bar-fill" style="width:${pct}%"></div></div></div><div class="jv-member-stats"><div class="jv-member-stat"><span class="jv-member-stat-val">${String(mb.length).padStart(2,'0')}</span><span class="jv-member-stat-lbl">Total</span></div><div class="jv-member-stat"><span class="jv-member-stat-val">${String(mb.filter(b=>b.status==='read').length).padStart(2,'0')}</span><span class="jv-member-stat-lbl">Read</span></div></div></div>`;
   }).join('');
 
-  // Goal
-  const curEmail = window._spineUserEmail || '';
-  const member = MEMBERS.find(m=>m.email===curEmail) || MEMBERS[0];
-  const goal = parseInt(localStorage.getItem('spine-goal-'+member.key)||'12');
-  const read = bks.filter(b=>(b.addedBy===member.email||b.addedBy===member.key)&&b.status==='read').length;
-  const pct = Math.min(100,Math.round((read/goal)*100));
-  document.getElementById('jv-goal-member-name').textContent = member.label.toUpperCase();
-  document.getElementById('jv-goal-fraction').textContent = read+' / '+goal;
-  document.getElementById('jv-goal-pct').textContent = pct+'%';
-  document.getElementById('jv-goal-bar-fill').style.width = pct+'%';
-  setTimeout(()=>{ const arc=document.getElementById('jv-goal-arc'); arc.style.transition='stroke-dashoffset 1.5s ease'; arc.setAttribute('stroke-dashoffset',238.76-(238.76*pct/100)); },500);
+  // Per-member goals
+  const year = new Date().getFullYear();
+  document.getElementById('jv-goal-year').textContent = year;
+  document.getElementById('jv-goal-rows').innerHTML = MEMBERS.map(m => {
+    const goal = parseInt(localStorage.getItem('spine-goal-'+m.key)||'12');
+    const read = bks.filter(b=>(b.addedBy===m.email||b.addedBy===m.key)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
+    const pct = Math.min(100,Math.round((read/goal)*100));
+    const done = read >= goal;
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="font-family:'Special Elite',cursive;font-size:0.78rem;color:#3d2314;min-width:72px;">${m.label}</span>
+      <div style="flex:1;background:rgba(196,160,96,0.25);height:10px;border-radius:4px;">
+        <div style="width:${pct}%;height:100%;background:${done?'linear-gradient(90deg,#2d8a2d,#4aaa4a)':'linear-gradient(90deg,#a07840,#d4a843)'};border-radius:4px;transition:width 1s ease;"></div>
+      </div>
+      <span style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#7b4f2e;min-width:44px;text-align:right;">${read}/${goal}${done?' 🎉':''}</span>
+    </div>`;
+  }).join('');
 
   // Boot log
   ['jvl0','jvl1','jvl2','jvl3','jvl4','jvl5','jvl6'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('active'),300+i*400));
