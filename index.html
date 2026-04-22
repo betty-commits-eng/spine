@@ -180,14 +180,14 @@
   .bc-actions button.delete { border-color:var(--red); color:var(--red); }
   .bc-actions button.delete:hover { background:var(--red); color:var(--cream); }
   .recently-added { background:linear-gradient(180deg,#d4c090,#c4b080); border:2px solid #8a6530; border-top:4px solid #a07840; padding:14px 18px; margin-bottom:28px; box-shadow:3px 3px 0 rgba(0,0,0,0.3); }
-  .recently-added h3 { font-family:'Special Elite',cursive; font-size:0.75rem; letter-spacing:0.18em; color:#3a2008; text-transform:uppercase; margin-bottom:10px; }
+  .recently-added h3 { font-family:'Special Elite',cursive; font-size:0.75rem; letter-spacing:0.18em; color:inherit; text-transform:uppercase; margin-bottom:10px; }
   .recent-books { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
   .recent-books::-webkit-scrollbar { display:none; }
   .recent-book { flex-shrink:0; background:linear-gradient(135deg,#f5edd8,#ede0c4); border:1px solid #c4a060; padding:8px 10px; min-width:120px; max-width:140px; cursor:pointer; transition:transform 0.2s; }
   .recent-book:hover { transform:translateY(-2px); }
-  .recent-book-title { font-family:'IM Fell English',serif; font-size:0.75rem; color:var(--ink); font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
-  .recent-book-author { font-family:'Courier Prime',monospace; font-size:0.62rem; color:var(--brown); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .recent-book-owner { font-family:'Courier Prime',monospace; font-size:0.58rem; color:var(--tan); margin-top:4px; }
+  .recent-book-title { font-family:'IM Fell English',serif; font-size:0.75rem; color:inherit; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
+  .recent-book-author { font-family:'Courier Prime',monospace; font-size:0.62rem; color:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.75; }
+  .recent-book-owner { font-family:'Courier Prime',monospace; font-size:0.58rem; color:inherit; margin-top:4px; opacity:0.65; }
   .goal-bar { background:linear-gradient(180deg,#d4c090,#c4b080); border:2px solid #8a6530; border-top:4px solid #a07840; padding:14px 18px; margin-bottom:28px; box-shadow:3px 3px 0 rgba(0,0,0,0.3); }
   .goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
   .goal-label { font-family:'Courier Prime',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--brown); }
@@ -630,12 +630,14 @@ function renderRecentlyAdded(){
   if(recent.length===0){el.style.display='none';return;}
   el.style.display='block';
   const _allM=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
-  el.innerHTML=`<h3>📚 Recently Added</h3><div class="recent-books">${recent.map(b=>{
+  const _t=THEMES[currentTheme];
+  const _tc=_t.statNum;const _sc=_t.statLabel;
+  el.innerHTML=`<h3 style="color:${_tc};-webkit-text-fill-color:${_tc};">📚 Recently Added</h3><div class="recent-books">${recent.map(b=>{
     const m=_allM.find(mb=>mb.email===b.addedBy||mb.key===b.addedBy);
-    return `<div class="recent-book" onclick="window._openEdit('${b._key}',${b.addedBy!==currentUserEmail&&!window._isDemoMode})">
-      <div class="recent-book-title">${b.title}</div>
-      <div class="recent-book-author">${b.author||'—'}</div>
-      <div class="recent-book-owner">❧ ${m?m.label:''}</div>
+    return `<div class="recent-book" style="background:${_t.statCellBg};border-color:${_t.statCellBorder};" onclick="window._openEdit('${b._key}',${b.addedBy!==currentUserEmail&&!window._isDemoMode})">
+      <div class="recent-book-title" style="color:${_tc};-webkit-text-fill-color:${_tc};">${b.title}</div>
+      <div class="recent-book-author" style="color:${_sc};-webkit-text-fill-color:${_sc};">${b.author||'—'}</div>
+      <div class="recent-book-owner" style="color:${_sc};-webkit-text-fill-color:${_sc};">❧ ${m?m.label:''}</div>
     </div>`;
   }).join('')}</div>`;
 }
@@ -709,7 +711,7 @@ const THEMES = {
     plateBg: 'linear-gradient(135deg,#161418,#121014)', plateBorder: '#3a3040', plateText: '#8a8090',
     statsBg: 'linear-gradient(180deg,#161418,#121014)', statsBorder: '#2a2430', statsBorderTop: '#3a3040',
     statCellBg: 'linear-gradient(180deg,#1c1820,#161418)', statCellBorder: '#2a2430',
-    statNum: '#d0c8d8', statLabel: '#6a6070',
+    statNum: '#d0c8d8', statLabel: '#9090a0',
     goalBg: 'linear-gradient(180deg,#161418,#121014)', goalTrack: '#0a080c',
     tabBg: 'linear-gradient(180deg,#1c1820,#161418)', tabText: '#a09aa8', tabBorder: '#2a2430',
     tabHover: 'linear-gradient(180deg,#221e28,#1c1820)',
@@ -810,31 +812,36 @@ function applyTheme(name, save = true) {
     .stat-num { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
     .stat-label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
     .goal-bar { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
-    .recently-added { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; }
-    .recent-book { background: ${t.statCellBg} !important; border-color: ${t.statCellBorder} !important; }
-    .goal-label { color: ${t.statLabel} !important; }
+    .recently-added { background: ${t.goalBg} !important; border: 2px solid ${t.statsBorder} !important; border-top: 4px solid ${t.statsBorderTop} !important; box-shadow: none !important; color: ${t.statNum} !important; }
+    .recent-book { background: ${t.statCellBg} !important; border-color: ${t.statCellBorder} !important; color: ${t.statNum} !important; }
+    .goal-label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
+    .goal-header .goal-fraction { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
     .goal-track { background: ${t.goalTrack} !important; }
+    .recently-added h3 { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
+    .recent-book-title { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; }
+    .recent-book-author { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
+    .recent-book-owner { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
     .dewey-section .section-header .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
     .dewey-section .section-header .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
     .dewey-section .section-header .section-sub { color: ${t.sectionSub} !important; }
-    .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; }
+    .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; -webkit-text-fill-color: ${t.tabText} !important; }
     .owner-tab:hover { background: ${t.tabHover} !important; }
-    .owner-tab.active { background: ${t.tabActive} !important; color: ${t.tabActiveText} !important; border-bottom: 3px solid ${t.tabActiveBotBorder} !important; }
-    .search-row input { background: ${t.inputBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 3px solid ${t.inputBorderTop} !important; color: ${t.inputText} !important; }
+    .owner-tab.active { background: ${t.tabActive} !important; color: ${t.tabActiveText} !important; border-bottom: 3px solid ${t.tabActiveBotBorder} !important; -webkit-text-fill-color: ${t.tabActiveText} !important; }
+    .search-row input { background: ${t.inputBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 3px solid ${t.inputBorderTop} !important; color: ${t.inputText} !important; -webkit-text-fill-color: ${t.inputText} !important; }
     .search-row input::placeholder { color: ${t.inputPlaceholder} !important; }
-    .search-row select { background: ${t.tabBg} !important; border: 2px solid ${t.inputBorder} !important; color: ${t.tabText} !important; }
+    .search-row select { background: ${t.tabBg} !important; border: 2px solid ${t.inputBorder} !important; color: ${t.tabText} !important; -webkit-text-fill-color: ${t.tabText} !important; }
     .controls { background: ${t.controlsBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 6px solid ${t.statsBorderTop} !important; }
     .controls label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; }
     .controls input, .controls select { background: ${t.inputBg} !important; border-bottom: 2px solid ${t.inputBorder} !important; color: ${t.inputText} !important; -webkit-text-fill-color: ${t.inputText} !important; }
     .controls input::placeholder { color: ${t.inputPlaceholder} !important; }
-    button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; }
+    button.add-btn { background: ${t.addBtnBg} !important; border: 2px solid ${t.tabBorder} !important; color: ${t.headerH1} !important; -webkit-text-fill-color: ${t.headerH1} !important; }
     .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
     .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
     .section-sub { color: ${t.sectionSub} !important; -webkit-text-fill-color: ${t.sectionSub} !important; }
     .section-count { background: ${t.sectionCountBg} !important; color: ${t.sectionCountText} !important; border-color: ${t.sectionCountBorder} !important; -webkit-text-fill-color: ${t.sectionCountText} !important; }
-    .legend-item { color: ${t.legendText} !important; }
-    .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; }
-    .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; }
+    .legend-item { color: ${t.legendText} !important; -webkit-text-fill-color: ${t.legendText} !important; }
+    .view-btn { background: ${t.viewBtnBg} !important; border-color: ${t.tabBorder} !important; color: ${t.tabText} !important; -webkit-text-fill-color: ${t.tabText} !important; }
+    .view-btn.active { background: ${t.viewBtnActive} !important; color: ${t.viewBtnActiveText} !important; border-color: ${t.viewBtnActive} !important; -webkit-text-fill-color: ${t.viewBtnActiveText} !important; }
     .bookshelf { background: ${t.shelfBg} !important; border: ${t.shelfBorder} !important; border-top: ${t.shelfBorderTop} !important; box-shadow: ${t.shelfShadow} !important; }
     .bookshelf::after { background: ${t.plankBg} !important; border-top: ${t.plankBorder} !important; box-shadow: ${t.plankShadow} !important; }
     .book-band-top { background: ${t.bandBg} !important; box-shadow: ${t.bandShadow} !important; }
@@ -874,12 +881,13 @@ function applyTheme(name, save = true) {
   }
   document.body.getBoundingClientRect();
   renderAll();
+  setTimeout(updateViewBtnColors,50);
 }
 window.applyTheme = applyTheme;
 window.toggleThemeMenu = () => document.getElementById('theme-menu').classList.toggle('open');
 document.addEventListener('click', e => { if (!document.getElementById('theme-switcher').contains(e.target)) document.getElementById('theme-menu').classList.remove('open'); });
 function renderAll(){
-  renderStats();renderGoal();renderRecentlyAdded();
+  renderStats();renderGoal();renderRecentlyAdded();setTimeout(updateViewBtnColors,0);
   const fb=filteredBooks();
   const lib=document.getElementById('library');
   const sectionsWithBooks=DEWEY_CLASSES.filter(cls=>fb.some(b=>String(b.dewey).substring(0,1)+'00'===cls.num||b.dewey===cls.num));
@@ -957,6 +965,19 @@ function renderAll(){
 }
 function toggleSection(num){collapsedSections.has(num)?collapsedSections.delete(num):collapsedSections.add(num);renderAll();}
 function setView(mode){viewMode=mode;document.getElementById('btn-shelf').classList.toggle('active',mode==='shelf');document.getElementById('btn-list').classList.toggle('active',mode==='list');renderAll();}
+function updateViewBtnColors(){
+  const _t=THEMES[currentTheme];
+  const shelf=document.getElementById('btn-shelf');
+  const list=document.getElementById('btn-list');
+  if(!shelf||!list)return;
+  [shelf,list].forEach(btn=>{
+    if(btn.classList.contains('active')){
+      btn.style.background=_t.viewBtnActive;btn.style.color=_t.viewBtnActiveText;btn.style.webkitTextFillColor=_t.viewBtnActiveText;btn.style.borderColor=_t.viewBtnActive;
+    } else {
+      btn.style.background=_t.viewBtnBg;btn.style.color=_t.tabText;btn.style.webkitTextFillColor=_t.tabText;btn.style.borderColor=_t.tabBorder;
+    }
+  });
+}
 let searchTimer=null;
 function searchBooks(query){
   clearTimeout(searchTimer);
