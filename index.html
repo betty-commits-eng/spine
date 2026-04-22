@@ -102,10 +102,22 @@
   .sign-out-btn:hover { background:var(--tan); color:var(--dark-brown); }
   #login-screen { display:none; position:fixed; inset:0; background:var(--dark-brown); background-image:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px),repeating-linear-gradient(transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px); z-index:500; align-items:center; justify-content:center; flex-direction:column; }
   #login-screen.show { display:flex; }
-  .login-card { background:repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(180,140,60,0.15) 26px,rgba(180,140,60,0.15) 27px),linear-gradient(180deg,#f8f0dc,#f0e4c4); border:2px solid #8a6530; border-top:6px solid #a07840; padding:48px 40px; text-align:center; max-width:360px; width:90%; box-shadow:8px 8px 0 rgba(0,0,0,0.4); animation:slideIn 0.4s ease; position:relative; }
-  .login-card::before { content:'LIBRARY ACCESS'; position:absolute; top:12px; right:14px; font-family:'Special Elite',cursive; font-size:0.55rem; letter-spacing:0.2em; color:rgba(139,32,32,0.45); border:1px solid rgba(139,32,32,0.3); padding:2px 6px; transform:rotate(3deg); }
-  .login-card h2 { font-family:'Special Elite',cursive; font-size:2.8rem; color:var(--dark-brown); letter-spacing:0.12em; margin-bottom:6px; text-transform:uppercase; }
-  .login-card p { font-family:'Courier Prime',monospace; font-style:italic; color:var(--brown); font-size:0.85rem; margin-bottom:32px; letter-spacing:0.08em; }
+  .login-card { background:repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(180,140,60,0.15) 26px,rgba(180,140,60,0.15) 27px),linear-gradient(180deg,#f8f0dc,#f0e4c4); border:2px solid #8a6530; border-top:6px solid #a07840; padding:48px 44px 40px; text-align:center; max-width:520px; width:95%; box-shadow:8px 8px 0 rgba(0,0,0,0.5); animation:slideIn 0.4s ease; position:relative; }
+  .login-card::before { content:'EST. 2026'; position:absolute; top:14px; right:16px; font-family:'Special Elite',cursive; font-size:0.52rem; letter-spacing:0.2em; color:rgba(139,32,32,0.4); border:1px solid rgba(139,32,32,0.25); padding:2px 7px; transform:rotate(2deg); }
+  .login-hero-ornament { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:20px; }
+  .login-hero-ornament span { color:var(--tan); font-size:1.1rem; opacity:0.7; }
+  .login-hero-ornament .rule { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--tan),transparent); }
+  .login-card h2 { font-family:'Special Elite',cursive; font-size:3.4rem; color:var(--dark-brown); letter-spacing:0.15em; margin-bottom:4px; text-transform:uppercase; line-height:1; }
+  .login-tagline { font-family:'Playfair Display',serif; font-style:italic; color:var(--brown); font-size:1.05rem; margin-bottom:6px; letter-spacing:0.04em; }
+  .login-desc { font-family:'Courier Prime',monospace; color:#8a6540; font-size:0.75rem; margin-bottom:28px; letter-spacing:0.06em; line-height:1.6; }
+  .login-features { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:28px; text-align:left; }
+  .login-feature { background:rgba(139,100,40,0.08); border:1px solid rgba(139,100,40,0.2); padding:10px 12px; display:flex; align-items:flex-start; gap:8px; }
+  .login-feature-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+  .login-feature-text { font-family:'Courier Prime',monospace; font-size:0.65rem; color:var(--dark-brown); letter-spacing:0.04em; line-height:1.5; }
+  .login-feature-text strong { display:block; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1px; }
+  .login-divider { display:flex; align-items:center; gap:10px; margin:20px 0 16px; }
+  .login-divider span { font-family:'Courier Prime',monospace; font-size:0.62rem; color:#a08060; letter-spacing:0.1em; white-space:nowrap; }
+  .login-divider .rule { flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(139,100,40,0.3),transparent); }
   .login-ornament { color:var(--tan); font-size:1.5rem; margin-bottom:16px; display:block; }
   .google-btn { display:flex; align-items:center; justify-content:center; gap:12px; background:var(--dark-brown); color:var(--cream); border:none; padding:14px 28px; font-family:'Playfair Display',serif; font-size:1rem; letter-spacing:0.06em; cursor:pointer; width:100%; transition:background 0.2s,transform 0.1s; }
   .google-btn:hover { background:var(--brown); transform:translateY(-2px); }
@@ -283,17 +295,40 @@
 <div id="demo-banner">📚 Demo Mode — Sample Data &nbsp;·&nbsp; No login required &nbsp;·&nbsp; Changes are not saved <a onclick="exitDemo()">✕ Exit Demo</a></div>
 <div id="login-screen">
   <div class="login-card">
-    <span class="login-ornament">❧</span>
+    <div class="login-hero-ornament">
+      <div class="rule"></div>
+      <span>❧</span>
+      <div class="rule"></div>
+    </div>
     <h2>Spine</h2>
-    <p>Your personal book collection</p>
-    <button class="google-btn" onclick="signInWithGoogle()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+    <div class="login-tagline">Your Family Library, Beautifully Organised</div>
+    <div class="login-desc">Track every book. Explore by subject. Share with the people you read with.</div>
+    <div class="login-features">
+      <div class="login-feature">
+        <span class="login-feature-icon">📚</span>
+        <div class="login-feature-text"><strong>Visual Shelves</strong>Browse your collection like a real library</div>
+      </div>
+      <div class="login-feature">
+        <span class="login-feature-icon">🎨</span>
+        <div class="login-feature-text"><strong>4 Themes</strong>Antique, Gothic, Beatrix Potter, Japanese</div>
+      </div>
+      <div class="login-feature">
+        <span class="login-feature-icon">👨‍👩‍👧</span>
+        <div class="login-feature-text"><strong>Family Shelves</strong>Everyone gets their own personal library</div>
+      </div>
+      <div class="login-feature">
+        <span class="login-feature-icon">⬡</span>
+        <div class="login-feature-text"><strong>Jarvis Intel</strong>Reading goals, stats & activity feed</div>
+      </div>
+    </div>
+    <button class="google-btn" onclick="startDemo()" style="background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;font-size:1.05rem;padding:16px 28px;letter-spacing:0.08em;">
+      📚 &nbsp;Open the Library — Try Demo
+    </button>
+    <div class="login-divider"><div class="rule"></div><span>or sign in with your account</span><div class="rule"></div></div>
+    <button class="google-btn" onclick="signInWithGoogle()" style="background:rgba(61,35,20,0.08);color:var(--dark-brown);border:1px solid #c4a060;font-size:0.85rem;padding:11px 28px;">
+      <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
       Sign in with Google
     </button>
-    <button class="google-btn" onclick="startDemo()" style="margin-top:10px;background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;justify-content:center;">
-      📚 Try Demo — No Login Needed
-    </button>
-    <p style="font-size:0.68rem;color:#a08060;margin-top:10px;letter-spacing:0.05em;font-style:italic;margin-bottom:0;">Explore all features with sample data</p>
     <div class="login-error" id="login-error">Access denied. Your account is not on the allowed list.</div>
   </div>
 </div>
