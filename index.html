@@ -880,14 +880,26 @@ function applyTheme(name, save = true) {
     set(ref(db, `themes/${key}`), name).catch(()=>{});
   }
   document.body.getBoundingClientRect();
+  // Fix view buttons inline since they can't be overridden via CSS cascade
+  const _vshelf=document.getElementById('btn-shelf');
+  const _vlist=document.getElementById('btn-list');
+  if(_vshelf&&_vlist){
+    [_vshelf,_vlist].forEach(btn=>{
+      if(btn.classList.contains('active')){
+        btn.style.cssText=`background:${t.viewBtnActive}!important;color:${t.viewBtnActiveText}!important;-webkit-text-fill-color:${t.viewBtnActiveText}!important;border-color:${t.viewBtnActive}!important;`;
+      } else {
+        const _itxt=t.viewBtnInactiveText||t.tabText;
+        btn.style.cssText=`background:${t.viewBtnBg}!important;color:${_itxt}!important;-webkit-text-fill-color:${_itxt}!important;border-color:${t.tabBorder}!important;`;
+      }
+    });
+  }
   renderAll();
-  setTimeout(updateViewBtnColors,50);
 }
 window.applyTheme = applyTheme;
 window.toggleThemeMenu = () => document.getElementById('theme-menu').classList.toggle('open');
 document.addEventListener('click', e => { if (!document.getElementById('theme-switcher').contains(e.target)) document.getElementById('theme-menu').classList.remove('open'); });
 function renderAll(){
-  renderStats();renderGoal();renderRecentlyAdded();setTimeout(updateViewBtnColors,0);
+  renderStats();renderGoal();renderRecentlyAdded();
   const fb=filteredBooks();
   const lib=document.getElementById('library');
   const sectionsWithBooks=DEWEY_CLASSES.filter(cls=>fb.some(b=>String(b.dewey).substring(0,1)+'00'===cls.num||b.dewey===cls.num));
