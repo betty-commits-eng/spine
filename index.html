@@ -301,7 +301,7 @@
       <div class="rule"></div>
     </div>
     <h2>Spine</h2>
-    <div class="login-tagline">Your Family Library, Beautifully Organised</div>
+    <div class="login-tagline">Your Shared Library, Beautifully Organised</div>
     <div class="login-desc">Track every book. Explore by subject. Share with the people you read with.</div>
     <div class="login-features">
       <div class="login-feature">
@@ -314,7 +314,7 @@
       </div>
       <div class="login-feature">
         <span class="login-feature-icon">👨‍👩‍👧</span>
-        <div class="login-feature-text"><strong>Family Shelves</strong>Everyone gets their own personal library</div>
+        <div class="login-feature-text"><strong>Shared Shelves</strong>Everyone gets their own personal library</div>
       </div>
       <div class="login-feature">
         <span class="login-feature-icon">⬡</span>
@@ -339,7 +339,7 @@
     <span>Est. 2026 <button id="jarvis-btn" onclick="document.getElementById('jarvis-overlay').classList.add('open');window.jarvisInit&&window.jarvisInit()">⬡ JARVIS</button></span>
   </div>
   <div class="header-inner">
-    <div class="catalogue-plate">Family Library System</div>
+    <div class="catalogue-plate">Shared Library System</div>
     <h1>Spine</h1>
     <div class="subtitle">A Shared Book Catalogue</div>
     <div class="catalogue-tabs-strip">
@@ -354,7 +354,7 @@
     <div class="library-stamp">
       <span class="stamp-text-large">Property</span>
       <span>of the</span>
-      <span class="stamp-text-large">Family</span>
+      <span class="stamp-text-large">Shared</span>
       <span>Library</span>
       <span style="font-size:0.5rem;opacity:0.7;margin-top:2px;">Est. 2026</span>
     </div>
@@ -683,7 +683,7 @@ function renderGoal(){
   el.style.display='block';
   const _MG=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;
   const activeMembers=_MG.filter(m=>m.key===ownerFilter);
-  const label=activeMembers[0]?activeMembers[0].label+"'s":'Family';
+  const label=activeMembers[0]?activeMembers[0].label+"'s":'Shared';
   let totalRead=0,totalGoal=0;
   activeMembers.forEach(m=>{
     const read=books.filter(b=>(b.addedBy===m.email||b.addedBy===m.key)&&b.status==='read'&&b.readDate&&new Date(b.readDate).getFullYear()===year).length;
@@ -903,7 +903,7 @@ function applyTheme(name, save = true) {
       stamp.classList.add('stamp-beatrix');
       stamp.innerHTML = `<span style="font-size:0.55rem;letter-spacing:0.1em;color:rgba(50,90,30,0.95);">✿ Hill Top ✿</span><span style="font-size:1.6rem;line-height:1.1;">🐇</span><span class="stamp-text-large" style="font-size:0.8rem;color:rgba(50,90,30,0.95);">Collection</span><span style="font-size:0.5rem;font-style:italic;color:rgba(50,90,30,0.85);">Near Sawrey</span><span style="font-size:0.55rem;color:rgba(50,90,30,0.8);">❧ Est. 1905 ❧</span>`;
     } else {
-      stamp.innerHTML = `<span class="stamp-text-large">Property</span><span>of the</span><span class="stamp-text-large">Family</span><span>Library</span>`;
+      stamp.innerHTML = `<span class="stamp-text-large">Property</span><span>of the</span><span class="stamp-text-large">Shared</span><span>Library</span>`;
     }
   }
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
@@ -1162,7 +1162,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
       </div>
     </div>
     <div class="jv-stats">
-      <div class="jv-stat"><div class="jv-stat-label">Total Volumes</div><div class="jv-stat-value" id="jv-s-total">—</div><div class="jv-stat-sub">Family Catalogue</div></div>
+      <div class="jv-stat"><div class="jv-stat-label">Total Volumes</div><div class="jv-stat-value" id="jv-s-total">—</div><div class="jv-stat-sub">Shared Catalogue</div></div>
       <div class="jv-stat"><div class="jv-stat-label">Read</div><div class="jv-stat-value" id="jv-s-read">—</div><div class="jv-stat-sub">Completed</div></div>
       <div class="jv-stat"><div class="jv-stat-label">Reading</div><div class="jv-stat-value" id="jv-s-reading">—</div><div class="jv-stat-sub">In Progress</div></div>
       <div class="jv-stat"><div class="jv-stat-label">Unread</div><div class="jv-stat-value" id="jv-s-unread">—</div><div class="jv-stat-sub">Awaiting</div></div>
@@ -1175,7 +1175,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
     </div>
     <div class="jv-bottom">
       <div class="jv-panel">
-        <div class="jv-panel-head">Family Reading Goals — <span id="jv-goal-year"></span></div>
+        <div class="jv-panel-head">Shared Reading Goals — <span id="jv-goal-year"></span></div>
         <div id="jv-goal-rows" style="margin-top:8px;"></div>
       </div>
       <div class="jv-panel jv-log-panel">
