@@ -780,7 +780,7 @@ const THEMES = {
     controlsBg: 'linear-gradient(180deg,#f2ede4,#e8e0d0)',
     addBtnBg: 'linear-gradient(180deg,#c04030,#801810)',
     sectionNumBorder: 'rgba(192,64,48,0.4)', sectionNumText: '#f0e8d8', sectionTitle: '#f0e8d8', sectionSub: '#8090b0',
-    legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8',
+    legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8', viewBtnInactiveText: '#1a2a4a',
     sectionCountBg: 'rgba(26,42,74,0.9)', sectionCountText: '#f0e8d8', sectionCountBorder: '#c04030',
     shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)', shelfBorder: '2px solid #c04030', shelfBorderTop: '3px solid #d05040', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
     plankBg: '#1a2a4a', plankBorder: '2px solid #c04030', plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
@@ -974,7 +974,7 @@ function updateViewBtnColors(){
     if(btn.classList.contains('active')){
       btn.style.background=_t.viewBtnActive;btn.style.color=_t.viewBtnActiveText;btn.style.webkitTextFillColor=_t.viewBtnActiveText;btn.style.borderColor=_t.viewBtnActive;
     } else {
-      btn.style.background=_t.viewBtnBg;btn.style.color=_t.tabText;btn.style.webkitTextFillColor=_t.tabText;btn.style.borderColor=_t.tabBorder;
+      btn.style.background=_t.viewBtnBg;btn.style.color=_t.viewBtnInactiveText||_t.tabText;btn.style.webkitTextFillColor=_t.viewBtnInactiveText||_t.tabText;btn.style.borderColor=_t.tabBorder;
     }
   });
 }
