@@ -138,7 +138,7 @@
   button.add-btn:hover { background:linear-gradient(180deg,#7a5a3a,#5a3a1a); transform:translateY(-1px); box-shadow:3px 4px 0 rgba(0,0,0,0.4); }
   button.add-btn:active { transform:translateY(1px); box-shadow:1px 1px 0 rgba(0,0,0,0.4); }
   .owner-tabs { display:flex; gap:4px; margin-bottom:28px; align-items:flex-end; }
-  .owner-tab { flex:1; background:linear-gradient(180deg,#e8d8a0,#d4c080); color:#3a2008; border:2px solid #8a6530; border-bottom:3px solid #6a4a20; padding:10px 16px 12px; font-family:'Special Elite',cursive; font-size:0.8rem; letter-spacing:0.1em; cursor:pointer; transition:all 0.15s; text-align:center; text-transform:uppercase; clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 100%,0% 100%); box-shadow:2px 0 4px rgba(0,0,0,0.2); position:relative; top:2px; }
+  .owner-tab { flex:1; background:linear-gradient(180deg,#e8d8a0,#d4c080); color:#3a2008; border:2px solid #8a6530; border-bottom:3px solid #6a4a20; padding:10px 16px 12px; font-family:'Special Elite',cursive; font-size:0.8rem; letter-spacing:0.06em; cursor:pointer; transition:all 0.15s; text-align:center; text-transform:uppercase; font-family:'Playfair Display',serif; clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 100%,0% 100%); box-shadow:2px 0 4px rgba(0,0,0,0.2); position:relative; top:2px; }
   .owner-tab:hover { background:linear-gradient(180deg,#f0e0b0,#e0cc90); top:0px; }
   .owner-tab.active { background:linear-gradient(180deg,#f8f0dc,#f0e4c4); color:var(--dark-brown); font-weight:700; border-bottom-color:#f0e4c4; top:0px; box-shadow:2px -2px 6px rgba(0,0,0,0.2); z-index:1; }
   .tab-icon { margin-right:4px; }
@@ -192,14 +192,14 @@
   .bc-actions button.delete { border-color:var(--red); color:var(--red); }
   .bc-actions button.delete:hover { background:var(--red); color:var(--cream); }
   .recently-added { background:linear-gradient(180deg,#d4c090,#c4b080); border:2px solid #8a6530; border-top:4px solid #a07840; padding:14px 18px; margin-bottom:28px; box-shadow:3px 3px 0 rgba(0,0,0,0.3); }
-  .recently-added h3 { font-family:'Special Elite',cursive; font-size:0.75rem; letter-spacing:0.18em; color:inherit; text-transform:uppercase; margin-bottom:10px; }
+  .recently-added h3 { font-family:'Playfair Display',serif; font-size:0.78rem; letter-spacing:0.12em; color:inherit; text-transform:uppercase; margin-bottom:10px; font-weight:700; }
   .recent-books { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
   .recent-books::-webkit-scrollbar { display:none; }
   .recent-book { flex-shrink:0; background:linear-gradient(135deg,#f5edd8,#ede0c4); border:1px solid #c4a060; padding:8px 10px; min-width:120px; max-width:140px; cursor:pointer; transition:transform 0.2s; }
   .recent-book:hover { transform:translateY(-2px); }
-  .recent-book-title { font-family:'IM Fell English',serif; font-size:0.75rem; color:inherit; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
-  .recent-book-author { font-family:'Courier Prime',monospace; font-size:0.62rem; color:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.75; }
-  .recent-book-owner { font-family:'Courier Prime',monospace; font-size:0.58rem; color:inherit; margin-top:4px; opacity:0.65; }
+  .recent-book-title { font-family:'Playfair Display',serif; font-size:0.78rem; color:inherit; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
+  .recent-book-author { font-family:'Libre Baskerville',serif; font-size:0.62rem; font-style:italic; color:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0.85; }
+  .recent-book-owner { font-family:'Libre Baskerville',serif; font-size:0.58rem; color:inherit; margin-top:4px; opacity:0.75; }
   .goal-bar { background:linear-gradient(180deg,#d4c090,#c4b080); border:2px solid #8a6530; border-top:4px solid #a07840; padding:14px 18px; margin-bottom:28px; box-shadow:3px 3px 0 rgba(0,0,0,0.3); }
   .goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
   .goal-label { font-family:'Courier Prime',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--brown); }
@@ -236,7 +236,7 @@
   .stat { background:linear-gradient(180deg,#f5edd8,#ede0c4); border:1px solid #c4a060; border-top:3px solid #d4b070; padding:12px 16px; text-align:center; flex:1; min-width:90px; position:relative; font-family:'Courier Prime',monospace; }
   .stat::after { content:''; position:absolute; top:-3px; left:50%; transform:translateX(-50%); width:30px; height:3px; background:#a07840; }
   .stat-num { font-family:'Special Elite',cursive; font-size:1.8rem; font-weight:700; color:var(--dark-brown); display:block; line-height:1; }
-  .stat-label { font-family:'Courier Prime',monospace; font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--brown); margin-top:4px; display:block; }
+  .stat-label { font-family:'Libre Baskerville',serif; font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--brown); margin-top:4px; display:block; }
   .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center; }
   .modal-overlay.open { display:flex; }
   .modal { background:var(--cream); border:3px double var(--brown); padding:28px; width:90%; max-width:480px; position:relative; box-shadow:8px 8px 0 var(--dark-brown); animation:slideIn 0.3s ease; }
@@ -815,7 +815,7 @@ const THEMES = {
     controlsBg: 'linear-gradient(180deg,#f2ede4,#e8e0d0)',
     addBtnBg: 'linear-gradient(180deg,#c04030,#801810)',
     sectionNumBorder: 'rgba(192,64,48,0.4)', sectionNumText: '#f0e8d8', sectionTitle: '#f0e8d8', sectionSub: '#8090b0',
-    legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8', viewBtnInactiveText: '#1a2a4a',
+    legendText: '#1a2a4a', viewBtnBg: '#e8e0d0', viewBtnActive: '#1a2a4a', viewBtnActiveText: '#f0e8d8', viewBtnInactiveText: '#1a2a4a', tabInactiveText: '#f0e8d8', uiFont: "'Noto Serif JP',serif",
     sectionCountBg: 'rgba(26,42,74,0.9)', sectionCountText: '#f0e8d8', sectionCountBorder: '#c04030',
     shelfBg: 'linear-gradient(180deg, #0e1830 0%, #0a1428 60%, #081020 100%)', shelfBorder: '2px solid #c04030', shelfBorderTop: '3px solid #d05040', shelfShadow: 'inset 0 8px 20px rgba(0,0,0,0.8), inset 0 -6px 24px rgba(192,64,48,0.15)',
     plankBg: '#1a2a4a', plankBorder: '2px solid #c04030', plankShadow: '0 4px 12px rgba(26,42,74,0.4)',
@@ -859,7 +859,9 @@ function applyTheme(name, save = true) {
     .dewey-section .section-header .section-number { color: ${t.sectionNumText} !important; border: 3px double ${t.sectionNumBorder} !important; }
     .dewey-section .section-header .section-title { color: ${t.sectionTitle} !important; -webkit-text-fill-color: ${t.sectionTitle} !important; }
     .dewey-section .section-header .section-sub { color: ${t.sectionSub} !important; }
-    .owner-tab { background: ${t.tabBg} !important; color: ${t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; -webkit-text-fill-color: ${t.tabText} !important; }
+    .owner-tab { background: ${t.tabBg} !important; color: ${t.tabInactiveText||t.tabText} !important; -webkit-text-fill-color: ${t.tabInactiveText||t.tabText} !important; border: 2px solid ${t.tabBorder} !important; border-bottom: 3px solid ${t.tabBorder} !important; ${t.uiFont?'font-family:'+t.uiFont+'!important;':''} }
+    .stat-label { color: ${t.statLabel} !important; -webkit-text-fill-color: ${t.statLabel} !important; ${t.uiFont?'font-family:'+t.uiFont+'!important;':''} }
+    .recently-added h3 { color: ${t.statNum} !important; -webkit-text-fill-color: ${t.statNum} !important; ${t.uiFont?'font-family:'+t.uiFont+'!important;':''} }
     .owner-tab:hover { background: ${t.tabHover} !important; }
     .owner-tab.active { background: ${t.tabActive} !important; color: ${t.tabActiveText} !important; border-bottom: 3px solid ${t.tabActiveBotBorder} !important; -webkit-text-fill-color: ${t.tabActiveText} !important; }
     .search-row input { background: ${t.inputBg} !important; border: 2px solid ${t.inputBorder} !important; border-top: 3px solid ${t.inputBorderTop} !important; color: ${t.inputText} !important; -webkit-text-fill-color: ${t.inputText} !important; }
@@ -1056,65 +1058,46 @@ document.querySelectorAll('#edit-stars .star').forEach(star=>{
 window.signInWithGoogle=signInWithGoogle;window.signOut=signOut;window.addBook=addBook;window.closeModal=closeModal;window.saveEdit=saveEdit;window.setView=setView;window._openEdit=openEdit;window._deleteBook=deleteBook;window._toggleSection=toggleSection;
 window._setBooks=(b)=>{books=b;window._spineBooks=b;};
 // Smart book card positioning
+// ── Smart floating book card ─────────────────────────────────────────────
 let activeCard = null;
+const _bd = document.createElement('div');
+_bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99998;display:none;cursor:pointer;';
+document.body.appendChild(_bd);
+const _fc = document.createElement('div');
+_fc.id = 'floating-card';
+_fc.style.cssText = 'position:fixed;z-index:99999;display:none;background:#f5edd8;border:2px solid #7b4f2e;padding:14px;box-shadow:4px 4px 0 #3d2314;font-family:Libre Baskerville,serif;';
+document.body.appendChild(_fc);
+function _closeCard() { _fc.style.display='none'; _bd.style.display='none'; activeCard=null; }
+_bd.addEventListener('click', _closeCard);
 document.addEventListener('click', e => {
-  if (activeCard && !e.target.closest('.book') && !e.target.closest('#floating-card')) {
-    const fc = document.getElementById('floating-card');
-    if (fc) fc.style.display = 'none';
-    activeCard = null;
-    return;
-  }
+  if (e.target === _bd) return;
+  if (activeCard && !e.target.closest('.book') && !e.target.closest('#floating-card')) { _closeCard(); return; }
   const book = e.target.closest('.book');
   if (!book) return;
   if (e.target.closest('button') || e.target.closest('a')) return;
   const card = book.querySelector('.book-card');
   if (!card) return;
   e.stopPropagation();
-  let fc = document.getElementById('floating-card');
-  if (!fc) {
-    fc = document.createElement('div');
-    fc.id = 'floating-card';
-    fc.style.cssText = 'position:fixed;z-index:9999;display:none;';
-    document.body.appendChild(fc);
-  }
-  if (activeCard === book) {
-    fc.style.display = 'none';
-    activeCard = null;
-    return;
-  }
+  if (activeCard === book) { _closeCard(); return; }
   activeCard = book;
-  fc.innerHTML = card.innerHTML;
-  fc.className = card.className + ' visible';
-  fc.style.display = 'block';
-  fc.style.position = 'fixed';
-  fc.style.zIndex = '9999';
-  fc.style.background = '#f5edd8';
-  fc.style.border = '2px solid #7b4f2e';
-  fc.style.padding = '14px';
-  fc.style.width = Math.min(260, window.innerWidth * 0.88) + 'px';
-  fc.style.maxWidth = '90vw';
-  fc.style.boxShadow = '4px 4px 0 #3d2314';
-  fc.style.fontFamily = 'Libre Baskerville, serif';
-  const bookRect = book.getBoundingClientRect();
-  const cardW = parseInt(fc.style.width);
-  let left = bookRect.left + bookRect.width / 2 - cardW / 2;
-  left = Math.max(8, Math.min(left, window.innerWidth - cardW - 8));
-  fc.style.left = left + 'px';
-  fc.style.top = '-9999px';
-  fc.style.display = 'block';
-  const cardH = fc.offsetHeight;
-  let top = bookRect.top - cardH - 10;
-  if (top < 8) top = bookRect.bottom + 10;
-  fc.style.top = top + 'px';
-  const origCard = book.querySelector('.book-card');
-  if (origCard) {
-    const origBtns = origCard.querySelectorAll('button');
-    const fcBtns = fc.querySelectorAll('button');
-    origBtns.forEach((ob, i) => { if (fcBtns[i]) fcBtns[i].onclick = ob.onclick; });
-    const origLinks = origCard.querySelectorAll('a');
-    const fcLinks = fc.querySelectorAll('a');
-    origLinks.forEach((ol, i) => { if (fcLinks[i]) { fcLinks[i].href = ol.href; fcLinks[i].target = '_blank'; }});
-  }
+  _fc.innerHTML = card.innerHTML;
+  _fc.style.width = Math.min(280, window.innerWidth * 0.9) + 'px';
+  _bd.style.display = 'block';
+  _fc.style.visibility = 'hidden';
+  _fc.style.display = 'block';
+  _fc.style.left = '0px';
+  _fc.style.top = '0px';
+  const cH = _fc.offsetHeight;
+  const cW = _fc.offsetWidth;
+  _fc.style.left = Math.max(8, Math.round((window.innerWidth - cW) / 2)) + 'px';
+  _fc.style.top = Math.max(70, Math.round((window.innerHeight - cH) / 2)) + 'px';
+  _fc.style.visibility = 'visible';
+  const origBtns = card.querySelectorAll('button');
+  const fcBtns = _fc.querySelectorAll('button');
+  origBtns.forEach((ob, i) => { if (fcBtns[i]) fcBtns[i].onclick = ob.onclick; });
+  const origLinks = card.querySelectorAll('a');
+  const fcLinks = _fc.querySelectorAll('a');
+  origLinks.forEach((ol, i) => { if (fcLinks[i]) { fcLinks[i].href = ol.href; fcLinks[i].target = '_blank'; }});
 });
 document.addEventListener('mousedown', e => {
   const row = e.target.closest('.books-row');
@@ -1259,26 +1242,42 @@ window._isDemoMode = false;
 window._getMembersOverride = null;
 
 const DEMO_BOOKS = [
-  {_key:'d1',title:'The Joy Luck Club',author:'Amy Tan',dewey:'813',status:'read',year:1989,notes:'A masterpiece of mother-daughter stories.',rating:5,addedBy:'alice@demo.com',added:'2024-10-15T10:00:00Z',readDate:'2024-11-01T00:00:00Z',coverImage:null},
+  // 800s — Literature
+  {_key:'d1',title:'The Joy Luck Club',author:'Amy Tan',dewey:'813',status:'read',year:1989,notes:'A masterpiece.',rating:5,addedBy:'alice@demo.com',added:'2024-10-15T10:00:00Z',readDate:'2024-11-01T00:00:00Z',coverImage:null},
   {_key:'d2',title:'Lives of Girls and Women',author:'Alice Munro',dewey:'813',status:'read',year:1971,notes:'Quietly devastating.',rating:5,addedBy:'alice@demo.com',added:'2024-11-01T10:00:00Z',readDate:'2024-11-20T00:00:00Z',coverImage:null},
   {_key:'d3',title:"The Handmaid's Tale",author:'Margaret Atwood',dewey:'813',status:'reading',year:1985,notes:'',rating:0,addedBy:'alice@demo.com',added:'2024-12-01T10:00:00Z',readDate:null,coverImage:null},
   {_key:'d4',title:'Circe',author:'Madeline Miller',dewey:'823',status:'unread',year:2018,notes:'',rating:0,addedBy:'alice@demo.com',added:'2025-01-05T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d5',title:'Pachinko',author:'Min Jin Lee',dewey:'813',status:'unread',year:2017,notes:'On the to-read list.',rating:0,addedBy:'alice@demo.com',added:'2025-02-01T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d6',title:'Quiet: The Power of Introverts',author:'Susan Cain',dewey:'155',status:'read',year:2012,notes:'Validated so much.',rating:4,addedBy:'alice@demo.com',added:'2025-01-20T10:00:00Z',readDate:'2025-02-10T00:00:00Z',coverImage:null},
-  {_key:'d7',title:'The Name of the Rose',author:'Umberto Eco',dewey:'853',status:'read',year:1980,notes:'A labyrinth of a book.',rating:4,addedBy:'bob@demo.com',added:'2024-09-10T10:00:00Z',readDate:'2024-09-30T00:00:00Z',coverImage:null},
-  {_key:'d8',title:'Sapiens',author:'Yuval Noah Harari',dewey:'909',status:'read',year:2011,notes:'Changed my perspective entirely.',rating:4,addedBy:'bob@demo.com',added:'2024-10-20T10:00:00Z',readDate:'2024-11-10T00:00:00Z',coverImage:null},
-  {_key:'d9',title:'Thinking, Fast and Slow',author:'Daniel Kahneman',dewey:'153',status:'reading',year:2011,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-01-15T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d10',title:'Beloved',author:'Toni Morrison',dewey:'813',status:'read',year:1987,notes:'Haunting and essential.',rating:5,addedBy:'bob@demo.com',added:'2025-02-20T10:00:00Z',readDate:'2025-03-05T00:00:00Z',coverImage:null},
-  {_key:'d11',title:'The Shadow of the Wind',author:'Carlos Ruiz Zafon',dewey:'863',status:'wishlist',year:2001,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-02-15T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d12',title:'The Alchemist',author:'Paulo Coelho',dewey:'869',status:'read',year:1988,notes:'',rating:3,addedBy:'cara@demo.com',added:'2024-08-01T10:00:00Z',readDate:'2024-08-20T00:00:00Z',coverImage:null},
-  {_key:'d13',title:'Little Women',author:'Louisa May Alcott',dewey:'813',status:'read',year:1868,notes:'A timeless comfort read.',rating:5,addedBy:'cara@demo.com',added:'2024-09-15T10:00:00Z',readDate:'2024-10-05T00:00:00Z',coverImage:null},
-  {_key:'d14',title:'Norwegian Wood',author:'Haruki Murakami',dewey:'895',status:'read',year:1987,notes:'Melancholy and beautiful.',rating:4,addedBy:'cara@demo.com',added:'2024-11-20T10:00:00Z',readDate:'2024-12-10T00:00:00Z',coverImage:null},
-  {_key:'d15',title:'A Room with a View',author:'E.M. Forster',dewey:'823',status:'read',year:1908,notes:'',rating:4,addedBy:'cara@demo.com',added:'2024-12-15T10:00:00Z',readDate:'2025-01-05T00:00:00Z',coverImage:null},
-  {_key:'d16',title:"Harry Potter and the Philosopher's Stone",author:'J.K. Rowling',dewey:'823',status:'read',year:1997,notes:'',rating:5,addedBy:'dan@demo.com',added:'2024-07-01T10:00:00Z',readDate:'2024-07-15T00:00:00Z',coverImage:null},
-  {_key:'d17',title:"The Hitchhiker's Guide to the Galaxy",author:'Douglas Adams',dewey:'823',status:'read',year:1979,notes:'42.',rating:5,addedBy:'dan@demo.com',added:'2024-08-10T10:00:00Z',readDate:'2024-08-20T00:00:00Z',coverImage:null},
-  {_key:'d18',title:"On Earth We're Briefly Gorgeous",author:'Ocean Vuong',dewey:'813',status:'wishlist',year:2019,notes:'',rating:0,addedBy:'dan@demo.com',added:'2025-03-01T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d19',title:'The Count of Monte Cristo',author:'Alexandre Dumas',dewey:'843',status:'unread',year:1844,notes:'',rating:0,addedBy:'dan@demo.com',added:'2025-03-10T10:00:00Z',readDate:null,coverImage:null},
-  {_key:'d20',title:'The Hundred-Year-Old Man Who Climbed Out the Window',author:'Jonas Jonasson',dewey:'839',status:'read',year:2009,notes:'Delightfully absurd.',rating:4,addedBy:'cara@demo.com',added:'2025-01-10T10:00:00Z',readDate:'2025-01-25T00:00:00Z',coverImage:null},
+  {_key:'d5',title:'Pachinko',author:'Min Jin Lee',dewey:'813',status:'unread',year:2017,notes:'',rating:0,addedBy:'alice@demo.com',added:'2025-02-01T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d6',title:'The Name of the Rose',author:'Umberto Eco',dewey:'853',status:'read',year:1980,notes:'A labyrinth of a book.',rating:4,addedBy:'bob@demo.com',added:'2024-09-10T10:00:00Z',readDate:'2024-09-30T00:00:00Z',coverImage:null},
+  {_key:'d7',title:'Beloved',author:'Toni Morrison',dewey:'813',status:'read',year:1987,notes:'Haunting and essential.',rating:5,addedBy:'bob@demo.com',added:'2025-02-20T10:00:00Z',readDate:'2025-03-05T00:00:00Z',coverImage:null},
+  {_key:'d8',title:'The Shadow of the Wind',author:'Carlos Ruiz Zafon',dewey:'863',status:'wishlist',year:2001,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-02-15T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d9',title:'Little Women',author:'Louisa May Alcott',dewey:'813',status:'read',year:1868,notes:'A timeless comfort read.',rating:5,addedBy:'cara@demo.com',added:'2024-09-15T10:00:00Z',readDate:'2024-10-05T00:00:00Z',coverImage:null},
+  {_key:'d10',title:'Norwegian Wood',author:'Haruki Murakami',dewey:'895',status:'read',year:1987,notes:'Melancholy and beautiful.',rating:4,addedBy:'cara@demo.com',added:'2024-11-20T10:00:00Z',readDate:'2024-12-10T00:00:00Z',coverImage:null},
+  {_key:'d11',title:'A Room with a View',author:'E.M. Forster',dewey:'823',status:'read',year:1908,notes:'',rating:4,addedBy:'cara@demo.com',added:'2024-12-15T10:00:00Z',readDate:'2025-01-05T00:00:00Z',coverImage:null},
+  {_key:'d12',title:"Harry Potter and the Philosopher's Stone",author:'J.K. Rowling',dewey:'823',status:'read',year:1997,notes:'',rating:5,addedBy:'dan@demo.com',added:'2024-07-01T10:00:00Z',readDate:'2024-07-15T00:00:00Z',coverImage:null},
+  {_key:'d13',title:"The Hitchhiker's Guide to the Galaxy",author:'Douglas Adams',dewey:'823',status:'read',year:1979,notes:'42.',rating:5,addedBy:'dan@demo.com',added:'2024-08-10T10:00:00Z',readDate:'2024-08-20T00:00:00Z',coverImage:null},
+  {_key:'d14',title:'The Count of Monte Cristo',author:'Alexandre Dumas',dewey:'843',status:'unread',year:1844,notes:'',rating:0,addedBy:'dan@demo.com',added:'2025-03-10T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d15',title:'The Hundred-Year-Old Man',author:'Jonas Jonasson',dewey:'839',status:'read',year:2009,notes:'Delightfully absurd.',rating:4,addedBy:'cara@demo.com',added:'2025-01-10T10:00:00Z',readDate:'2025-01-25T00:00:00Z',coverImage:null},
+  {_key:'d16',title:'Pride and Prejudice',author:'Jane Austen',dewey:'823',status:'read',year:1813,notes:'Always a pleasure.',rating:5,addedBy:'alice@demo.com',added:'2024-06-01T10:00:00Z',readDate:'2024-06-20T00:00:00Z',coverImage:null},
+  {_key:'d17',title:'Middlemarch',author:'George Eliot',dewey:'823',status:'unread',year:1871,notes:'',rating:0,addedBy:'alice@demo.com',added:'2025-04-01T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d18',title:'Anna Karenina',author:'Leo Tolstoy',dewey:'891',status:'read',year:1878,notes:'',rating:4,addedBy:'bob@demo.com',added:'2024-04-01T10:00:00Z',readDate:'2024-05-10T00:00:00Z',coverImage:null},
+  // 900s — History & Biography
+  {_key:'d19',title:'Sapiens',author:'Yuval Noah Harari',dewey:'909',status:'read',year:2011,notes:'Changed my perspective.',rating:4,addedBy:'bob@demo.com',added:'2024-10-20T10:00:00Z',readDate:'2024-11-10T00:00:00Z',coverImage:null},
+  {_key:'d20',title:'The Wager',author:'David Grann',dewey:'910',status:'read',year:2023,notes:'Gripping true story.',rating:5,addedBy:'dan@demo.com',added:'2024-03-01T10:00:00Z',readDate:'2024-03-22T00:00:00Z',coverImage:null},
+  {_key:'d21',title:'A Short History of Nearly Everything',author:'Bill Bryson',dewey:'900',status:'read',year:2003,notes:'',rating:5,addedBy:'cara@demo.com',added:'2024-02-01T10:00:00Z',readDate:'2024-03-01T00:00:00Z',coverImage:null},
+  {_key:'d22',title:'Becoming',author:'Michelle Obama',dewey:'920',status:'read',year:2018,notes:'Inspiring.',rating:5,addedBy:'alice@demo.com',added:'2023-11-01T10:00:00Z',readDate:'2023-11-28T00:00:00Z',coverImage:null},
+  // 100s — Psychology & Philosophy
+  {_key:'d23',title:'Quiet: The Power of Introverts',author:'Susan Cain',dewey:'155',status:'read',year:2012,notes:'Validated so much.',rating:4,addedBy:'alice@demo.com',added:'2025-01-20T10:00:00Z',readDate:'2025-02-10T00:00:00Z',coverImage:null},
+  {_key:'d24',title:'Thinking Fast and Slow',author:'Daniel Kahneman',dewey:'153',status:'reading',year:2011,notes:'',rating:0,addedBy:'bob@demo.com',added:'2025-01-15T10:00:00Z',readDate:null,coverImage:null},
+  {_key:'d25',title:'Man's Search for Meaning',author:'Viktor Frankl',dewey:'150',status:'read',year:1946,notes:'Profound.',rating:5,addedBy:'dan@demo.com',added:'2024-05-01T10:00:00Z',readDate:'2024-05-18T00:00:00Z',coverImage:null},
+  // 300s — Social Sciences
+  {_key:'d26',title:'Educated',author:'Tara Westover',dewey:'378',status:'read',year:2018,notes:'Unforgettable.',rating:5,addedBy:'cara@demo.com',added:'2023-09-01T10:00:00Z',readDate:'2023-09-25T00:00:00Z',coverImage:null},
+  {_key:'d27',title:'The Tipping Point',author:'Malcolm Gladwell',dewey:'302',status:'read',year:2000,notes:'',rating:4,addedBy:'bob@demo.com',added:'2024-01-01T10:00:00Z',readDate:'2024-01-20T00:00:00Z',coverImage:null},
+  // 500s — Natural Sciences
+  {_key:'d28',title:'The Immortal Life of Henrietta Lacks',author:'Rebecca Skloot',dewey:'571',status:'read',year:2010,notes:'Eye-opening.',rating:5,addedBy:'alice@demo.com',added:'2023-08-01T10:00:00Z',readDate:'2023-08-25T00:00:00Z',coverImage:null},
+  {_key:'d29',title:'Braiding Sweetgrass',author:'Robin Wall Kimmerer',dewey:'580',status:'unread',year:2013,notes:'',rating:0,addedBy:'cara@demo.com',added:'2025-04-10T10:00:00Z',readDate:null,coverImage:null},
+  // 600s — Technology
+  {_key:'d30',title:'The Code Breaker',author:'Walter Isaacson',dewey:'660',status:'read',year:2021,notes:'',rating:4,addedBy:'dan@demo.com',added:'2023-07-01T10:00:00Z',readDate:'2023-07-28T00:00:00Z',coverImage:null},
 ];
 
 const DEMO_MEMBERS = [
