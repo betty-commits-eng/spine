@@ -321,7 +321,7 @@
         <div class="login-feature-text"><strong>Jarvis Intel</strong>Reading goals, stats & activity feed</div>
       </div>
     </div>
-    <button class="google-btn" onclick="startDemo()" style="background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;font-size:1.05rem;padding:16px 28px;letter-spacing:0.08em;">
+    <button class="google-btn" onclick="if(window.startDemo){startDemo();}else{setTimeout(function(){if(window.startDemo)startDemo();},500);}" style="background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;font-size:1.05rem;padding:16px 28px;letter-spacing:0.08em;">
       📚 &nbsp;Open the Library — Try Demo
     </button>
     <div class="login-divider"><div class="rule"></div><span>or sign in with your account</span><div class="rule"></div></div>
@@ -336,7 +336,7 @@
   <div class="header-label-strip">
     <span>Public Library Collection</span>
     <span>Catalogue No. 001</span>
-    <span>Est. 2026 <button id="jarvis-btn" onclick="document.getElementById('jarvis-overlay').classList.add('open');window.jarvisInit&&window.jarvisInit()">⬡ JARVIS</button></span>
+    <span>Est. 2026 <button id="jarvis-btn" onclick="document.getElementById('jarvis-overlay').classList.add('open');setTimeout(function(){window.jarvisInit&&window.jarvisInit();},100)">⬡ JARVIS</button></span>
   </div>
   <div class="header-inner">
     <div class="catalogue-plate">Shared Library System</div>
@@ -1131,6 +1131,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
     <button class="theme-btn" onclick="window.applyTheme('beatrix')" id="btn-beatrix">🌿 Beatrix Potter</button>
     <button class="theme-btn" onclick="window.applyTheme('japanese')" id="btn-japanese">🎋 Japanese Woodblock</button>
   </div>
+  <div style="font-family:'Courier Prime',monospace;font-size:0.55rem;letter-spacing:0.12em;color:rgba(255,255,255,0.5);text-align:right;margin-bottom:2px;" id="theme-hint"></div>
   <button id="theme-toggle-btn" onclick="document.getElementById('theme-menu').classList.toggle('open')" title="Choose your personal theme">🎨 My Theme</button>
 </div>
 <!-- ── Jarvis Overlay ── -->
@@ -1176,6 +1177,11 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
 </div>
 <script>
 window.jarvisInit = function() {
+  // If books not loaded yet, retry after a short delay
+  if (!window._spineBooks || window._spineBooks.length === 0) {
+    setTimeout(window.jarvisInit, 500);
+    return;
+  }
   const MEMBERS = (window._getMembersOverride?window._getMembersOverride():null) || [
     {key:'betty',  email:'bettykwale@gmail.com',    label:'Betty'},
     {key:'chelsey',email:'chelseymcrory@gmail.com', label:'Chelsey'},
@@ -1290,8 +1296,13 @@ const DEMO_MEMBERS = [
 window.startDemo = function() {
   window._isDemoMode = true;
   window._getMembersOverride = () => DEMO_MEMBERS;
-  if (window._setBooks) window._setBooks(DEMO_BOOKS);
   window._spineBooks = DEMO_BOOKS;
+  // Try _setBooks, retry if module not ready yet
+  if (window._setBooks) {
+    window._setBooks(DEMO_BOOKS);
+  } else {
+    setTimeout(() => { if (window._setBooks) window._setBooks(DEMO_BOOKS); }, 300);
+  }
   document.getElementById('login-screen').classList.remove('show');
   document.getElementById('demo-banner').classList.add('show');
   document.body.classList.add('demo-mode');
@@ -1306,6 +1317,11 @@ window.startDemo = function() {
     <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
     <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
     <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
+  // Show theme switcher so demo visitors can explore themes
+  const ts = document.getElementById('theme-switcher');
+  if (ts) ts.style.display = 'flex';
+  const th = document.getElementById('theme-hint');
+  if (th) th.textContent = '✦ Try a theme ✦';
   window.applyTheme('antique', false);
   window.setOwnerFilter('all');
 };
