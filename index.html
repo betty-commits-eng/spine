@@ -1294,10 +1294,14 @@ const DEMO_MEMBERS = [
 ];
 
 window.startDemo = function() {
+  // Wait for module to be ready if needed
+  if (!window.applyTheme || !window.setOwnerFilter) {
+    setTimeout(window.startDemo, 200);
+    return;
+  }
   window._isDemoMode = true;
   window._getMembersOverride = () => DEMO_MEMBERS;
   window._spineBooks = DEMO_BOOKS;
-  // Try _setBooks, retry if module not ready yet
   if (window._setBooks) {
     window._setBooks(DEMO_BOOKS);
   } else {
