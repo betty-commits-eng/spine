@@ -336,10 +336,10 @@ const DEMO_MEMBERS = [
   {key:'dan',   email:'dan@demo.com',   label:'Dan'},
 ];
 window.startDemo = function() {
-  // Step 1: immediate DOM changes (no module needed)
   window._isDemoMode = true;
-  window._getMembersOverride = () => DEMO_MEMBERS;
+  window._demoBooks = DEMO_BOOKS;
   window._spineBooks = DEMO_BOOKS;
+  if (window._setBooks) window._setBooks(DEMO_BOOKS);
   document.getElementById('login-screen').classList.remove('show');
   document.getElementById('demo-banner').classList.add('show');
   document.body.classList.add('demo-mode');
@@ -348,25 +348,17 @@ window.startDemo = function() {
   document.getElementById('user-avatar').src = '';
   document.getElementById('sync-status').textContent = '📚 Demo Mode';
   document.getElementById('sync-status').className = 'sync connecting';
+  document.querySelector('.owner-tabs').innerHTML = `
+    <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
+    <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
+    <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
+    <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
+    <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
+  window._getMembersOverride = () => DEMO_MEMBERS;
   const ts = document.getElementById('theme-switcher');
   if (ts) ts.style.display = 'flex';
-  // Step 2: module-dependent calls after short delay
-  function finishDemo() {
-    if (!window.applyTheme || !window.setOwnerFilter) {
-      setTimeout(finishDemo, 100);
-      return;
-    }
-    if (window._setBooks) window._setBooks(DEMO_BOOKS);
-    document.querySelector('.owner-tabs').innerHTML = `
-      <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
-      <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
-      <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
-      <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
-      <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
-    window.applyTheme('antique', false);
-    window.setOwnerFilter('all');
-  }
-  setTimeout(finishDemo, 50);
+  window.applyTheme('antique', false);
+  window.setOwnerFilter('all');
 };
 window.exitDemo = function() {
   window._isDemoMode = false;
@@ -710,7 +702,7 @@ function saveEdit() {
 }
 function statusColor(s){return{read:'#2d8a2d',reading:'#e6a020',unread:'#888',wishlist:'#6a4fcc'}[s]||'#888';}
 function statusLabel(s){return{read:'Read',reading:'Reading',unread:'Unread',wishlist:'Wishlist'}[s]||s;}
-function ownerFilteredBooks(){const _M=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;const m=_M.find(m=>m.key===ownerFilter);return books.filter(b=>ownerFilter==='all'||(m&&(b.addedBy===m.email||b.addedBy===m.key)));}
+function ownerFilteredBooks(){if(window._isDemoMode&&window._demoBooks)books=window._demoBooks;const _M=window._getMembersOverride?window._getMembersOverride()||MEMBERS:MEMBERS;const m=_M.find(m=>m.key===ownerFilter);return books.filter(b=>ownerFilter==='all'||(m&&(b.addedBy===m.email||b.addedBy===m.key)));}
 function filteredBooks(){
   const q=document.getElementById('search').value.toLowerCase();
   const fs=document.getElementById('filter-status').value;
@@ -1035,6 +1027,7 @@ window.applyTheme = applyTheme;
 window.toggleThemeMenu = () => document.getElementById('theme-menu').classList.toggle('open');
 document.addEventListener('click', e => { if (!document.getElementById('theme-switcher').contains(e.target)) document.getElementById('theme-menu').classList.remove('open'); });
 function renderAll(){
+  if (window._isDemoMode && window._demoBooks) books = window._demoBooks;
   renderStats();renderGoal();renderRecentlyAdded();
   const fb=filteredBooks();
   const lib=document.getElementById('library');
