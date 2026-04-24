@@ -336,39 +336,37 @@ const DEMO_MEMBERS = [
   {key:'dan',   email:'dan@demo.com',   label:'Dan'},
 ];
 window.startDemo = function() {
-  try {
-    window._isDemoMode = true;
-    window._getMembersOverride = () => DEMO_MEMBERS;
-    window._spineBooks = DEMO_BOOKS;
+  // Step 1: immediate DOM changes (no module needed)
+  window._isDemoMode = true;
+  window._getMembersOverride = () => DEMO_MEMBERS;
+  window._spineBooks = DEMO_BOOKS;
+  document.getElementById('login-screen').classList.remove('show');
+  document.getElementById('demo-banner').classList.add('show');
+  document.body.classList.add('demo-mode');
+  document.getElementById('user-bar').style.display = 'flex';
+  document.getElementById('user-name').textContent = 'Alice (Demo)';
+  document.getElementById('user-avatar').src = '';
+  document.getElementById('sync-status').textContent = '📚 Demo Mode';
+  document.getElementById('sync-status').className = 'sync connecting';
+  const ts = document.getElementById('theme-switcher');
+  if (ts) ts.style.display = 'flex';
+  // Step 2: module-dependent calls after short delay
+  function finishDemo() {
+    if (!window.applyTheme || !window.setOwnerFilter) {
+      setTimeout(finishDemo, 100);
+      return;
+    }
     if (window._setBooks) window._setBooks(DEMO_BOOKS);
-    // Hide login, show app
-    document.getElementById('login-screen').classList.remove('show');
-    document.getElementById('demo-banner').classList.add('show');
-    document.body.classList.add('demo-mode');
-    document.getElementById('user-bar').style.display = 'flex';
-    document.getElementById('user-name').textContent = 'Alice (Demo)';
-    document.getElementById('user-avatar').src = '';
-    document.getElementById('sync-status').textContent = '📚 Demo Mode';
-    document.getElementById('sync-status').className = 'sync connecting';
-    // Swap tabs
     document.querySelector('.owner-tabs').innerHTML = `
       <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
       <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
       <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
       <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
       <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
-    // Show theme switcher
-    const ts = document.getElementById('theme-switcher');
-    if (ts) ts.style.display = 'flex';
-    const th = document.getElementById('theme-hint');
-    if (th) th.textContent = '✦ Try a theme ✦';
     window.applyTheme('antique', false);
     window.setOwnerFilter('all');
-  } catch(err) {
-    const errEl = document.getElementById('login-error');
-    if (errEl) { errEl.textContent = 'Demo error: ' + err.message; errEl.classList.add('show'); }
-    console.error('Demo error:', err);
   }
+  setTimeout(finishDemo, 50);
 };
 window.exitDemo = function() {
   window._isDemoMode = false;
