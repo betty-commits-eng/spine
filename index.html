@@ -1056,7 +1056,7 @@ document.querySelectorAll('#edit-stars .star').forEach(star=>{
   star.addEventListener('mouseout',()=>{const current=parseInt(document.getElementById('edit-rating').value)||0;document.querySelectorAll('#edit-stars .star').forEach(s=>{s.classList.toggle('lit',parseInt(s.dataset.val)<=current);});});
 });
 window.signInWithGoogle=signInWithGoogle;window.signOut=signOut;window.addBook=addBook;window.closeModal=closeModal;window.saveEdit=saveEdit;window.setView=setView;window._openEdit=openEdit;window._deleteBook=deleteBook;window._toggleSection=toggleSection;
-window._setBooks=(b)=>{books=b;window._spineBooks=b;};
+window._setBooks=(b)=>{books=b;window._spineBooks=b;};window.renderAll=renderAll;
 // Smart book card positioning
 // ── Smart floating book card ─────────────────────────────────────────────
 let activeCard = null;
@@ -1294,40 +1294,42 @@ const DEMO_MEMBERS = [
 ];
 
 window.startDemo = function() {
-  // Wait for module to be ready if needed
-  if (!window.applyTheme || !window.setOwnerFilter) {
-    setTimeout(window.startDemo, 200);
-    return;
+  try {
+    // Wait for module to be ready if needed
+    if (!window.applyTheme || !window.setOwnerFilter || !window.renderAll) {
+      setTimeout(window.startDemo, 200);
+      return;
+    }
+    window._isDemoMode = true;
+    window._getMembersOverride = () => DEMO_MEMBERS;
+    window._spineBooks = DEMO_BOOKS;
+    if (window._setBooks) window._setBooks(DEMO_BOOKS);
+    // Hide login, show app
+    document.getElementById('login-screen').classList.remove('show');
+    document.getElementById('demo-banner').classList.add('show');
+    document.body.classList.add('demo-mode');
+    document.getElementById('user-bar').style.display = 'flex';
+    document.getElementById('user-name').textContent = 'Alice (Demo)';
+    document.getElementById('user-avatar').src = '';
+    document.getElementById('sync-status').textContent = '📚 Demo Mode';
+    document.getElementById('sync-status').className = 'sync connecting';
+    // Swap tabs
+    document.querySelector('.owner-tabs').innerHTML = `
+      <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
+      <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
+      <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
+      <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
+      <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
+    // Show theme switcher
+    const ts = document.getElementById('theme-switcher');
+    if (ts) ts.style.display = 'flex';
+    const th = document.getElementById('theme-hint');
+    if (th) th.textContent = '✦ Try a theme ✦';
+    window.applyTheme('antique', false);
+    window.setOwnerFilter('all');
+  } catch(err) {
+    alert('Demo error: ' + err.message);
   }
-  window._isDemoMode = true;
-  window._getMembersOverride = () => DEMO_MEMBERS;
-  window._spineBooks = DEMO_BOOKS;
-  if (window._setBooks) {
-    window._setBooks(DEMO_BOOKS);
-  } else {
-    setTimeout(() => { if (window._setBooks) window._setBooks(DEMO_BOOKS); }, 300);
-  }
-  document.getElementById('login-screen').classList.remove('show');
-  document.getElementById('demo-banner').classList.add('show');
-  document.body.classList.add('demo-mode');
-  document.getElementById('user-bar').style.display = 'flex';
-  document.getElementById('user-name').textContent = 'Alice (Demo)';
-  document.getElementById('user-avatar').src = '';
-  document.getElementById('sync-status').textContent = '📚 Demo Mode';
-  document.getElementById('sync-status').className = 'sync connecting';
-  document.querySelector('.owner-tabs').innerHTML = `
-    <button class="owner-tab active" id="tab-all" onclick="setOwnerFilter('all')"><span class="tab-icon">⊞</span> Main Library</button>
-    <button class="owner-tab" id="tab-alice" onclick="setOwnerFilter('alice')"><span class="tab-icon">❧</span> Alice's Library</button>
-    <button class="owner-tab" id="tab-bob" onclick="setOwnerFilter('bob')"><span class="tab-icon">❧</span> Bob's Library</button>
-    <button class="owner-tab" id="tab-cara" onclick="setOwnerFilter('cara')"><span class="tab-icon">❧</span> Cara's Library</button>
-    <button class="owner-tab" id="tab-dan" onclick="setOwnerFilter('dan')"><span class="tab-icon">❧</span> Dan's Library</button>`;
-  // Show theme switcher so demo visitors can explore themes
-  const ts = document.getElementById('theme-switcher');
-  if (ts) ts.style.display = 'flex';
-  const th = document.getElementById('theme-hint');
-  if (th) th.textContent = '✦ Try a theme ✦';
-  window.applyTheme('antique', false);
-  window.setOwnerFilter('all');
 };
 
 window.exitDemo = function() {
