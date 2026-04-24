@@ -1061,13 +1061,13 @@ window._setBooks=(b)=>{books=b;window._spineBooks=b;};window.renderAll=renderAll
 // ── Smart floating book card ─────────────────────────────────────────────
 let activeCard = null;
 const _bd = document.createElement('div');
-_bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99998;display:none;cursor:pointer;';
+_bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99998;display:none;cursor:pointer;pointer-events:none;';
 document.body.appendChild(_bd);
 const _fc = document.createElement('div');
 _fc.id = 'floating-card';
 _fc.style.cssText = 'position:fixed;z-index:99999;display:none;background:#f5edd8;border:2px solid #7b4f2e;padding:14px;box-shadow:4px 4px 0 #3d2314;font-family:Libre Baskerville,serif;';
 document.body.appendChild(_fc);
-function _closeCard() { _fc.style.display='none'; _bd.style.display='none'; activeCard=null; }
+function _closeCard() { _fc.style.display='none'; _bd.style.display='none'; _bd.style.pointerEvents='none'; activeCard=null; }
 _bd.addEventListener('click', _closeCard);
 document.addEventListener('click', e => {
   if (e.target === _bd) return;
@@ -1082,7 +1082,7 @@ document.addEventListener('click', e => {
   activeCard = book;
   _fc.innerHTML = card.innerHTML;
   _fc.style.width = Math.min(280, window.innerWidth * 0.9) + 'px';
-  _bd.style.display = 'block';
+  _bd.style.display = 'block'; _bd.style.pointerEvents = 'auto';
   _fc.style.visibility = 'hidden';
   _fc.style.display = 'block';
   _fc.style.left = '0px';
