@@ -321,7 +321,7 @@
         <div class="login-feature-text"><strong>Jarvis Intel</strong>Reading goals, stats & activity feed</div>
       </div>
     </div>
-    <button class="google-btn" onclick="if(window.startDemo){startDemo();}else{setTimeout(function(){if(window.startDemo)startDemo();},500);}" style="background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;font-size:1.05rem;padding:16px 28px;letter-spacing:0.08em;">
+    <button class="google-btn" onclick="startDemo()" style="background:linear-gradient(180deg,#5a3a1a,#3d2314);border:2px solid #8a6530;font-size:1.05rem;padding:16px 28px;letter-spacing:0.08em;">
       📚 &nbsp;Open the Library — Try Demo
     </button>
     <div class="login-divider"><div class="rule"></div><span>or sign in with your account</span><div class="rule"></div></div>
@@ -1247,6 +1247,8 @@ window.jarvisInit = function() {
 window._isDemoMode = false;
 window._getMembersOverride = null;
 
+
+
 const DEMO_BOOKS = [
   // 800s — Literature
   {_key:'d1',title:'The Joy Luck Club',author:'Amy Tan',dewey:'813',status:'read',year:1989,notes:'A masterpiece.',rating:5,addedBy:'alice@demo.com',added:'2024-10-15T10:00:00Z',readDate:'2024-11-01T00:00:00Z',coverImage:null},
@@ -1292,14 +1294,8 @@ const DEMO_MEMBERS = [
   {key:'cara',  email:'cara@demo.com',  label:'Cara'},
   {key:'dan',   email:'dan@demo.com',   label:'Dan'},
 ];
-
 window.startDemo = function() {
   try {
-    // Wait for module to be ready if needed
-    if (!window.applyTheme || !window.setOwnerFilter || !window.renderAll) {
-      setTimeout(window.startDemo, 200);
-      return;
-    }
     window._isDemoMode = true;
     window._getMembersOverride = () => DEMO_MEMBERS;
     window._spineBooks = DEMO_BOOKS;
