@@ -1,24 +1,13 @@
 {
-  "name": "Spine",
-  "short_name": "Spine",
-  "description": "Spine — your personal book collection",
-  "start_url": "/spine/",
+  "name": "IndieShelf — Family Book Club",
+  "short_name": "IndieShelf",
+  "description": "The Family Book Club's shared library",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#3d2314",
-  "theme_color": "#3d2314",
-  "orientation": "portrait-primary",
+  "background_color": "#2a1505",
+  "theme_color": "#2a1505",
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
