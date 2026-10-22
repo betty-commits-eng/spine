@@ -1023,6 +1023,9 @@
     <button class="owner-tab" id="tab-peter" onclick="setOwnerFilter('peter')">
       <span class="tab-icon">❧</span> Peter's Library
     </button>
+        <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')">
+          <span class="tab-icon">❧</span> Ava's Library
+        </button>
     
     
   </div>
@@ -1194,6 +1197,9 @@ onAuthStateChanged(auth, (user) => {
           <button class="owner-tab" id="tab-patricia" onclick="setOwnerFilter('patricia')"><span class="tab-icon">❧</span> Patricia's Library</button>
           <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')"><span class="tab-icon">❧</span> Chelsey's Library</button>
           <button class="owner-tab" id="tab-peter" onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter's Library</button>
+        <button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')">
+          <span class="tab-icon">❧</span> Ava's Library
+        </button>
           
           `;
       }
@@ -1304,6 +1310,7 @@ function getDisplayName(email) {
   if (email === 'p.bowa64@gmail.com') return 'Patricia';
   if (email === 'chelseymcrory@gmail.com') return 'Chelsey';
   if (email === 'petersmcrory@gmail.com') return 'Peter';
+  if (email === 'ava@family.local') return 'Ava';
   return email.split('@')[0];
 }
 
@@ -1390,9 +1397,15 @@ function renderAddToField() {
   if (!el) return;
   if (window._isDemoMode) {
     el.innerHTML = `<label>Adding to</label><select id="add-to-select" onchange="window._switchDemoMember(this.value)">${DEMO_MEMBERS.map(m => `<option value="${m.key}" ${m.email===currentUserEmail?'selected':''}>❧ ${m.label}'s shelf</option>`).join('')}</select>`;
-  } else {
-    const name = (auth.currentUser && (auth.currentUser.displayName || auth.currentUser.email)) || 'your';
-    el.innerHTML = `<label>Adding to</label><div class="add-to-static">❧ ${escapeHtml(name)}'s shelf</div>`;
+    } else {
+    const me = auth.currentUser ? auth.currentUser.email : '';
+    const managers = ['bettykwale@gmail.com','chelseymcrory@gmail.com','petersmcrory@gmail.com'];
+    if (managers.includes(me)) {
+      el.innerHTML = `<label>Adding to</label><select id="add-to-select"><option value="${me}">❧ My shelf</option><option value="ava@family.local">❧ Ava's shelf</option></select>`;
+    } else {
+      const name = (auth.currentUser && (auth.currentUser.displayName || auth.currentUser.email)) || 'your';
+      el.innerHTML = `<label>Adding to</label><div class="add-to-static">❧ ${escapeHtml(name)}\'s shelf</div>`;
+    }
   }
 }
 
@@ -1404,7 +1417,7 @@ function addBook() {
   const year   = document.getElementById('inp-year').value;
   const localAuthor = document.getElementById('inp-local').checked;
   if (!title || !dewey) { alert('Please enter a title and select a Dewey class.'); return; }
-  const addedBy = window._isDemoMode ? currentUserEmail : (auth.currentUser ? auth.currentUser.email : '');
+  const addedBy = window._isDemoMode ? currentUserEmail : ((document.getElementById('add-to-select') || {}).value || (auth.currentUser ? auth.currentUser.email : ''));
   if (window._isDemoMode) {
     const demoBook={_key:'d'+Date.now(),title,author,dewey,status,year:year?parseInt(year):null,notes:'',addedBy,coverImage:window._pendingCover||null,added:new Date().toISOString(),readDate:status==='read'?new Date().toISOString():null,rating:0,localAuthor};
     books.push(demoBook);window._spineBooks=books;renderAll();
@@ -1465,7 +1478,7 @@ function openEdit(key, viewOnly = false) {
   // In read-only mode, offer an explicit "Edit this Book" action — but only
   // to whoever could actually save a change (its owner, or anyone in demo
   // mode). Everyone else just gets "Close".
-  const canEdit = window._isDemoMode || b.addedBy === currentUserEmail;
+  const canEdit = window._isDemoMode || b.addedBy === currentUserEmail || (b.addedBy === 'ava@family.local' && ['bettykwale@gmail.com','chelseymcrory@gmail.com','petersmcrory@gmail.com'].includes(currentUserEmail));
   // Rating is a lightweight gesture, not an edit — stars stay clickable
   // (and save immediately) for anyone who could edit this book, even in
   // the read-only Details view. Only non-owners in view mode are locked out.
@@ -1670,6 +1683,7 @@ const MEMBERS = [
   { key: 'patricia', email: 'p.bowa64@gmail.com',       label: 'Patricia' },
   { key: 'chelsey',  email: 'chelseymcrory@gmail.com',  label: 'Chelsey' },
   { key: 'peter',    email: 'petersmcrory@gmail.com',   label: 'Peter' },
+  { key: 'ava',      email: 'ava@family.local',         label: 'Ava' },
 ];
 const OWNERS = MEMBERS;
 function getMemberGoal(key) {
@@ -2531,9 +2545,10 @@ window._isDemoMode = false;
 const DEMO_MEMBERS = [
   {key:'betty',    email:'betty@demo.com',    label:'Betty',    theme:'antique'},
   {key:'ashley',   email:'ashley@demo.com',   label:'Ashley',   theme:'japanese'},
-  {key:'patricia', email:'patricia@demo.com', label:'Patricia', theme:'beatrix'},
+  {key:'patricia', email:'patricia@demo.com', label:'Patricia', theme:'antique'},
   {key:'chelsey',  email:'chelsey@demo.com',  label:'Chelsey',  theme:'storybook'},
   {key:'peter',    email:'peter@demo.com',    label:'Peter',    theme:'gothic'},
+  {key:'ava',      email:'ava@demo.com',      label:'Ava',      theme:'beatrix'},
 ];
 const DEMO_THEME_LABELS = { antique:'Antique Leather', gothic:'Gothic', beatrix:'Beatrix Potter', japanese:'Japanese Woodblock', storybook:'Storybook Shelf' };
 const DEMO_PARTNER = {key:'juniper', email:'juniper@partner.demo', label:'Juniper Books'};
@@ -2583,7 +2598,12 @@ const DEMO_BOOKS = [
   {_key:'p2',title:'The Berry Pickers',author:'Amanda Peters',dewey:'813',status:'read',year:2023,notes:"Staff pick: 'A Nova Scotia story that stays with you.' — Tom",rating:5,addedBy:'juniper@partner.demo',added:'2026-09-16T10:00:00Z',readDate:'2025-10-12T00:00:00Z',coverImage:null,staffPick:true},
   {_key:'p3',title:'Klara and the Sun',author:'Kazuo Ishiguro',dewey:'823',status:'read',year:2021,notes:"Staff pick: 'Ishiguro at his gentlest and saddest.' — Maya",rating:4,addedBy:'juniper@partner.demo',added:'2026-09-17T10:00:00Z',readDate:'2025-09-05T00:00:00Z',coverImage:null,staffPick:true},
   {_key:'p4',title:'The Song of Achilles',author:'Madeline Miller',dewey:'813',status:'read',year:2011,notes:"Staff pick: 'Our most re-bought book, three years running.' — Priya",rating:5,addedBy:'juniper@partner.demo',added:'2026-09-18T10:00:00Z',readDate:'2025-08-19T00:00:00Z',coverImage:null,staffPick:true},
-  {_key:'p5',title:'Braiding Sweetgrass',author:'Robin Wall Kimmerer',dewey:'581',status:'read',year:2013,notes:"Staff pick: 'For the gardener in every reader.' — Tom",rating:5,addedBy:'juniper@partner.demo',added:'2026-09-19T10:00:00Z',readDate:'2025-07-22T00:00:00Z',coverImage:null,staffPick:true},
+  {_key:'p5',title:'Braiding Sweetgrass',author:'Robin Wall Kimmerer',dewey:'581',status:'read',year:2013,notes:"Staff pick: 'For the gardener in every reader.' — Tom",rating:5,addedBy:'juniper@partner.demo',added:'2026-09-19T10:00:00Z',readDate:'2025-07-22T00:00:00Z',coverImage:null,staffPick:true},,
+  {_key:'a1',title:'The Tale of Peter Rabbit',author:'Beatrix Potter',dewey:'823',status:'read',year:1902,notes:'Ava\'s favourite — again, again!',rating:5,addedBy:'ava@demo.com',added:'2026-09-14T10:00:00Z',readDate:'2026-10-02T00:00:00Z',coverImage:null,discussion:{}},
+  {_key:'a2',title:'The Very Hungry Caterpillar',author:'Eric Carle',dewey:'813',status:'read',year:1969,notes:'',rating:5,addedBy:'ava@demo.com',added:'2026-09-14T10:00:00Z',readDate:'2026-10-09T00:00:00Z',coverImage:null,discussion:{}},
+  {_key:'a3',title:'Guess How Much I Love You',author:'Sam McBratney',dewey:'823',status:'read',year:1994,notes:'Bedtime staple.',rating:5,addedBy:'ava@demo.com',added:'2026-09-20T10:00:00Z',readDate:'2026-10-16T00:00:00Z',coverImage:null,discussion:{}},
+  {_key:'a4',title:'Goodnight Moon',author:'Margaret Wise Brown',dewey:'813',status:'reading',year:1947,notes:'',rating:5,addedBy:'ava@demo.com',added:'2026-10-01T10:00:00Z',readDate:null,coverImage:null,discussion:{}},
+
 ];
 
 window.DEMO_BOOKS = DEMO_BOOKS; // exposed so the signed-out landing preview can borrow sample data
@@ -2629,7 +2649,7 @@ window.startDemo = function() {
       <button class="owner-tab" id="tab-ashley" onclick="setOwnerFilter('ashley')"><span class="tab-icon">❧</span> Ashley</button>
       <button class="owner-tab" id="tab-patricia"  onclick="setOwnerFilter('patricia')"><span class="tab-icon">❧</span> Patricia</button>
       <button class="owner-tab" id="tab-chelsey" onclick="setOwnerFilter('chelsey')"><span class="tab-icon">❧</span> Chelsey</button>
-      <button class="owner-tab" id="tab-peter"    onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter</button>
+      <button class="owner-tab" id="tab-peter"    onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter</button><button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')"><span class="tab-icon">❧</span> Ava</button>
       
       <button class="owner-tab partner-tab" id="tab-juniper" onclick="setOwnerFilter('juniper')"><span class="tab-icon">🌿</span> Juniper Books <span style="color:#c8960c;-webkit-text-fill-color:#c8960c;text-shadow:0 0 4px rgba(255,200,60,0.55);">★</span></button>`;
   }
@@ -2698,7 +2718,7 @@ window.exitDemo = function() {
       <button class="owner-tab" id="tab-ashley"  onclick="setOwnerFilter('ashley')"><span class="tab-icon">❧</span> Ashley</button>
       <button class="owner-tab" id="tab-patricia"     onclick="setOwnerFilter('patricia')"><span class="tab-icon">❧</span> Patricia</button>
       <button class="owner-tab" id="tab-chelsey"    onclick="setOwnerFilter('chelsey')"><span class="tab-icon">❧</span> Chelsey</button>
-      <button class="owner-tab" id="tab-peter"     onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter</button>
+      <button class="owner-tab" id="tab-peter"     onclick="setOwnerFilter('peter')"><span class="tab-icon">❧</span> Peter</button><button class="owner-tab" id="tab-ava" onclick="setOwnerFilter('ava')"><span class="tab-icon">❧</span> Ava</button>
       
       `;
   }
@@ -2788,6 +2808,7 @@ window.dashboardInit = function() {
     {key:'patricia',email:'p.bowa64@gmail.com',          label:'Patricia'},
     {key:'chelsey', email:'chelseymcrory@gmail.com',     label:'Chelsey'},
     {key:'peter',   email:'petersmcrory@gmail.com',      label:'Peter'},
+    {key:'ava',     email:'ava@family.local',           label:'Ava'},
   ];
   const STATUS_COLORS = {read:'#2d8a2d',reading:'#e6a020',unread:'#555555',wishlist:'#6a4fcc'};
   const bks = window._spineBooks || [];
